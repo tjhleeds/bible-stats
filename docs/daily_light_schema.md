@@ -149,17 +149,17 @@ ORDER BY r.period DESC, rv.sequence, v.verse;
 -- Note: 'morning' sorts before 'evening' when ordering DESC on 'morning'/'evening'
 ```
 
-## Database Statistics (January 1–10)
+## Database Statistics
 
-- **Days loaded**: 10 (January 1–10)
-- **Readings**: 20 (morning + evening × 10 days)
-- **Verse references**: 134 (some reference multi-verse ranges)
+- **Days loaded**: 366 (full year, including February 29)
+- **Readings**: 732 (morning + evening × 366 days)
+- **Verse references**: 6,018 (some reference multi-verse ranges)
 
 ## Source
 
 *Daily Light on the Daily Path* is a public-domain devotional first published
 by Samuel Bagster in 1875.  It uses the King James Version of the Bible
-exclusively.  The verse selections reviewed for this database were taken from
-[dailylightdevotional.org](https://dailylightdevotional.org/) and
-cross-checked against other public-domain archives (CCEL, StudyLight,
-ChristiansUnite).
+exclusively.  The verse references in this database are sourced from the
+[brentn/DailyLight](https://github.com/brentn/DailyLight) repository
+(`src/assets/DailyLight.json`), imported with
+`scripts/load_daily_light.py`.
