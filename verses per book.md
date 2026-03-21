@@ -1,0 +1,1 @@
+https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fdea6d117da984d2ee0ab5adcd402705cb52667d2%2Fdata%2FKJV.db#/KJV?sql=select+b.name+as+book%2C+Count%28%29+as+verses%0Afrom+KJV_verses+v%0AJoin+kjv_books+b%0AOn+v.Book_id+%3D+b.id%0AGroup+by+v.Book_Id
