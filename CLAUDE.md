@@ -31,6 +31,52 @@ maintaining the one Python loader script.
 Both databases are plain SQLite files — use the `sqlite3` CLI or Python's
 `sqlite3` module (no ORM, no migrations framework).
 
+### Running read-only queries
+
+The `sqlite3` CLI is not guaranteed to be installed in every environment —
+prefer Python's built-in `sqlite3` module, and always open connections in
+read-only mode via a `file:` URI so an exploratory query can't accidentally
+modify these files (there is no backup or regeneration path for `KJV.db`,
+and `data/daily_light.db` is only rebuildable via
+`scripts/load_daily_light.py`, which re-downloads its source data):
+
+```bash
+python3 -c "
+import sqlite3
+con = sqlite3.connect('file:data/KJV.db?mode=ro', uri=True)
+for row in con.execute('SELECT name FROM KJV_books LIMIT 5'):
+    print(row)
+"
+```
+
+To query across both databases, `ATTACH` the second one using the same
+`file:...?mode=ro` URI form so it also opens read-only:
+
+```bash
+python3 -c "
+import sqlite3
+con = sqlite3.connect('file:data/daily_light.db?mode=ro', uri=True)
+con.execute(\"ATTACH DATABASE 'file:data/KJV.db?mode=ro' AS kjv\")
+for row in con.execute('''
+    SELECT r.month, r.day, r.period, rv.kjv_book_name, rv.chapter, v.verse, v.text
+    FROM dl_readings r
+    JOIN dl_reading_verses rv ON rv.reading_id = r.id
+    JOIN kjv.KJV_books b ON b.name = rv.kjv_book_name
+    JOIN kjv.KJV_verses v ON v.book_id = b.id
+        AND v.chapter = rv.chapter
+        AND v.verse BETWEEN rv.verse_start AND COALESCE(rv.verse_end, rv.verse_start)
+    WHERE r.month = 1 AND r.day = 1 AND r.period = 'morning'
+    ORDER BY rv.sequence, v.verse
+'''):
+    print(row)
+"
+```
+
+If the `sqlite3` CLI is available, the equivalent is `sqlite3 -readonly
+data/KJV.db "SELECT ..."` (`-readonly` is required — without it the CLI
+opens the file read-write). See `docs/database_structure.md` and
+`docs/daily_light_schema.md` for more example queries to adapt.
+
 ### `KJV.db`
 
 Two main tables: `KJV_books` (id, name) and `KJV_verses` (id, book_id,
