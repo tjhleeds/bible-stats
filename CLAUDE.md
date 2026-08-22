@@ -137,3 +137,12 @@ the load.
 - Book names throughout both databases use the KJV canonical form from
   `KJV_books.name` (e.g. `"I Samuel"`, `"Song of Solomon"`,
   `"Revelation of John"`), not common abbreviations or alternate titles.
+
+## Keeping this file up to date
+
+When a change alters something this file describes — a new/changed table
+or column, a new data file, a new script, a changed CLI flag or command,
+or a convention this file states no longer holding — update the relevant
+section of `CLAUDE.md` in the same commit or pull request. If you're
+unsure whether a change is significant enough to document here, err on
+the side of updating it.
