@@ -28,6 +28,10 @@ maintaining the one Python loader script.
   comparison of the five offerings in Leviticus 1–7 (burnt, meat, peace,
   sin, trespass), sourced entirely from direct `KJV.db` quotations; the
   `.html` file is a standalone illustrated version of the same table.
+- `docs/pentateuch_abomination_infographic.html` — standalone HTML
+  infographic covering every verse in Genesis–Deuteronomy containing
+  "abomination"/"abominations" (queried from `KJV.db`), grouped by phrasing
+  pattern (e.g. "unto the LORD" vs. "unto you" vs. "unto the Egyptians").
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
   `data/daily_light.db`.
