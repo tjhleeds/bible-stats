@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Abomination" in the Pentateuch (KJV)</title>
+<style>
+  :root {
+    --bg: #f7f3ea;
+    --panel: #ffffff;
+    --ink: #2b241a;
+    --ink-soft: #6b5f4d;
+    --line: #e4dbc8;
+    --accent-a: #a4443a; /* unto you */
+    --accent-a-bg: #fbebe8;
+    --accent-b: #b5762a; /* have in abomination */
+    --accent-b-bg: #fdf1e2;
+    --accent-c: #4a6d5c; /* unqualified */
+    --accent-c-bg: #ecf3ee;
+    --accent-d: #4a5a8a; /* collective plural */
+    --accent-d-bg: #ecf0fa;
+    --accent-e: #3f6b6a; /* unto the Egyptians */
+    --accent-e-bg: #e9f2f1;
+    --accent-f: #6a4694; /* unto the LORD */
+    --accent-f-bg: #f1ecf7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1b1712;
+      --panel: #24201a;
+      --ink: #ece4d4;
+      --ink-soft: #b9ac93;
+      --line: #3a3225;
+      --accent-a-bg: #3a201d;
+      --accent-b-bg: #3a2c15;
+      --accent-c-bg: #1f2f27;
+      --accent-d-bg: #1f2536;
+      --accent-e-bg: #172a29;
+      --accent-f-bg: #26203a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1b1712;
+    --panel: #24201a;
+    --ink: #ece4d4;
+    --ink-soft: #b9ac93;
+    --line: #3a3225;
+    --accent-a-bg: #3a201d;
+    --accent-b-bg: #3a2c15;
+    --accent-c-bg: #1f2f27;
+    --accent-d-bg: #1f2536;
+    --accent-e-bg: #172a29;
+    --accent-f-bg: #26203a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  header .kicker {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: clamp(28px, 4.5vw, 44px);
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+  header p.sub {
+    max-width: 660px;
+    margin: 0 auto;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 36px 0 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .stat {
+    text-align: center;
+    min-width: 96px;
+  }
+  .stat .n {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .stat .l {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .note {
+    max-width: 720px;
+    margin: 28px auto 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  /* per-book chart */
+  .books {
+    max-width: 560px;
+    margin: 44px auto 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+    height: 150px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .book {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+  }
+  .book .val {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .book .col {
+    width: 100%;
+    max-width: 46px;
+    border-radius: 6px 6px 3px 3px;
+    background: var(--accent-f);
+  }
+  .book .name {
+    margin-top: 8px;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .book.zero .col { background: var(--line); }
+  .book.zero .val { color: var(--ink-soft); }
+
+  .bar {
+    display: flex;
+    width: 100%;
+    max-width: 720px;
+    margin: 36px auto 0;
+    height: 14px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .bar span { display: block; height: 100%; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-top: 48px;
+  }
+  @media (min-width: 760px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 26px 22px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .card .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .card h2 {
+    font-size: 19px;
+    margin: 0;
+    font-weight: 700;
+  }
+  .card .count {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .card .phrase {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 4px 0 16px;
+  }
+  .card ul.verses {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card ul.verses li {
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .ref {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    display: inline-block;
+    margin-bottom: 3px;
+  }
+  .txt {
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  .txt b { font-weight: 700; }
+  .txt .thing {
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    display: block;
+    margin-top: 3px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .card.a { border-top: 4px solid var(--accent-a); }
+  .card.a .count { background: var(--accent-a-bg); color: var(--accent-a); }
+  .card.a ul.verses li { background: var(--accent-a-bg); }
+  .card.a .ref { color: var(--accent-a); }
+
+  .card.b { border-top: 4px solid var(--accent-b); }
+  .card.b .count { background: var(--accent-b-bg); color: var(--accent-b); }
+  .card.b ul.verses li { background: var(--accent-b-bg); }
+  .card.b .ref { color: var(--accent-b); }
+
+  .card.c { border-top: 4px solid var(--accent-c); }
+  .card.c .count { background: var(--accent-c-bg); color: var(--accent-c); }
+  .card.c ul.verses li { background: var(--accent-c-bg); }
+  .card.c .ref { color: var(--accent-c); }
+
+  .card.d { border-top: 4px solid var(--accent-d); }
+  .card.d .count { background: var(--accent-d-bg); color: var(--accent-d); }
+  .card.d ul.verses li { background: var(--accent-d-bg); }
+  .card.d .ref { color: var(--accent-d); }
+
+  .card.e { border-top: 4px solid var(--accent-e); }
+  .card.e .count { background: var(--accent-e-bg); color: var(--accent-e); }
+  .card.e ul.verses li { background: var(--accent-e-bg); }
+  .card.e .ref { color: var(--accent-e); }
+
+  .card.f { border-top: 4px solid var(--accent-f); }
+  .card.f .count { background: var(--accent-f-bg); color: var(--accent-f); }
+  .card.f ul.verses li { background: var(--accent-f-bg); }
+  .card.f .ref { color: var(--accent-f); }
+
+  footer {
+    margin-top: 48px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  footer code {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Genesis &ndash; Deuteronomy &middot; King James Version</div>
+    <h1>Every "Abomination" in the Pentateuch</h1>
+    <p class="sub">All 33 verses across the five books of Moses containing "abomination" or "abominations," grouped by how the word is phrased &mdash; who or what it's directed at, and whether it names a subject at all.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n">33</div><div class="l">Verses</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">of 5 books</div></div>
+    <div class="stat"><div class="n">6</div><div class="l">Phrasing patterns</div></div>
+    <div class="stat"><div class="n">9</div><div class="l">"unto the LORD"</div></div>
+  </div>
+
+  <div class="books" aria-hidden="true">
+    <div class="book"><div class="val">2</div><div class="col" style="height:19px; background:var(--accent-e);"></div><div class="name">Genesis</div></div>
+    <div class="book"><div class="val">1</div><div class="col" style="height:10px; background:var(--accent-e);"></div><div class="name">Exodus</div></div>
+    <div class="book"><div class="val">14</div><div class="col" style="height:131px; background:var(--accent-a);"></div><div class="name">Leviticus</div></div>
+    <div class="book zero"><div class="val">0</div><div class="col" style="height:4px;"></div><div class="name">Numbers</div></div>
+    <div class="book"><div class="val">16</div><div class="col" style="height:150px; background:var(--accent-f);"></div><div class="name">Deuteronomy</div></div>
+  </div>
+
+  <div class="bar" aria-hidden="true">
+    <span style="width:25.0%; background:var(--accent-f);" title="Unto the LORD"></span>
+    <span style="width:13.9%; background:var(--accent-a);" title="Unto you"></span>
+    <span style="width:5.6%; background:var(--accent-b);" title="Have in abomination"></span>
+    <span style="width:25.0%; background:var(--accent-c);" title="Unqualified"></span>
+    <span style="width:22.2%; background:var(--accent-d);" title="Collective abominations"></span>
+    <span style="width:8.3%; background:var(--accent-e);" title="Unto the Egyptians"></span>
+  </div>
+
+  <div class="note">
+    Leviticus never once pairs "abomination" with the LORD &mdash; there it's always "unto you," an unqualified ritual/moral declaration, or something Israel must "have in abomination." Deuteronomy flips that almost entirely: 9 of its 16 occurrences are explicitly "an abomination unto the LORD thy God." Genesis and Exodus use the word only of Egyptian sensibilities, never Israelite or divine ones. Numbers doesn't use the word at all.
+  </div>
+
+  <div class="grid">
+
+    <div class="card f">
+      <div class="top">
+        <h2>1&nbsp;&middot; Abomination unto the LORD</h2>
+        <span class="count">9 verses</span>
+      </div>
+      <p class="phrase">"...is an abomination unto the LORD thy God" &mdash; Deuteronomy's signature phrase</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Deuteronomy 7:25</span>
+          <div class="txt">...thou shalt not desire the silver or gold that is on them, nor take it unto thee... for it is <b>an abomination to the Lord thy God</b>.</div>
+          <span class="thing">Silver/gold stripped from idols</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 12:31</span>
+          <div class="txt">Thou shalt not do so unto the Lord thy God: for every <b>abomination to the Lord</b>, which he hateth, have they done unto their gods; for even their sons and their daughters they have burnt in the fire to their gods.</div>
+          <span class="thing">Child sacrifice to foreign gods</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 17:1</span>
+          <div class="txt">Thou shalt not sacrifice unto the Lord thy God any bullock, or sheep, wherein is blemish... for that is <b>an abomination unto the Lord thy God</b>.</div>
+          <span class="thing">Sacrificing a blemished animal</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 18:12</span>
+          <div class="txt">For all that do these things <b>are an abomination unto the Lord</b>: and because of these abominations the Lord thy God doth drive them out from before thee.</div>
+          <span class="thing">Divination, sorcery, witchcraft, necromancy</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 22:5</span>
+          <div class="txt">The woman shall not wear that which pertaineth unto a man, neither shall a man put on a woman's garment: for all that do so <b>are abomination unto the Lord thy God</b>.</div>
+          <span class="thing">Cross-dressing</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 23:18</span>
+          <div class="txt">Thou shalt not bring the hire of a whore, or the price of a dog, into the house of the Lord thy God for any vow: for even both these <b>are abomination unto the Lord thy God</b>.</div>
+          <span class="thing">Cultic prostitution wages offered as a vow</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 24:4</span>
+          <div class="txt">Her former husband... may not take her again to be his wife, after that she is defiled; for that is <b>abomination before the Lord</b>...</div>
+          <span class="thing">Remarrying a wife divorced and remarried elsewhere</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 25:16</span>
+          <div class="txt">For all that do such things, and all that do unrighteously, <b>are an abomination unto the Lord thy God</b>.</div>
+          <span class="thing">Dishonest weights and measures</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 27:15</span>
+          <div class="txt">Cursed be the man that maketh any graven or molten image, <b>an abomination unto the Lord</b>, the work of the hands of the craftsman, and putteth it in a secret place...</div>
+          <span class="thing">Idols made in secret</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card a">
+      <div class="top">
+        <h2>2&nbsp;&middot; Abomination unto you</h2>
+        <span class="count">5 verses</span>
+      </div>
+      <p class="phrase">"...shall be an abomination unto you" &mdash; addressed straight to Israel</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Leviticus 11:10</span>
+          <div class="txt">And all that have not fins and scales in the seas, and in the rivers... they shall be <b>an abomination unto you</b>:</div>
+          <span class="thing">Sea &amp; river creatures without fins/scales</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:11</span>
+          <div class="txt">They shall be even <b>an abomination unto you</b>; ye shall not eat of their flesh...</div>
+          <span class="thing">Same finless/scaleless water creatures</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:12</span>
+          <div class="txt">Whatsoever hath no fins nor scales in the waters, that shall be <b>an abomination unto you</b>.</div>
+          <span class="thing">General rule for water creatures</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:20</span>
+          <div class="txt">All fowls that creep, going upon all four, shall be <b>an abomination unto you</b>.</div>
+          <span class="thing">Four-footed flying/creeping things</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:23</span>
+          <div class="txt">But all other flying creeping things, which have four feet, shall be <b>an abomination unto you</b>.</div>
+          <span class="thing">Other four-footed flying creeping things</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card c">
+      <div class="top">
+        <h2>3&nbsp;&middot; Unqualified declaration</h2>
+        <span class="count">9 verses</span>
+      </div>
+      <p class="phrase">"it is / shall be an abomination" &mdash; no stated addressee</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Leviticus 7:18</span>
+          <div class="txt">...it shall not be accepted... it shall be <b>an abomination</b>, and the soul that eateth of it shall bear his iniquity.</div>
+          <span class="thing">Peace offering left uneaten to the third day</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:13</span>
+          <div class="txt">...they shall not be eaten, <b>they are an abomination</b>: the eagle, and the ossifrage, and the ospray,</div>
+          <span class="thing">Named unclean birds</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:41</span>
+          <div class="txt">And every creeping thing that creepeth upon the earth shall be <b>an abomination</b>; it shall not be eaten.</div>
+          <span class="thing">Creeping things on the earth</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:42</span>
+          <div class="txt">...whatsoever hath more feet among all creeping things... them ye shall not eat; for they are <b>an abomination</b>.</div>
+          <span class="thing">Creeping/many-footed things</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 18:22</span>
+          <div class="txt">Thou shalt not lie with mankind, as with womankind: it is <b>abomination</b>.</div>
+          <span class="thing">A man lying with a man</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 20:13</span>
+          <div class="txt">If a man also lie with mankind, as he lieth with a woman, both of them have committed <b>an abomination</b>: they shall surely be put to death...</div>
+          <span class="thing">A man lying with a man (with the penalty stated)</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 7:26</span>
+          <div class="txt">Neither shalt thou bring <b>an abomination</b> into thine house, lest thou be a cursed thing like it: but thou shalt utterly detest it, and thou shalt utterly abhor it...</div>
+          <span class="thing">Bringing an idol into one's house</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 13:14</span>
+          <div class="txt">Then shalt thou enquire, and make search, and ask diligently; and, behold, if it be truth... that such <b>abomination</b> is wrought among you;</div>
+          <span class="thing">Investigating a report of a town lured into idolatry</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 17:4</span>
+          <div class="txt">And it be told thee... that such <b>abomination</b> is wrought in Israel:</div>
+          <span class="thing">Same, at the town-gate trial stage</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card d">
+      <div class="top">
+        <h2>4&nbsp;&middot; "These/their abominations" (collective)</h2>
+        <span class="count">8 verses</span>
+      </div>
+      <p class="phrase">plural, summarising a whole body of forbidden practices</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Leviticus 18:26</span>
+          <div class="txt">Ye shall therefore keep my statutes and my judgments, and shall not commit any of <b>these abominations</b>; neither any of your own nation, nor any stranger that sojourneth among you:</div>
+          <span class="thing">Summarises the forbidden sexual relations of Lev. 18</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 18:27</span>
+          <div class="txt">(For all <b>these abominations</b> have the men of the land done, which were before you, and the land is defiled;)</div>
+          <span class="thing">Attributed to the land's former inhabitants</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 18:29</span>
+          <div class="txt">For whosoever shall commit any of <b>these abominations</b>, even the souls that commit them shall be cut off from among their people.</div>
+          <span class="thing">Penalty: being cut off from the people</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 18:9</span>
+          <div class="txt">...thou shalt not learn to do after <b>the abominations of those nations</b>.</div>
+          <span class="thing">Introduces the Canaanite occult-practice list</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 18:12</span>
+          <div class="txt">...and because of <b>these abominations</b> the Lord thy God doth drive them out from before thee.</div>
+          <span class="thing">Reason the Canaanite nations are dispossessed</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 20:18</span>
+          <div class="txt">That they teach you not to do after all <b>their abominations</b>, which they have done unto their gods; so should ye sin against the Lord your God.</div>
+          <span class="thing">Rationale for herem warfare against nearby nations</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 29:17</span>
+          <div class="txt">And ye have seen <b>their abominations</b>, and their idols, wood and stone, silver and gold, which were among them:)</div>
+          <span class="thing">Recalling the idols of Egypt and the nations passed through</span>
+        </li>
+        <li>
+          <span class="ref">Deuteronomy 32:16</span>
+          <div class="txt">They provoked him to jealousy with strange gods, with <b>abominations</b> provoked they him to anger.</div>
+          <span class="thing">Song of Moses: Israel's own future idolatry</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card b">
+      <div class="top">
+        <h2>5&nbsp;&middot; "Have in abomination"</h2>
+        <span class="count">2 verses</span>
+      </div>
+      <p class="phrase">"ye shall have [them] in abomination" &mdash; an attitude Israel must actively hold</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Leviticus 11:11</span>
+          <div class="txt">...but ye shall <b>have their carcases in abomination</b>.</div>
+          <span class="thing">Carcases of finless/scaleless water creatures</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:13</span>
+          <div class="txt">And these are they which ye shall <b>have in abomination</b> among the fowls; they shall not be eaten...</div>
+          <span class="thing">Named unclean birds (eagle, ossifrage, osprey, &amp;c.)</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card e">
+      <div class="top">
+        <h2>6&nbsp;&middot; Abomination unto the Egyptians</h2>
+        <span class="count">3 verses</span>
+      </div>
+      <p class="phrase">framed entirely from a foreign nation's point of view &mdash; never Israel's or God's</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Genesis 43:32</span>
+          <div class="txt">...for the Egyptians might not eat bread with the Hebrews; for that is <b>an abomination unto the Egyptians</b>.</div>
+          <span class="thing">Egyptians dining separately from Hebrews</span>
+        </li>
+        <li>
+          <span class="ref">Genesis 46:34</span>
+          <div class="txt">...for every shepherd is <b>an abomination unto the Egyptians</b>.</div>
+          <span class="thing">Shepherding as a trade</span>
+        </li>
+        <li>
+          <span class="ref">Exodus 8:26</span>
+          <div class="txt">...for we shall sacrifice <b>the abomination of the Egyptians</b> to the Lord our God: lo, shall we sacrifice <b>the abomination of the Egyptians</b> before their eyes, and will they not stone us?</div>
+          <span class="thing">Sacrificing animals Egyptians hold sacred</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Source: KJV text queried from <code>data/KJV.db</code> in this repository &middot; 33 verses across Genesis&ndash;Deuteronomy matching <code>LIKE '%abomination%'</code> (Numbers: 0)
+  </footer>
+
+</div>
+</body>
+</html>
