@@ -1,0 +1,350 @@
+<title>The Five Offerings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg: #ECE7DA;
+    --surface: #FFFFFF;
+    --surface-2: #F6F1E6;
+    --ink: #2B2620;
+    --ink-soft: #635A4B;
+    --ink-faint: #948B79;
+    --line: #DAD2BE;
+    --accent: #A9622C;
+    --accent-ink: #7A431A;
+    --accent-wash: #F1E1CC;
+    --ember: #93372A;
+    --ember-ink: #6E2A20;
+    --ember-wash: #F1DCD3;
+    --shadow: 0 1px 2px rgba(43,38,32,0.06), 0 8px 24px -12px rgba(43,38,32,0.18);
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #18140F;
+      --surface: #221C15;
+      --surface-2: #2A231A;
+      --ink: #EEE6D6;
+      --ink-soft: #B9AD97;
+      --ink-faint: #83795F;
+      --line: #3B3325;
+      --accent: #DB934F;
+      --accent-ink: #F3B778;
+      --accent-wash: #3A2A17;
+      --ember: #DD7462;
+      --ember-ink: #F0A090;
+      --ember-wash: #3B231D;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #18140F;
+    --surface: #221C15;
+    --surface-2: #2A231A;
+    --ink: #EEE6D6;
+    --ink-soft: #B9AD97;
+    --ink-faint: #83795F;
+    --line: #3B3325;
+    --accent: #DB934F;
+    --accent-ink: #F3B778;
+    --accent-wash: #3A2A17;
+    --ember: #DD7462;
+    --ember-ink: #F0A090;
+    --ember-wash: #3B231D;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing: border-box; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Iowan Old Style", serif;
+    line-height: 1.5;
+  }
+
+  .wrap{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 56px 28px 72px;
+  }
+
+  header.masthead{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow{
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  h1{
+    font-family: "Fraunces", Georgia, serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(34px, 5.4vw, 56px);
+    line-height: 1.04;
+    margin: 0;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  .dek{
+    max-width: 62ch;
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .dek em{ font-style: italic; color: var(--ink); }
+
+  /* ---- table ---- */
+  .table-shell{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .table-scroll{
+    overflow: auto;
+    max-height: 78vh;
+  }
+  .grid{
+    display: grid;
+    grid-template-columns: 176px repeat(5, minmax(238px, 1fr));
+    min-width: 1350px;
+  }
+
+  .cell{
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+  .grid > .cell:nth-child(6n){ border-right: none; }
+
+  .corner{
+    position: sticky; top: 0; left: 0; z-index: 5;
+    background: var(--surface-2);
+  }
+  .colhead{
+    position: sticky; top: 0; z-index: 4;
+    background: var(--surface-2);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .rowhead{
+    position: sticky; left: 0; z-index: 3;
+    background: var(--surface-2);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: flex-start;
+    padding-top: 18px;
+  }
+
+  .icon{ width: 30px; height: 30px; flex: none; }
+  .icon.bronze{ color: var(--accent); }
+  .icon.ember{ color: var(--ember); }
+
+  .offering-name{
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .offering-name.bronze{ color: var(--accent-ink); }
+  .offering-name.ember{ color: var(--ember-ink); }
+  .offering-ref{
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+
+  .grid .cell:not(.colhead):not(.rowhead){
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  .grid .cell q{
+    quotes: "\201C" "\201D" "\2018" "\2019";
+  }
+  .grid .cell .ref{
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+  .grid .cell .note{
+    color: var(--ink-faint);
+    font-style: italic;
+    font-size: 13.5px;
+  }
+  .grid .cell p{ margin: 0 0 8px; }
+  .grid .cell p:last-child{ margin-bottom: 0; }
+
+  .col-bronze{ background: color-mix(in srgb, var(--accent-wash) 55%, var(--surface)); }
+  .col-ember{ background: color-mix(in srgb, var(--ember-wash) 45%, var(--surface)); }
+  .colhead.col-bronze{ background: var(--accent-wash); }
+  .colhead.col-ember{ background: var(--ember-wash); }
+
+  footer{
+    margin-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+
+  ::selection{ background: var(--accent-wash); color: var(--ink); }
+
+  @media (max-width: 640px){
+    .wrap{ padding: 36px 16px 56px; }
+    .table-scroll{ max-height: 82vh; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <span class="eyebrow">Leviticus 1–7</span>
+    <h1>The Five Offerings</h1>
+    <p class="dek">How the burnt, meat, peace, sin, and trespass offerings are prescribed at the opening of Leviticus — compared facet by facet, entirely in <em>direct quotation</em> from the text.</p>
+  </header>
+
+  <div class="table-shell">
+    <div class="table-scroll">
+      <div class="grid">
+
+        <!-- header row -->
+        <div class="cell corner"></div>
+
+        <div class="cell colhead col-bronze">
+          <svg class="icon bronze" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M24 6c-6 8-9 12-9 18a9 9 0 0 0 18 0c0-3-1.5-5.5-4-8 .3 3-1 4.5-2.5 5.5.6-3-.5-6-2.5-9.5-1 2-2.5 3.5-2.5 6-1.5-2-2-6.5 2.5-12z"/>
+            <path d="M15 40h18M13 44h22"/>
+          </svg>
+          <span class="offering-name bronze">Burnt Offering</span>
+          <span class="offering-ref">Lev. 1; 6:8–13</span>
+        </div>
+
+        <div class="cell colhead col-bronze">
+          <svg class="icon bronze" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M24 44V16M24 16c0-6-3-9-6-11 1 5 1 8 3 11M24 16c0-6 3-9 6-11-1 5-1 8-3 11"/>
+            <path d="M16 44c0-8 3.5-13 8-15M32 44c0-8-3.5-13-8-15"/>
+            <path d="M14 30l20-6"/>
+          </svg>
+          <span class="offering-name bronze">Meat Offering</span>
+          <span class="offering-ref">Lev. 2; 6:14–23</span>
+        </div>
+
+        <div class="cell colhead col-bronze">
+          <svg class="icon bronze" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 34c4-9 10-13 16-13s12 4 16 13"/>
+            <path d="M13 27c3-6 7-9 11-9M35 27c-3-6-7-9-11-9"/>
+            <rect x="19" y="34" width="10" height="8" rx="1.5"/>
+          </svg>
+          <span class="offering-name bronze">Peace Offering</span>
+          <span class="offering-ref">Lev. 3; 7:11–34</span>
+        </div>
+
+        <div class="cell colhead col-ember">
+          <svg class="icon ember" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 30h28l-4 8H14z"/>
+            <path d="M14 30V22a2 2 0 0 1 4 0v8M30 30V22a2 2 0 0 1 4 0v8"/>
+            <path d="M24 14c-2 3-2 5 0 7 2-2 2-4 0-7z"/>
+          </svg>
+          <span class="offering-name ember">Sin Offering</span>
+          <span class="offering-ref">Lev. 4:1–5:13; 6:24–30</span>
+        </div>
+
+        <div class="cell colhead col-ember">
+          <svg class="icon ember" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 30c-3-8-1-15 5-20"/>
+            <path d="M19 10c2 2 2 5-1 8-3-1-4-4-2-8z"/>
+            <circle cx="30" cy="30" r="9"/>
+            <path d="M26.5 30h7M30 26.5v7"/>
+          </svg>
+          <span class="offering-name ember">Trespass Offering</span>
+          <span class="offering-ref">Lev. 5:14–6:7; 7:1–10</span>
+        </div>
+
+        <!-- row: when offered -->
+        <div class="cell rowhead">When It Is Offered</div>
+        <div class="cell col-bronze"><p><q>he shall offer it of his own voluntary will</q></p><span class="ref">1:3</span></div>
+        <div class="cell col-bronze"><p><q>when any will offer a meat offering unto the Lord</q></p><span class="ref">2:1</span></div>
+        <div class="cell col-bronze"><p><q>If he offer it for a thanksgiving</q> — or <q>a vow, or a voluntary offering</q></p><span class="ref">7:12, 16</span></div>
+        <div class="cell col-ember"><p><q>If a soul shall sin through ignorance against any of the commandments of the Lord</q></p><span class="ref">4:2</span></div>
+        <div class="cell col-ember"><p><q>If a soul commit a trespass, and sin through ignorance, in the holy things of the Lord</q> — or having <q>lied unto his neighbour … or deceived his neighbour</q></p><span class="ref">5:15; 6:2</span></div>
+
+        <!-- row: what is offered -->
+        <div class="cell rowhead">What Is Offered</div>
+        <div class="cell col-bronze"><p><q>of the herd, and of the flock</q>, a male without blemish; or <q>turtledoves, or … young pigeons</q></p><span class="ref">1:2–3, 10, 14</span></div>
+        <div class="cell col-bronze"><p><q>fine flour; and he shall pour oil upon it, and put frankincense thereon</q></p><span class="ref">2:1</span></div>
+        <div class="cell col-bronze"><p><q>of the herd; whether it be a male or female … without blemish</q>, or <q>of the flock</q></p><span class="ref">3:1, 6</span></div>
+        <div class="cell col-ember"><p>Priest or congregation: <q>a young bullock without blemish</q>. A ruler: <q>a kid of the goats, a male without blemish</q>. One of the people: <q>a kid of the goats, a female without blemish</q>. If poor: <q>two turtledoves, or two young pigeons</q>, or <q>the tenth part of an ephah of fine flour</q></p><span class="ref">4:3, 14, 23, 28; 5:7, 11</span></div>
+        <div class="cell col-ember"><p><q>a ram without blemish out of the flock</q></p><span class="ref">5:15, 18; 6:6</span></div>
+
+        <!-- row: laying on of hands -->
+        <div class="cell rowhead">Laying On Of Hands</div>
+        <div class="cell col-bronze"><p><q>he shall put his hand upon the head of the burnt offering; and it shall be accepted for him to make atonement for him</q></p><span class="ref">1:4</span></div>
+        <div class="cell col-bronze"><p class="note">Not recorded for this offering.</p></div>
+        <div class="cell col-bronze"><p><q>he shall lay his hand upon the head of his offering, and kill it</q></p><span class="ref">3:2</span></div>
+        <div class="cell col-ember"><p><q>the elders of the congregation shall lay their hands upon the head of the bullock</q>; <q>he shall lay his hand upon the head of the sin offering</q></p><span class="ref">4:15, 29</span></div>
+        <div class="cell col-ember"><p class="note">Not recorded for this offering.</p></div>
+
+        <!-- row: blood -->
+        <div class="cell rowhead">The Blood</div>
+        <div class="cell col-bronze"><p><q>the priests, Aaron’s sons, shall bring the blood, and sprinkle the blood round about upon the altar</q></p><span class="ref">1:5</span></div>
+        <div class="cell col-bronze"><p class="note">None — a bloodless offering of flour, oil, and frankincense.</p></div>
+        <div class="cell col-bronze"><p><q>Aaron’s sons the priests shall sprinkle the blood upon the altar round about</q></p><span class="ref">3:2</span></div>
+        <div class="cell col-ember"><p>Priest or congregation: sprinkled <q>seven times before the Lord, before the vail</q> and put <q>upon the horns of the altar of sweet incense</q>. Ruler or one of the people: put <q>upon the horns of the altar of burnt offering</q></p><span class="ref">4:6–7, 25, 30</span></div>
+        <div class="cell col-ember"><p><q>the blood thereof shall he sprinkle round about upon the altar</q></p><span class="ref">7:2</span></div>
+
+        <!-- row: what is burnt -->
+        <div class="cell rowhead">What Is Burnt</div>
+        <div class="cell col-bronze"><p><q>the priest shall burn all on the altar, to be a burnt sacrifice, an offering made by fire, of a sweet savour unto the Lord</q></p><span class="ref">1:9</span></div>
+        <div class="cell col-bronze"><p><q>the priest shall take from the meat offering a memorial thereof, and shall burn it upon the altar</q></p><span class="ref">2:9</span></div>
+        <div class="cell col-bronze"><p><q>the fat that covereth the inwards … the two kidneys … the caul above the liver</q> — <q>all the fat is the Lord’s</q></p><span class="ref">3:3–4, 16</span></div>
+        <div class="cell col-ember"><p><q>he shall take off from it all the fat … and burn them upon the altar</q>; the priest’s or congregation’s bullock is carried <q>without the camp</q> and burned entire</p><span class="ref">4:8, 10, 12, 21</span></div>
+        <div class="cell col-ember"><p><q>all the fat thereof; the rump, and the fat that covereth the inwards … the priest shall burn them upon the altar</q></p><span class="ref">7:3–5</span></div>
+
+        <!-- row: what is eaten -->
+        <div class="cell rowhead">What Is Eaten</div>
+        <div class="cell col-bronze"><p class="note">Not eaten — only <q>the priest … shall have to himself the skin of the burnt offering</q></p><span class="ref">7:8</span></div>
+        <div class="cell col-bronze"><p><q>the remnant of the meat offering shall be Aaron’s and his sons’ … with unleavened bread shall it be eaten in the holy place</q></p><span class="ref">2:3; 6:16</span></div>
+        <div class="cell col-bronze"><p><q>the breast shall be Aaron’s and his sons’</q>; <q>the right shoulder shall ye give unto the priest</q>; the remainder <q>eaten the same day that it is offered</q></p><span class="ref">7:15, 31–32</span></div>
+        <div class="cell col-ember"><p><q>The priest that offereth it for sin shall eat it: in the holy place … All the males among the priests shall eat thereof</q></p><span class="ref">6:26, 29</span></div>
+        <div class="cell col-ember"><p><q>Every male among the priests shall eat thereof: it shall be eaten in the holy place: it is most holy</q></p><span class="ref">7:6</span></div>
+
+        <!-- row: distinctive -->
+        <div class="cell rowhead">Distinctive Feature</div>
+        <div class="cell col-bronze"><p><q>The fire shall ever be burning upon the altar; it shall never go out</q></p><span class="ref">6:13</span></div>
+        <div class="cell col-bronze"><p><q>with all thine offerings thou shalt offer salt</q>; <q>No meat offering … shall be made with leaven … nor any honey</q></p><span class="ref">2:11, 13</span></div>
+        <div class="cell col-bronze"><p>Eaten on the third day, <q>it shall not be accepted … it shall be an abomination</q></p><span class="ref">7:18</span></div>
+        <div class="cell col-ember"><p><q>no sin offering, whereof any of the blood is brought into the tabernacle of the congregation to reconcile withal in the holy place, shall be eaten: it shall be burnt in the fire</q></p><span class="ref">6:30</span></div>
+        <div class="cell col-ember"><p><q>he shall make amends for the harm that he hath done … and shall add the fifth part thereto</q></p><span class="ref">5:16; 6:5</span></div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>All quotations, King James Version — Leviticus 1–7</span>
+    <span>data/KJV.db</span>
+  </footer>
+</div>
