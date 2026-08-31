@@ -20,6 +20,10 @@ maintaining the one Python loader script.
 - `docs/database_structure.md` — `KJV.db` schema and example queries.
 - `docs/daily_light_schema.md` — `daily_light.db` schema, including the
   `ATTACH DATABASE` pattern for joining it to `KJV.db`.
+- `docs/daily_light_coverage.html` — standalone HTML infographic showing what
+  percentage of `KJV.db` (by books, chapters, verses, words) is quoted in
+  `daily_light.db`; includes the SQL queries used to compute each figure.
+  Open it directly in a browser — no build step.
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
   `data/daily_light.db`.
