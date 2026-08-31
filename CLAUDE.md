@@ -20,6 +20,18 @@ maintaining the one Python loader script.
 - `docs/database_structure.md` — `KJV.db` schema and example queries.
 - `docs/daily_light_schema.md` — `daily_light.db` schema, including the
   `ATTACH DATABASE` pattern for joining it to `KJV.db`.
+- `docs/daily_light_coverage.html` — standalone HTML infographic showing what
+  percentage of `KJV.db` (by books, chapters, verses, words) is quoted in
+  `daily_light.db`; includes the SQL queries used to compute each figure.
+  Open it directly in a browser — no build step.
+- `docs/leviticus_offerings.md` / `docs/leviticus_offerings.html` — a
+  comparison of the five offerings in Leviticus 1–7 (burnt, meat, peace,
+  sin, trespass), sourced entirely from direct `KJV.db` quotations; the
+  `.html` file is a standalone illustrated version of the same table.
+- `docs/pentateuch_abomination_infographic.html` — standalone HTML
+  infographic covering every verse in Genesis–Deuteronomy containing
+  "abomination"/"abominations" (queried from `KJV.db`), grouped by phrasing
+  pattern (e.g. "unto the LORD" vs. "unto you" vs. "unto the Egyptians").
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
   `data/daily_light.db`.

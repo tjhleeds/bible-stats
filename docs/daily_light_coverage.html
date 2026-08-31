@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Light Bible Coverage</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --card-border:    rgba(11,11,11,0.08);
+    --series-1:       #2a78d6;  /* blue */
+    --series-2:       #eb6834;  /* orange */
+    --series-1-soft:  #cde2fb;
+    --series-2-soft:  #fbdccb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page-plane:     #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --card-border:    rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --series-1-soft:  #17334f;
+      --series-2-soft:  #4a2a19;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  body {
+    padding: 32px 16px 64px;
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  header.hero {
+    text-align: center;
+    padding: 8px 8px 28px;
+  }
+  header.hero .kicker {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  header.hero h1 {
+    font-size: clamp(26px, 4.5vw, 40px);
+    line-height: 1.15;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+  header.hero p.sub {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  .hero-figure {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    margin: 28px 0 6px;
+  }
+  .hero-figure .num {
+    font-size: clamp(56px, 12vw, 96px);
+    font-weight: 700;
+    color: var(--series-1);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .hero-figure .unit {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .hero-caption {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  section {
+    margin-top: 40px;
+  }
+  h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 16px;
+  }
+  h2 .h2-title {
+    color: var(--text-primary);
+    font-size: 19px;
+    letter-spacing: normal;
+    text-transform: none;
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  /* Stat tiles */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .tile {
+    background: var(--surface-1);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px 16px;
+  }
+  .tile .tile-pct {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+  .tile .tile-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .tile .tile-detail {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tile .tile-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--gridline);
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .tile .tile-bar > div {
+    height: 100%;
+    background: var(--series-1);
+    border-radius: 3px;
+  }
+
+  /* OT/NT comparison */
+  .compare {
+    background: var(--surface-1);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 22px 22px 20px;
+  }
+  .compare-row {
+    margin-bottom: 18px;
+  }
+  .compare-row:last-child { margin-bottom: 0; }
+  .compare-row .compare-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .compare-row .compare-label .name {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .compare-row .compare-label .val {
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .compare-track {
+    height: 14px;
+    border-radius: 4px;
+    background: var(--gridline);
+    overflow: hidden;
+  }
+  .compare-track > div {
+    height: 100%;
+    border-radius: 4px;
+  }
+  .compare-track .ot { background: var(--series-1); }
+  .compare-track .nt { background: var(--series-2); }
+  .compare-note {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--gridline);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Top books bar chart */
+  .topbooks {
+    background: var(--surface-1);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 22px;
+  }
+  .topbar-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 52px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  .topbar-row .bname {
+    color: var(--text-primary);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .topbar-track {
+    height: 16px;
+    background: var(--gridline);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .topbar-track > div {
+    height: 100%;
+    background: var(--series-1);
+    border-radius: 4px;
+  }
+  .topbar-row .bpct {
+    text-align: right;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  /* Not covered callout */
+  .callout {
+    background: var(--surface-1);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .callout .callout-num {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--series-2);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .callout .callout-body {
+    flex: 1;
+    min-width: 220px;
+  }
+  .callout .callout-body p {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .callout .book-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .callout .book-chips span {
+    background: var(--series-2-soft);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  /* Full table */
+  .table-scroll {
+    background: var(--surface-1);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    max-height: 480px;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    position: sticky;
+    top: 0;
+    background: var(--surface-1);
+    text-align: left;
+    padding: 10px 14px;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--gridline);
+    z-index: 1;
+  }
+  thead th.num, thead th.pctcell { text-align: right; }
+  tbody td {
+    padding: 7px 14px;
+    border-bottom: 1px solid var(--gridline);
+    color: var(--text-primary);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  td.pctcell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .barcell {
+    width: 70px;
+    height: 8px;
+    background: var(--gridline);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .barcell .bar {
+    height: 100%;
+    background: var(--series-1);
+    border-radius: 3px;
+  }
+  .pcttext {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+    width: 42px;
+    text-align: right;
+    font-size: 12px;
+  }
+  tr.divider td {
+    background: var(--page-plane);
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 9px 14px;
+  }
+  tr.zero td { color: var(--text-muted); }
+  tr.zero .barcell .bar { background: var(--text-muted); }
+
+  /* SQL section */
+  .sql-block {
+    margin-bottom: 20px;
+  }
+  .sql-block:last-child { margin-bottom: 0; }
+  .sql-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .sql-title .result {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  pre {
+    background: var(--surface-1);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    margin: 0;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    white-space: pre;
+  }
+  .kw { color: var(--series-1); font-weight: 600; }
+  .cm { color: var(--text-muted); font-style: italic; }
+
+  footer {
+    margin-top: 48px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  footer a { color: var(--text-muted); }
+
+  @media (max-width: 640px) {
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .topbar-row { grid-template-columns: 92px 1fr 44px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Bible Stats &middot; KJV.db &times; daily_light.db</div>
+    <h1>How much of the Bible does<br>Daily Light cover?</h1>
+    <p class="sub">
+      <em>Daily Light on the Daily Path</em> distils a year of morning and evening
+      readings from 6,018 verse references. Here's how that curated selection
+      measures up against the full King James Version.
+    </p>
+    <div class="hero-figure">
+      <span class="num">11.1%</span>
+      <span class="unit">of all KJV verses</span>
+    </div>
+    <div class="hero-caption">3,461 of the Bible's 31,102 verses appear somewhere in Daily Light</div>
+  </header>
+
+  <section>
+    <h2><span class="h2-title">Coverage at a glance</span>Four ways to measure "how much"</h2>
+    <div class="tiles">
+      <div class="tile">
+        <div class="tile-pct">93.9%</div>
+        <div class="tile-label">Books</div>
+        <div class="tile-detail">62 of 66</div>
+        <div class="tile-bar"><div style="width:93.9%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-pct">61.1%</div>
+        <div class="tile-label">Chapters</div>
+        <div class="tile-detail">726 of 1,189</div>
+        <div class="tile-bar"><div style="width:61.1%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-pct">11.1%</div>
+        <div class="tile-label">Verses</div>
+        <div class="tile-detail">3,461 of 31,102</div>
+        <div class="tile-bar"><div style="width:11.1%"></div></div>
+      </div>
+      <div class="tile">
+        <div class="tile-pct">10.3%</div>
+        <div class="tile-label">Words</div>
+        <div class="tile-detail">81,542 of 791,184</div>
+        <div class="tile-bar"><div style="width:10.3%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-title">Old vs. New Testament</span>The New Testament is covered far more densely</h2>
+    <div class="compare">
+      <div class="compare-row">
+        <div class="compare-label">
+          <span class="name">Old Testament</span>
+          <span class="val">1,545 / 23,145 verses &middot; 6.7%</span>
+        </div>
+        <div class="compare-track"><div class="ot" style="width:6.68%"></div></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label">
+          <span class="name">New Testament</span>
+          <span class="val">1,916 / 7,957 verses &middot; 24.1%</span>
+        </div>
+        <div class="compare-track"><div class="nt" style="width:24.08%"></div></div>
+      </div>
+      <div class="compare-note">
+        The New Testament makes up just 26% of the Bible's verses but supplies
+        55% of Daily Light's references &mdash; and a verse there is roughly
+        3.6&times; more likely to be quoted than one in the Old Testament.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-title">Most-quoted books</span>Top 10 books by share of verses covered</h2>
+    <div class="topbooks">
+      <div class="topbar-row"><div class="bname">Ephesians</div><div class="topbar-track"><div style="width:66.45%"></div></div><div class="bpct">66.5%</div></div>
+      <div class="topbar-row"><div class="bname">I John</div><div class="topbar-track"><div style="width:60.95%"></div></div><div class="bpct">61.0%</div></div>
+      <div class="topbar-row"><div class="bname">James</div><div class="topbar-track"><div style="width:58.33%"></div></div><div class="bpct">58.3%</div></div>
+      <div class="topbar-row"><div class="bname">I Peter</div><div class="topbar-track"><div style="width:58.10%"></div></div><div class="bpct">58.1%</div></div>
+      <div class="topbar-row"><div class="bname">Colossians</div><div class="topbar-track"><div style="width:53.68%"></div></div><div class="bpct">53.7%</div></div>
+      <div class="topbar-row"><div class="bname">Hebrews</div><div class="topbar-track"><div style="width:46.86%"></div></div><div class="bpct">46.9%</div></div>
+      <div class="topbar-row"><div class="bname">Philippians</div><div class="topbar-track"><div style="width:45.19%"></div></div><div class="bpct">45.2%</div></div>
+      <div class="topbar-row"><div class="bname">II Peter</div><div class="topbar-track"><div style="width:44.26%"></div></div><div class="bpct">44.3%</div></div>
+      <div class="topbar-row"><div class="bname">Romans</div><div class="topbar-track"><div style="width:38.57%"></div></div><div class="bpct">38.6%</div></div>
+      <div class="topbar-row"><div class="bname">I Thessalonians</div><div class="topbar-track"><div style="width:37.08%"></div></div><div class="bpct">37.1%</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-title">Books with no readings at all</span>4 of the Bible's 66 books are never quoted</h2>
+    <div class="callout">
+      <div class="callout-num">4</div>
+      <div class="callout-body">
+        <p>These short books contribute zero verses to any of the 732 morning/evening readings.</p>
+        <div class="book-chips">
+          <span>Obadiah</span>
+          <span>Philemon</span>
+          <span>II John</span>
+          <span>III John</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-title">Every book, in canonical order</span>Verses covered per book (scroll for the full list)</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Book</th>
+            <th class="num">Verses</th>
+            <th class="num">Covered</th>
+            <th class="pctcell">% covered</th>
+          </tr>
+        </thead>
+        <tbody>
+<tr class="divider"><td colspan="4">Old Testament &middot; 39 books</td></tr>
+<tr><td>Genesis</td><td class="num">1,533</td><td class="num">68</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:4.44%"></div></div><span class="pcttext">4.4%</span></td></tr>
+<tr><td>Exodus</td><td class="num">1,213</td><td class="num">71</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:5.85%"></div></div><span class="pcttext">5.8%</span></td></tr>
+<tr><td>Leviticus</td><td class="num">859</td><td class="num">18</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:2.1%"></div></div><span class="pcttext">2.1%</span></td></tr>
+<tr><td>Numbers</td><td class="num">1,288</td><td class="num">19</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:1.48%"></div></div><span class="pcttext">1.5%</span></td></tr>
+<tr><td>Deuteronomy</td><td class="num">959</td><td class="num">50</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:5.21%"></div></div><span class="pcttext">5.2%</span></td></tr>
+<tr><td>Joshua</td><td class="num">658</td><td class="num">20</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:3.04%"></div></div><span class="pcttext">3.0%</span></td></tr>
+<tr><td>Judges</td><td class="num">618</td><td class="num">18</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:2.91%"></div></div><span class="pcttext">2.9%</span></td></tr>
+<tr><td>Ruth</td><td class="num">85</td><td class="num">2</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:2.35%"></div></div><span class="pcttext">2.4%</span></td></tr>
+<tr><td>I Samuel</td><td class="num">810</td><td class="num">28</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:3.46%"></div></div><span class="pcttext">3.5%</span></td></tr>
+<tr><td>II Samuel</td><td class="num">695</td><td class="num">17</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:2.45%"></div></div><span class="pcttext">2.5%</span></td></tr>
+<tr><td>I Kings</td><td class="num">816</td><td class="num">24</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:2.94%"></div></div><span class="pcttext">2.9%</span></td></tr>
+<tr><td>II Kings</td><td class="num">719</td><td class="num">10</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:1.39%"></div></div><span class="pcttext">1.4%</span></td></tr>
+<tr><td>I Chronicles</td><td class="num">942</td><td class="num">24</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:2.55%"></div></div><span class="pcttext">2.5%</span></td></tr>
+<tr><td>II Chronicles</td><td class="num">822</td><td class="num">23</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:2.8%"></div></div><span class="pcttext">2.8%</span></td></tr>
+<tr><td>Ezra</td><td class="num">280</td><td class="num">1</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:0.36%"></div></div><span class="pcttext">0.4%</span></td></tr>
+<tr><td>Nehemiah</td><td class="num">406</td><td class="num">5</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:1.23%"></div></div><span class="pcttext">1.2%</span></td></tr>
+<tr><td>Esther</td><td class="num">167</td><td class="num">2</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:1.2%"></div></div><span class="pcttext">1.2%</span></td></tr>
+<tr><td>Job</td><td class="num">1,070</td><td class="num">60</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:5.61%"></div></div><span class="pcttext">5.6%</span></td></tr>
+<tr><td>Psalms</td><td class="num">2,461</td><td class="num">535</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:21.74%"></div></div><span class="pcttext">21.7%</span></td></tr>
+<tr><td>Proverbs</td><td class="num">915</td><td class="num">109</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:11.91%"></div></div><span class="pcttext">11.9%</span></td></tr>
+<tr><td>Ecclesiastes</td><td class="num">222</td><td class="num">12</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:5.41%"></div></div><span class="pcttext">5.4%</span></td></tr>
+<tr><td>Song of Solomon</td><td class="num">117</td><td class="num">33</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:28.21%"></div></div><span class="pcttext">28.2%</span></td></tr>
+<tr><td>Isaiah</td><td class="num">1,292</td><td class="num">210</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:16.25%"></div></div><span class="pcttext">16.2%</span></td></tr>
+<tr><td>Jeremiah</td><td class="num">1,364</td><td class="num">59</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:4.33%"></div></div><span class="pcttext">4.3%</span></td></tr>
+<tr><td>Lamentations</td><td class="num">154</td><td class="num">17</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:11.04%"></div></div><span class="pcttext">11.0%</span></td></tr>
+<tr><td>Ezekiel</td><td class="num">1,273</td><td class="num">24</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:1.89%"></div></div><span class="pcttext">1.9%</span></td></tr>
+<tr><td>Daniel</td><td class="num">357</td><td class="num">12</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:3.36%"></div></div><span class="pcttext">3.4%</span></td></tr>
+<tr><td>Hosea</td><td class="num">197</td><td class="num">18</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:9.14%"></div></div><span class="pcttext">9.1%</span></td></tr>
+<tr><td>Joel</td><td class="num">73</td><td class="num">3</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:4.11%"></div></div><span class="pcttext">4.1%</span></td></tr>
+<tr><td>Amos</td><td class="num">146</td><td class="num">4</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:2.74%"></div></div><span class="pcttext">2.7%</span></td></tr>
+<tr class="zero"><td>Obadiah</td><td class="num">21</td><td class="num">0</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:0.0%"></div></div><span class="pcttext">0.0%</span></td></tr>
+<tr><td>Jonah</td><td class="num">48</td><td class="num">5</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:10.42%"></div></div><span class="pcttext">10.4%</span></td></tr>
+<tr><td>Micah</td><td class="num">105</td><td class="num">9</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:8.57%"></div></div><span class="pcttext">8.6%</span></td></tr>
+<tr><td>Nahum</td><td class="num">47</td><td class="num">2</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:4.26%"></div></div><span class="pcttext">4.3%</span></td></tr>
+<tr><td>Habakkuk</td><td class="num">56</td><td class="num">6</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:10.71%"></div></div><span class="pcttext">10.7%</span></td></tr>
+<tr><td>Zephaniah</td><td class="num">53</td><td class="num">2</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:3.77%"></div></div><span class="pcttext">3.8%</span></td></tr>
+<tr><td>Haggai</td><td class="num">38</td><td class="num">5</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:13.16%"></div></div><span class="pcttext">13.2%</span></td></tr>
+<tr><td>Zechariah</td><td class="num">211</td><td class="num">10</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:4.74%"></div></div><span class="pcttext">4.7%</span></td></tr>
+<tr><td>Malachi</td><td class="num">55</td><td class="num">10</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:18.18%"></div></div><span class="pcttext">18.2%</span></td></tr>
+<tr class="divider"><td colspan="4">New Testament &middot; 27 books</td></tr>
+<tr><td>Matthew</td><td class="num">1,071</td><td class="num">211</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:19.7%"></div></div><span class="pcttext">19.7%</span></td></tr>
+<tr><td>Mark</td><td class="num">678</td><td class="num">58</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:8.55%"></div></div><span class="pcttext">8.6%</span></td></tr>
+<tr><td>Luke</td><td class="num">1,151</td><td class="num">147</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:12.77%"></div></div><span class="pcttext">12.8%</span></td></tr>
+<tr><td>John</td><td class="num">879</td><td class="num">258</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:29.35%"></div></div><span class="pcttext">29.4%</span></td></tr>
+<tr><td>Acts</td><td class="num">1,007</td><td class="num">48</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:4.77%"></div></div><span class="pcttext">4.8%</span></td></tr>
+<tr><td>Romans</td><td class="num">433</td><td class="num">167</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:38.57%"></div></div><span class="pcttext">38.6%</span></td></tr>
+<tr><td>I Corinthians</td><td class="num">437</td><td class="num">135</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:30.89%"></div></div><span class="pcttext">30.9%</span></td></tr>
+<tr><td>II Corinthians</td><td class="num">257</td><td class="num">89</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:34.63%"></div></div><span class="pcttext">34.6%</span></td></tr>
+<tr><td>Galatians</td><td class="num">149</td><td class="num">50</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:33.56%"></div></div><span class="pcttext">33.6%</span></td></tr>
+<tr><td>Ephesians</td><td class="num">155</td><td class="num">103</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:66.45%"></div></div><span class="pcttext">66.5%</span></td></tr>
+<tr><td>Philippians</td><td class="num">104</td><td class="num">47</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:45.19%"></div></div><span class="pcttext">45.2%</span></td></tr>
+<tr><td>Colossians</td><td class="num">95</td><td class="num">51</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:53.68%"></div></div><span class="pcttext">53.7%</span></td></tr>
+<tr><td>I Thessalonians</td><td class="num">89</td><td class="num">33</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:37.08%"></div></div><span class="pcttext">37.1%</span></td></tr>
+<tr><td>II Thessalonians</td><td class="num">47</td><td class="num">10</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:21.28%"></div></div><span class="pcttext">21.3%</span></td></tr>
+<tr><td>I Timothy</td><td class="num">113</td><td class="num">26</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:23.01%"></div></div><span class="pcttext">23.0%</span></td></tr>
+<tr><td>II Timothy</td><td class="num">83</td><td class="num">26</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:31.33%"></div></div><span class="pcttext">31.3%</span></td></tr>
+<tr><td>Titus</td><td class="num">46</td><td class="num">11</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:23.91%"></div></div><span class="pcttext">23.9%</span></td></tr>
+<tr class="zero"><td>Philemon</td><td class="num">25</td><td class="num">0</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:0.0%"></div></div><span class="pcttext">0.0%</span></td></tr>
+<tr><td>Hebrews</td><td class="num">303</td><td class="num">142</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:46.86%"></div></div><span class="pcttext">46.9%</span></td></tr>
+<tr><td>James</td><td class="num">108</td><td class="num">63</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:58.33%"></div></div><span class="pcttext">58.3%</span></td></tr>
+<tr><td>I Peter</td><td class="num">105</td><td class="num">61</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:58.1%"></div></div><span class="pcttext">58.1%</span></td></tr>
+<tr><td>II Peter</td><td class="num">61</td><td class="num">27</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:44.26%"></div></div><span class="pcttext">44.3%</span></td></tr>
+<tr><td>I John</td><td class="num">105</td><td class="num">64</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:60.95%"></div></div><span class="pcttext">61.0%</span></td></tr>
+<tr class="zero"><td>II John</td><td class="num">13</td><td class="num">0</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:0.0%"></div></div><span class="pcttext">0.0%</span></td></tr>
+<tr class="zero"><td>III John</td><td class="num">14</td><td class="num">0</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:0.0%"></div></div><span class="pcttext">0.0%</span></td></tr>
+<tr><td>Jude</td><td class="num">25</td><td class="num">1</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:4.0%"></div></div><span class="pcttext">4.0%</span></td></tr>
+<tr><td>Revelation of John</td><td class="num">404</td><td class="num">88</td><td class="pctcell"><div class="barcell"><div class="bar" style="width:21.78%"></div></div><span class="pcttext">21.8%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="h2-title">The SQL</span>Queries used to compute every figure on this page</h2>
+
+    <div class="sql-block">
+      <div class="sql-title">Books covered <span class="result">&rarr; 62 / 66 &middot; 93.9%</span></div>
+      <pre><code><span class="cm">-- Any book with at least one dl_reading_verses row referencing it</span>
+<span class="kw">ATTACH DATABASE</span> 'data/KJV.db' <span class="kw">AS</span> kjv;
+
+<span class="kw">SELECT</span>
+    (<span class="kw">SELECT COUNT</span>(<span class="kw">DISTINCT</span> b.id)
+     <span class="kw">FROM</span> kjv.KJV_books b
+     <span class="kw">JOIN</span> dl_reading_verses rv <span class="kw">ON</span> rv.kjv_book_name = b.name) <span class="kw">AS</span> books_covered,
+    (<span class="kw">SELECT COUNT</span>(*) <span class="kw">FROM</span> kjv.KJV_books) <span class="kw">AS</span> total_books;</code></pre>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-title">Chapters covered <span class="result">&rarr; 726 / 1,189 &middot; 61.1%</span></div>
+      <pre><code><span class="cm">-- A chapter counts as "covered" if any verse in it is referenced</span>
+<span class="kw">ATTACH DATABASE</span> 'data/KJV.db' <span class="kw">AS</span> kjv;
+
+<span class="kw">SELECT COUNT</span>(*) <span class="kw">AS</span> chapters_covered <span class="kw">FROM</span> (
+    <span class="kw">SELECT DISTINCT</span> v.book_id, v.chapter
+    <span class="kw">FROM</span> kjv.KJV_verses v
+    <span class="kw">JOIN</span> kjv.KJV_books b <span class="kw">ON</span> b.id = v.book_id
+    <span class="kw">JOIN</span> dl_reading_verses rv
+        <span class="kw">ON</span> rv.kjv_book_name = b.name
+       <span class="kw">AND</span> rv.chapter = v.chapter
+       <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start)
+);
+<span class="cm">-- total chapters: SELECT COUNT(*) FROM (SELECT DISTINCT book_id, chapter FROM kjv.KJV_verses) -&gt; 1189</span></code></pre>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-title">Verses covered <span class="result">&rarr; 3,461 / 31,102 &middot; 11.1%</span></div>
+      <pre><code><span class="kw">ATTACH DATABASE</span> 'data/KJV.db' <span class="kw">AS</span> kjv;
+
+<span class="kw">SELECT</span>
+    <span class="kw">COUNT</span>(<span class="kw">DISTINCT</span> v.id)                    <span class="kw">AS</span> covered_verses,
+    (<span class="kw">SELECT COUNT</span>(*) <span class="kw">FROM</span> kjv.KJV_verses)   <span class="kw">AS</span> total_verses,
+    <span class="kw">ROUND</span>(100.0 * <span class="kw">COUNT</span>(<span class="kw">DISTINCT</span> v.id)
+        / (<span class="kw">SELECT COUNT</span>(*) <span class="kw">FROM</span> kjv.KJV_verses), 2) <span class="kw">AS</span> pct_covered
+<span class="kw">FROM</span> kjv.KJV_verses v
+<span class="kw">JOIN</span> kjv.KJV_books b <span class="kw">ON</span> b.id = v.book_id
+<span class="kw">JOIN</span> dl_reading_verses rv
+    <span class="kw">ON</span> rv.kjv_book_name = b.name
+   <span class="kw">AND</span> rv.chapter = v.chapter
+   <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start);</code></pre>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-title">Words covered <span class="result">&rarr; 81,542 / 791,184 &middot; 10.3% (approx., by whitespace count)</span></div>
+      <pre><code><span class="kw">ATTACH DATABASE</span> 'data/KJV.db' <span class="kw">AS</span> kjv;
+
+<span class="kw">WITH</span> covered <span class="kw">AS</span> (
+    <span class="kw">SELECT DISTINCT</span> v.id, v.text
+    <span class="kw">FROM</span> kjv.KJV_verses v
+    <span class="kw">JOIN</span> kjv.KJV_books b <span class="kw">ON</span> b.id = v.book_id
+    <span class="kw">JOIN</span> dl_reading_verses rv
+        <span class="kw">ON</span> rv.kjv_book_name = b.name
+       <span class="kw">AND</span> rv.chapter = v.chapter
+       <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start)
+)
+<span class="kw">SELECT</span>
+    <span class="kw">SUM</span>(<span class="kw">LENGTH</span>(text) - <span class="kw">LENGTH</span>(<span class="kw">REPLACE</span>(text, ' ', '')) + 1) <span class="kw">AS</span> covered_words,
+    (<span class="kw">SELECT SUM</span>(<span class="kw">LENGTH</span>(text) - <span class="kw">LENGTH</span>(<span class="kw">REPLACE</span>(text, ' ', '')) + 1)
+     <span class="kw">FROM</span> kjv.KJV_verses)               <span class="kw">AS</span> total_words
+<span class="kw">FROM</span> covered;</code></pre>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-title">Old vs. New Testament split <span class="result">&rarr; OT 6.7% &middot; NT 24.1%</span></div>
+      <pre><code><span class="cm">-- KJV_books.id 1-39 = Old Testament (Genesis..Malachi), 40-66 = New Testament</span>
+<span class="kw">ATTACH DATABASE</span> 'data/KJV.db' <span class="kw">AS</span> kjv;
+
+<span class="kw">SELECT</span>
+    <span class="kw">CASE WHEN</span> b.id <= 39 <span class="kw">THEN</span> 'Old Testament' <span class="kw">ELSE</span> 'New Testament' <span class="kw">END AS</span> testament,
+    <span class="kw">COUNT</span>(<span class="kw">DISTINCT</span> v.id) <span class="kw">AS</span> total_verses,
+    <span class="kw">COUNT</span>(<span class="kw">DISTINCT CASE WHEN</span> rv.id <span class="kw">IS NOT NULL THEN</span> v.id <span class="kw">END</span>) <span class="kw">AS</span> covered_verses
+<span class="kw">FROM</span> kjv.KJV_verses v
+<span class="kw">JOIN</span> kjv.KJV_books b <span class="kw">ON</span> b.id = v.book_id
+<span class="kw">LEFT JOIN</span> dl_reading_verses rv
+    <span class="kw">ON</span> rv.kjv_book_name = b.name
+   <span class="kw">AND</span> rv.chapter = v.chapter
+   <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start)
+<span class="kw">GROUP BY</span> testament;</code></pre>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-title">Per-book breakdown <span class="result">&rarr; powers the top-10 chart and the full table above</span></div>
+      <pre><code><span class="kw">ATTACH DATABASE</span> 'data/KJV.db' <span class="kw">AS</span> kjv;
+
+<span class="kw">SELECT</span>
+    b.id, b.name,
+    <span class="kw">COUNT</span>(<span class="kw">DISTINCT</span> v.id) <span class="kw">AS</span> total_verses,
+    <span class="kw">COUNT</span>(<span class="kw">DISTINCT CASE WHEN</span> rv.id <span class="kw">IS NOT NULL THEN</span> v.id <span class="kw">END</span>) <span class="kw">AS</span> covered_verses,
+    <span class="kw">ROUND</span>(100.0 * <span class="kw">COUNT</span>(<span class="kw">DISTINCT CASE WHEN</span> rv.id <span class="kw">IS NOT NULL THEN</span> v.id <span class="kw">END</span>)
+        / <span class="kw">COUNT</span>(<span class="kw">DISTINCT</span> v.id), 2) <span class="kw">AS</span> pct_covered
+<span class="kw">FROM</span> kjv.KJV_books b
+<span class="kw">JOIN</span> kjv.KJV_verses v <span class="kw">ON</span> v.book_id = b.id
+<span class="kw">LEFT JOIN</span> dl_reading_verses rv
+    <span class="kw">ON</span> rv.kjv_book_name = b.name
+   <span class="kw">AND</span> rv.chapter = v.chapter
+   <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start)
+<span class="kw">GROUP BY</span> b.id, b.name
+<span class="kw">ORDER BY</span> b.id;</code></pre>
+    </div>
+  </section>
+
+  <footer>
+    Generated from <code>data/KJV.db</code> (31,102 verses, 66 books) and
+    <code>data/daily_light.db</code> (366 days &middot; 732 readings &middot; 6,018 verse references).<br>
+    Run these queries yourself with Python's <code>sqlite3</code> module &mdash; see
+    <code>CLAUDE.md</code> for the read-only <code>ATTACH DATABASE</code> pattern.<br>
+    "Words" are approximated by whitespace-splitting verse text.
+  </footer>
+
+</div>
+</body>
+</html>
