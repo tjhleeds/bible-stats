@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Abomination" in Leviticus (KJV)</title>
+<style>
+  :root {
+    --bg: #f7f3ea;
+    --panel: #ffffff;
+    --ink: #2b241a;
+    --ink-soft: #6b5f4d;
+    --line: #e4dbc8;
+    --accent-a: #a4443a; /* unto you */
+    --accent-a-bg: #fbebe8;
+    --accent-b: #b5762a; /* have in abomination */
+    --accent-b-bg: #fdf1e2;
+    --accent-c: #4a6d5c; /* unqualified */
+    --accent-c-bg: #ecf3ee;
+    --accent-d: #4a5a8a; /* collective plural */
+    --accent-d-bg: #ecf0fa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1b1712;
+      --panel: #24201a;
+      --ink: #ece4d4;
+      --ink-soft: #b9ac93;
+      --line: #3a3225;
+      --accent-a-bg: #3a201d;
+      --accent-b-bg: #3a2c15;
+      --accent-c-bg: #1f2f27;
+      --accent-d-bg: #1f2536;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1b1712;
+    --panel: #24201a;
+    --ink: #ece4d4;
+    --ink-soft: #b9ac93;
+    --line: #3a3225;
+    --accent-a-bg: #3a201d;
+    --accent-b-bg: #3a2c15;
+    --accent-c-bg: #1f2f27;
+    --accent-d-bg: #1f2536;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  header .kicker {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: clamp(28px, 4.5vw, 44px);
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+  header p.sub {
+    max-width: 620px;
+    margin: 0 auto;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 36px 0 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .stat {
+    text-align: center;
+    min-width: 96px;
+  }
+  .stat .n {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .stat .l {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .note {
+    max-width: 680px;
+    margin: 28px auto 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .bar {
+    display: flex;
+    width: 100%;
+    max-width: 680px;
+    margin: 24px auto 0;
+    height: 14px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .bar span { display: block; height: 100%; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-top: 48px;
+  }
+  @media (min-width: 760px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 26px 22px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .card .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .card h2 {
+    font-size: 19px;
+    margin: 0;
+    font-weight: 700;
+  }
+  .card .count {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .card .phrase {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 4px 0 16px;
+  }
+  .card ul.verses {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card ul.verses li {
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .ref {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    display: inline-block;
+    margin-bottom: 3px;
+  }
+  .txt {
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  .txt b { font-weight: 700; }
+  .txt .thing {
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    display: block;
+    margin-top: 3px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .card.a { border-top: 4px solid var(--accent-a); }
+  .card.a .count { background: var(--accent-a-bg); color: var(--accent-a); }
+  .card.a ul.verses li { background: var(--accent-a-bg); }
+  .card.a .ref { color: var(--accent-a); }
+
+  .card.b { border-top: 4px solid var(--accent-b); }
+  .card.b .count { background: var(--accent-b-bg); color: var(--accent-b); }
+  .card.b ul.verses li { background: var(--accent-b-bg); }
+  .card.b .ref { color: var(--accent-b); }
+
+  .card.c { border-top: 4px solid var(--accent-c); }
+  .card.c .count { background: var(--accent-c-bg); color: var(--accent-c); }
+  .card.c ul.verses li { background: var(--accent-c-bg); }
+  .card.c .ref { color: var(--accent-c); }
+
+  .card.d { border-top: 4px solid var(--accent-d); }
+  .card.d .count { background: var(--accent-d-bg); color: var(--accent-d); }
+  .card.d ul.verses li { background: var(--accent-d-bg); }
+  .card.d .ref { color: var(--accent-d); }
+
+  footer {
+    margin-top: 48px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  footer code {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Leviticus &middot; King James Version</div>
+    <h1>Every "Abomination" in Leviticus</h1>
+    <p class="sub">All 14 verses in Leviticus containing "abomination" or "abominations," grouped by how the word is phrased &mdash; who it is addressed to, and whether it names a subject at all.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n">14</div><div class="l">Verses</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Chapters</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Phrasing patterns</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">"unto the LORD"</div></div>
+  </div>
+
+  <div class="bar" aria-hidden="true">
+    <span style="width:35.7%; background:var(--accent-a);"></span>
+    <span style="width:14.3%; background:var(--accent-b);"></span>
+    <span style="width:35.7%; background:var(--accent-c);"></span>
+    <span style="width:21.4%; background:var(--accent-d);"></span>
+  </div>
+
+  <div class="note">
+    Leviticus never uses the phrase "abomination unto the LORD" (that pairing belongs to Deuteronomy). Here the word is either aimed at the people directly ("unto you"), framed as something they must actively regard as detestable, stated flatly with no addressee, or bundled up afterward as "these abominations."
+  </div>
+
+  <div class="grid">
+
+    <div class="card a">
+      <div class="top">
+        <h2>1&nbsp;&middot; Abomination unto you</h2>
+        <span class="count">5 verses</span>
+      </div>
+      <p class="phrase">"...shall be an abomination unto you"</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Leviticus 11:10</span>
+          <div class="txt">And all that have not fins and scales in the seas, and in the rivers... they shall be <b>an abomination unto you</b>:</div>
+          <span class="thing">Sea &amp; river creatures without fins/scales</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:11</span>
+          <div class="txt">They shall be even <b>an abomination unto you</b>; ye shall not eat of their flesh...</div>
+          <span class="thing">Same finless/scaleless water creatures</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:12</span>
+          <div class="txt">Whatsoever hath no fins nor scales in the waters, that shall be <b>an abomination unto you</b>.</div>
+          <span class="thing">General rule for water creatures</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:20</span>
+          <div class="txt">All fowls that creep, going upon all four, shall be <b>an abomination unto you</b>.</div>
+          <span class="thing">Four-footed flying/creeping things</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:23</span>
+          <div class="txt">But all other flying creeping things, which have four feet, shall be <b>an abomination unto you</b>.</div>
+          <span class="thing">Other four-footed flying creeping things</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card b">
+      <div class="top">
+        <h2>2&nbsp;&middot; "Have in abomination"</h2>
+        <span class="count">2 verses</span>
+      </div>
+      <p class="phrase">"ye shall have [them] in abomination"</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Leviticus 11:11</span>
+          <div class="txt">...but ye shall <b>have their carcases in abomination</b>.</div>
+          <span class="thing">Carcases of finless/scaleless water creatures</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:13</span>
+          <div class="txt">And these are they which ye shall <b>have in abomination</b> among the fowls; they shall not be eaten, they are an abomination: the eagle, and the ossifrage, and the ospray,</div>
+          <span class="thing">Named unclean birds (eagle, ossifrage, osprey, &amp;c.)</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card c">
+      <div class="top">
+        <h2>3&nbsp;&middot; Unqualified declaration</h2>
+        <span class="count">5 verses</span>
+      </div>
+      <p class="phrase">"it is / shall be an abomination" &mdash; no stated object</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Leviticus 7:18</span>
+          <div class="txt">...it shall not be accepted... it shall be <b>an abomination</b>, and the soul that eateth of it shall bear his iniquity.</div>
+          <span class="thing">Peace offering left uneaten to the third day</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:41</span>
+          <div class="txt">And every creeping thing that creepeth upon the earth shall be <b>an abomination</b>; it shall not be eaten.</div>
+          <span class="thing">Creeping things on the earth</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 11:42</span>
+          <div class="txt">...whatsoever hath more feet among all creeping things... them ye shall not eat; for they are <b>an abomination</b>.</div>
+          <span class="thing">Creeping/many-footed things</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 18:22</span>
+          <div class="txt">Thou shalt not lie with mankind, as with womankind: it is <b>abomination</b>.</div>
+          <span class="thing">A man lying with a man</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 20:13</span>
+          <div class="txt">If a man also lie with mankind, as he lieth with a woman, both of them have committed <b>an abomination</b>: they shall surely be put to death...</div>
+          <span class="thing">A man lying with a man (with the penalty stated)</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card d">
+      <div class="top">
+        <h2>4&nbsp;&middot; "These abominations" (collective)</h2>
+        <span class="count">3 verses</span>
+      </div>
+      <p class="phrase">plural, summarising a whole list of forbidden acts</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Leviticus 18:26</span>
+          <div class="txt">Ye shall therefore keep my statutes and my judgments, and shall not commit any of <b>these abominations</b>; neither any of your own nation, nor any stranger that sojourneth among you:</div>
+          <span class="thing">Summarises the forbidden sexual relations of Lev. 18</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 18:27</span>
+          <div class="txt">(For all <b>these abominations</b> have the men of the land done, which were before you, and the land is defiled;)</div>
+          <span class="thing">Attributed to the land's former inhabitants</span>
+        </li>
+        <li>
+          <span class="ref">Leviticus 18:29</span>
+          <div class="txt">For whosoever shall commit any of <b>these abominations</b>, even the souls that commit them shall be cut off from among their people.</div>
+          <span class="thing">Penalty: being cut off from the people</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Source: KJV text queried from <code>data/KJV.db</code> in this repository &middot; 14 of 14 Leviticus verses matching <code>LIKE '%abomination%'</code>
+  </footer>
+
+</div>
+</body>
+</html>
