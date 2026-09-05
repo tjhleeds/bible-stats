@@ -1,5 +1,7 @@
 # bible-stats
 
+Live infographics: https://tjhleeds.github.io/bible-stats/
+
 ## Data
 
 This repository includes the King James Version (KJV) Bible as an SQLite database, sourced from [scrollmapper/bible_databases](https://github.com/scrollmapper/bible_databases).
