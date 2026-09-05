@@ -55,18 +55,25 @@ than hand-writing percent-encoding.
 **Limitation:** Datasette's hosted SQL runner rejects ad-hoc `ATTACH DATABASE`
 statements (cross-database queries there require a local server started with
 `--crossdb`, which the hosted tool doesn't offer). So a query that attaches
-`KJV.db` to `daily_light.db` (as most of `daily_light_coverage.html`'s
-queries do) cannot be turned into a working one-click Datasette Lite link —
-keep the exact `ATTACH`-based query as the documented source of truth, note
-the limitation in place of a link, and optionally link to browse the
-individual tables involved (`#/<db-name>/<table-name>`, no `sql=`) instead.
-Never substitute a simplified single-database query just to get a working
-link — a single-database rewrite of a cross-database query is not guaranteed
-to produce the same figure (verified in practice: a naive
-`COUNT(DISTINCT ...)` over just `daily_light.db` for "chapters covered"
-returns 727, not the published 726, because one `dl_reading_verses` row
-references a verse range that doesn't actually exist in `KJV.db`, and only
-the real join catches that).
+`KJV.db` to `daily_light.db` (as every one of `daily_light_coverage.html`'s
+queries does) cannot itself be turned into a working one-click Datasette
+Lite link. Keep the exact `ATTACH`-based query as the documented source of
+truth (run it locally to reproduce a figure exactly), and never substitute a
+simplified single-database query in its place just to get a working link —
+a single-database rewrite of a cross-database query is not guaranteed to
+produce the same figure (verified in practice: a naive `COUNT(DISTINCT ...)`
+over just `daily_light.db` for "chapters covered" returns 727, not the
+published 726, because one `dl_reading_verses` row — `Judges 17:18` —
+references a verse that doesn't actually exist in `KJV.db` (Judges 17 only
+has 13 verses), and only the real join catches that).
+
+Instead, alongside the exact query, add two single-database queries — one
+against each file, each a genuine, runnable Datasette Lite link — that
+between them supply all the raw data the exact query joins, plus a short
+note on the manual reconciliation step (expand ranges, drop references that
+don't land on a real verse, de-duplicate overlaps) needed to combine them
+into the same answer by hand. This is what `daily_light_coverage.html` does
+for each of its six figures — see its `.sql-links` blocks for the pattern.
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
   `data/daily_light.db`.
