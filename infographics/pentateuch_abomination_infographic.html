@@ -622,7 +622,7 @@ JOIN KJV_books b ON b.id = v.book_id
 WHERE b.id BETWEEN 1 AND 5
   AND v.text LIKE '%abomination%'
 ORDER BY b.id, v.chapter, v.verse</code></pre>
-    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.id+BETWEEN+1+AND+5%0A++AND+v.text+LIKE+%27%25abomination%25%27%0AORDER+BY+b.id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. Book IDs 1&ndash;5 are Genesis&ndash;Deuteronomy (the Pentateuch).</p>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.id+BETWEEN+1+AND+5%0A++AND+v.text+LIKE+%27%25abomination%25%27%0AORDER+BY+b.id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. Book IDs 1&ndash;5 are Genesis&ndash;Deuteronomy (the Pentateuch).</p>
   </section>
 
   <footer>

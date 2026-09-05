@@ -388,7 +388,7 @@ FROM KJV_verses v
 JOIN KJV_books b ON b.id = v.book_id
 WHERE b.name = 'Leviticus' AND v.chapter BETWEEN 1 AND 7
 ORDER BY v.chapter, v.verse</code></pre>
-    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+%3D+%27Leviticus%27+AND+v.chapter+BETWEEN+1+AND+7%0AORDER+BY+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository.</p>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+%3D+%27Leviticus%27+AND+v.chapter+BETWEEN+1+AND+7%0AORDER+BY+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository.</p>
   </section>
 
   <footer>

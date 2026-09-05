@@ -39,9 +39,9 @@ Every infographic must show the exact SQL query used for each dataset it
 displays, alongside a link to run that query online in
 [Datasette Lite](https://lite.datasette.io/) against the relevant `data/*.db`
 file — loaded via its raw GitHub content URL
-(`https://raw.githubusercontent.com/tjhleeds/bible-stats/<commit-sha>/data/<file>.db`),
-pinned to a specific commit so the link keeps working even if later commits
-change the data. A Datasette Lite link has the form:
+(`https://raw.githubusercontent.com/tjhleeds/bible-stats/main/data/<file>.db`),
+always against the `main` branch (not a pinned commit). A Datasette Lite
+link has the form:
 
 ```
 https://lite.datasette.io/?url=<url-encoded raw db URL>#/<db-name>?sql=<url-encoded SQL>
@@ -61,11 +61,7 @@ Lite link. Keep the exact `ATTACH`-based query as the documented source of
 truth (run it locally to reproduce a figure exactly), and never substitute a
 simplified single-database query in its place just to get a working link —
 a single-database rewrite of a cross-database query is not guaranteed to
-produce the same figure (verified in practice: a naive `COUNT(DISTINCT ...)`
-over just `daily_light.db` for "chapters covered" returns 727, not the
-published 726, because one `dl_reading_verses` row — `Judges 17:18` —
-references a verse that doesn't actually exist in `KJV.db` (Judges 17 only
-has 13 verses), and only the real join catches that).
+produce the same figure.
 
 Instead, alongside the exact query, add two single-database queries — one
 against each file, each a genuine, runnable Datasette Lite link — that

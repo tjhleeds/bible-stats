@@ -651,7 +651,7 @@
       ad-hoc <code>ATTACH</code> statements for security reasons &mdash; cross-database queries there
       require a local server started with <code>--crossdb</code>, which the hosted tool doesn't offer.
       Run the query as shown, locally, to reproduce a figure exactly (Python's <code>sqlite3</code>
-      module, per <code>CLAUDE.md</code>). Each block below also splits the same computation into two
+      module). Each block below also splits the same computation into two
       single-database queries &mdash; one against each file, runnable online in Datasette Lite &mdash;
       with a note on how to reconcile them by hand into the same answer.
     </p>
@@ -669,11 +669,11 @@
       <div class="sql-links">
         <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+name+FROM+KJV_books+ORDER+BY+name">KJV.db &mdash; all 66 book names</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+name+FROM+KJV_books+ORDER+BY+name">KJV.db &mdash; all 66 book names</a>
           <pre><code>SELECT name FROM KJV_books ORDER BY name</code></pre>
         </div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+DISTINCT+kjv_book_name+FROM+dl_reading_verses+ORDER+BY+kjv_book_name">daily_light.db &mdash; distinct referenced book names</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+DISTINCT+kjv_book_name+FROM+dl_reading_verses+ORDER+BY+kjv_book_name">daily_light.db &mdash; distinct referenced book names</a>
           <pre><code>SELECT DISTINCT kjv_book_name FROM dl_reading_verses ORDER BY kjv_book_name</code></pre>
         </div>
         <p>Compare the two lists by eye: the 4 names in the first list but missing from the second are exactly the "no readings at all" books shown above.</p>
@@ -698,7 +698,7 @@
       <div class="sql-links">
         <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+MAX%28v.verse%29+AS+max_verse%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+b.name%2C+v.chapter%0AORDER+BY+b.name%2C+v.chapter">KJV.db &mdash; every real chapter, with its highest verse number</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+MAX%28v.verse%29+AS+max_verse%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+b.name%2C+v.chapter%0AORDER+BY+b.name%2C+v.chapter">KJV.db &mdash; every real chapter, with its highest verse number</a>
           <pre><code>SELECT b.name AS book, v.chapter, MAX(v.verse) AS max_verse
 FROM KJV_verses v
 JOIN KJV_books b ON b.id = v.book_id
@@ -706,7 +706,7 @@ GROUP BY b.name, v.chapter
 ORDER BY b.name, v.chapter</code></pre>
         </div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (book, chapter, verse range)</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (book, chapter, verse range)</a>
           <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
 FROM dl_reading_verses
 ORDER BY kjv_book_name, chapter, verse_start</code></pre>
@@ -733,14 +733,14 @@ ORDER BY kjv_book_name, chapter, verse_start</code></pre>
       <div class="sql-links">
         <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AORDER+BY+b.name%2C+v.chapter%2C+v.verse">KJV.db &mdash; every verse</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AORDER+BY+b.name%2C+v.chapter%2C+v.verse">KJV.db &mdash; every verse</a>
           <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
 FROM KJV_verses v
 JOIN KJV_books b ON b.id = v.book_id
 ORDER BY b.name, v.chapter, v.verse</code></pre>
         </div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
           <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
 FROM dl_reading_verses
 ORDER BY kjv_book_name, chapter, verse_start</code></pre>
@@ -770,14 +770,14 @@ ORDER BY kjv_book_name, chapter, verse_start</code></pre>
       <div class="sql-links">
         <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AORDER+BY+b.name%2C+v.chapter%2C+v.verse">KJV.db &mdash; every verse's text</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AORDER+BY+b.name%2C+v.chapter%2C+v.verse">KJV.db &mdash; every verse's text</a>
           <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
 FROM KJV_verses v
 JOIN KJV_books b ON b.id = v.book_id
 ORDER BY b.name, v.chapter, v.verse</code></pre>
         </div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
           <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
 FROM dl_reading_verses
 ORDER BY kjv_book_name, chapter, verse_start</code></pre>
@@ -805,7 +805,7 @@ ORDER BY kjv_book_name, chapter, verse_start</code></pre>
       <div class="sql-links">
         <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+CASE+WHEN+b.id+%3C%3D+39+THEN+%27Old+Testament%27+ELSE+%27New+Testament%27+END+AS+testament%2C%0A++++COUNT%28%2A%29+AS+total_verses%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+testament">KJV.db &mdash; total verses per testament</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+CASE+WHEN+b.id+%3C%3D+39+THEN+%27Old+Testament%27+ELSE+%27New+Testament%27+END+AS+testament%2C%0A++++COUNT%28%2A%29+AS+total_verses%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+testament">KJV.db &mdash; total verses per testament</a>
           <pre><code>SELECT CASE WHEN b.id <= 39 THEN 'Old Testament' ELSE 'New Testament' END AS testament,
     COUNT(*) AS total_verses
 FROM KJV_verses v
@@ -813,7 +813,7 @@ JOIN KJV_books b ON b.id = v.book_id
 GROUP BY testament</code></pre>
         </div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
           <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
 FROM dl_reading_verses
 ORDER BY kjv_book_name, chapter, verse_start</code></pre>
@@ -843,7 +843,7 @@ ORDER BY kjv_book_name, chapter, verse_start</code></pre>
       <div class="sql-links">
         <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.id%2C+b.name%2C+COUNT%28%2A%29+AS+total_verses%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+b.id%2C+b.name%0AORDER+BY+b.id">KJV.db &mdash; total verses per book</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.id%2C+b.name%2C+COUNT%28%2A%29+AS+total_verses%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+b.id%2C+b.name%0AORDER+BY+b.id">KJV.db &mdash; total verses per book</a>
           <pre><code>SELECT b.id, b.name, COUNT(*) AS total_verses
 FROM KJV_verses v
 JOIN KJV_books b ON b.id = v.book_id
@@ -851,7 +851,7 @@ GROUP BY b.id, b.name
 ORDER BY b.id</code></pre>
         </div>
         <div class="component">
-          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
           <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
 FROM dl_reading_verses
 ORDER BY kjv_book_name, chapter, verse_start</code></pre>
@@ -864,8 +864,8 @@ ORDER BY kjv_book_name, chapter, verse_start</code></pre>
   <footer>
     Generated from <code>data/KJV.db</code> (31,102 verses, 66 books) and
     <code>data/daily_light.db</code> (366 days &middot; 732 readings &middot; 6,018 verse references).<br>
-    Run these queries yourself with Python's <code>sqlite3</code> module &mdash; see
-    <code>CLAUDE.md</code> for the read-only <code>ATTACH DATABASE</code> pattern.<br>
+    Run these queries yourself with Python's <code>sqlite3</code> module, opening both files
+    read-only and using <code>ATTACH DATABASE</code> to join them.<br>
     "Words" are approximated by whitespace-splitting verse text.
   </footer>
 

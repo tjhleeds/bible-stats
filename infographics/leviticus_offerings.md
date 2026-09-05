@@ -24,7 +24,7 @@ for row in con.execute('''
 ```
 
 Run the same query online against `data/KJV.db` in this repo:
-[Open in Datasette Lite](https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV?sql=SELECT+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+%3D+%27Leviticus%27+AND+v.chapter+BETWEEN+1+AND+7%0AORDER+BY+v.chapter%2C+v.verse)
+[Open in Datasette Lite](https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+%3D+%27Leviticus%27+AND+v.chapter+BETWEEN+1+AND+7%0AORDER+BY+v.chapter%2C+v.verse)
 
 | | Burnt Offering<br>*Lev. 1; 6:8–13* | Meat Offering<br>*Lev. 2; 6:14–23* | Peace Offering<br>*Lev. 3; 7:11–34* | Sin Offering<br>*Lev. 4:1–5:13; 6:24–30* | Trespass Offering<br>*Lev. 5:14–6:7; 7:1–10* |
 |---|---|---|---|---|---|
