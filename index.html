@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible Stats — Infographics</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --border:         rgba(11,11,11,0.10);
+    --card-border:    rgba(11,11,11,0.08);
+    --series-1:       #2a78d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page-plane:     #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --border:         rgba(255,255,255,0.10);
+      --card-border:    rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  body {
+    padding: 48px 16px 64px;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  header h1 {
+    font-size: 28px;
+    margin: 0 0 8px;
+  }
+  header p {
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .card {
+    display: block;
+    background: var(--surface-1);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease;
+  }
+  .card:hover {
+    border-color: var(--series-1);
+  }
+  .card h2 {
+    font-size: 18px;
+    margin: 0 0 6px;
+    color: var(--series-1);
+  }
+  .card p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  footer a {
+    color: inherit;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Bible Stats — Infographics</h1>
+    <p>Standalone infographics built from direct queries against the KJV and Daily Light SQLite databases.</p>
+  </header>
+
+  <a class="card" href="infographics/daily_light_coverage.html">
+    <h2>Daily Light Bible Coverage</h2>
+    <p>What percentage of the KJV — by books, chapters, verses, and words — is quoted in <em>Daily Light on the Daily Path</em>.</p>
+  </a>
+
+  <a class="card" href="infographics/leviticus_offerings.html">
+    <h2>The Five Offerings of Leviticus</h2>
+    <p>A side-by-side comparison of the burnt, meat, peace, sin, and trespass offerings in Leviticus 1–7.</p>
+  </a>
+
+  <a class="card" href="infographics/pentateuch_abomination_infographic.html">
+    <h2>"Abomination" in the Pentateuch</h2>
+    <p>Every verse in Genesis–Deuteronomy containing "abomination"/"abominations", grouped by phrasing pattern.</p>
+  </a>
+
+  <footer>
+    <a href="https://github.com/tjhleeds/bible-stats">Source on GitHub</a>
+  </footer>
+</div>
+</body>
+</html>

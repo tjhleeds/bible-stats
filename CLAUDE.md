@@ -13,6 +13,11 @@ maintaining the one Python loader script.
 
 ## Repository layout
 
+- `index.html` — GitHub Pages landing page linking to the infographics
+  below. Served at https://tjhleeds.github.io/bible-stats/ once GitHub
+  Pages is enabled (Settings → Pages → Source: Deploy from a branch →
+  `main` → `/ (root)`). Update this file's cards when infographics are
+  added, renamed, or removed.
 - `data/KJV.db` — KJV Bible SQLite database (31,102 verses, 66 books),
   sourced from [scrollmapper/bible_databases](https://github.com/scrollmapper/bible_databases).
 - `data/daily_light.db` — *Daily Light on the Daily Path* devotional
