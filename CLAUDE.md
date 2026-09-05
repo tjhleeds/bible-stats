@@ -32,6 +32,41 @@ maintaining the one Python loader script.
   infographic covering every verse in Genesis–Deuteronomy containing
   "abomination"/"abominations" (queried from `KJV.db`), grouped by phrasing
   pattern (e.g. "unto the LORD" vs. "unto you" vs. "unto the Egyptians").
+
+### Infographic convention: exact queries + Datasette Lite links
+
+Every infographic must show the exact SQL query used for each dataset it
+displays, alongside a link to run that query online in
+[Datasette Lite](https://lite.datasette.io/) against the relevant `data/*.db`
+file — loaded via its raw GitHub content URL
+(`https://raw.githubusercontent.com/tjhleeds/bible-stats/<commit-sha>/data/<file>.db`),
+pinned to a specific commit so the link keeps working even if later commits
+change the data. A Datasette Lite link has the form:
+
+```
+https://lite.datasette.io/?url=<url-encoded raw db URL>#/<db-name>?sql=<url-encoded SQL>
+```
+
+(`<db-name>` is the filename without its `.db` extension, e.g. `KJV` or
+`daily_light`.) Generate the encoding with Python — `urllib.parse.quote` for
+the `url=` value, `urllib.parse.quote_plus` for the `sql=` value — rather
+than hand-writing percent-encoding.
+
+**Limitation:** Datasette's hosted SQL runner rejects ad-hoc `ATTACH DATABASE`
+statements (cross-database queries there require a local server started with
+`--crossdb`, which the hosted tool doesn't offer). So a query that attaches
+`KJV.db` to `daily_light.db` (as most of `daily_light_coverage.html`'s
+queries do) cannot be turned into a working one-click Datasette Lite link —
+keep the exact `ATTACH`-based query as the documented source of truth, note
+the limitation in place of a link, and optionally link to browse the
+individual tables involved (`#/<db-name>/<table-name>`, no `sql=`) instead.
+Never substitute a simplified single-database query just to get a working
+link — a single-database rewrite of a cross-database query is not guaranteed
+to produce the same figure (verified in practice: a naive
+`COUNT(DISTINCT ...)` over just `daily_light.db` for "chapters covered"
+returns 727, not the published 726, because one `dl_reading_verses` row
+references a verse range that doesn't actually exist in `KJV.db`, and only
+the real join catches that).
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
   `data/daily_light.db`.

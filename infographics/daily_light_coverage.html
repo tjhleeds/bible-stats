@@ -621,6 +621,20 @@
 
   <section>
     <h2><span class="h2-title">The SQL</span>Queries used to compute every figure on this page</h2>
+    <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:-6px 0 20px;">
+      Every query below joins <code>data/KJV.db</code> and <code>data/daily_light.db</code> via
+      <code>ATTACH DATABASE</code>. Datasette's hosted SQL runner (including
+      <a href="https://lite.datasette.io/" style="color:var(--series-1);">Datasette Lite</a>) rejects
+      ad-hoc <code>ATTACH</code> statements for security reasons &mdash; cross-database queries there
+      require a local server started with <code>--crossdb</code>, which the hosted tool doesn't offer.
+      So these exact queries can only be run locally (Python's <code>sqlite3</code> module, per
+      <code>CLAUDE.md</code>). To inspect the underlying tables online instead, open them directly:
+      <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV/KJV_verses" style="color:var(--series-1);">KJV_verses</a>,
+      <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2FKJV.db#/KJV/KJV_books" style="color:var(--series-1);">KJV_books</a>
+      (in <code>data/KJV.db</code>), and
+      <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2F279a0c7d6e2e71bead032b0b26915d5c6208f844%2Fdata%2Fdaily_light.db#/daily_light/dl_reading_verses" style="color:var(--series-1);">dl_reading_verses</a>
+      (in <code>data/daily_light.db</code>).
+    </p>
 
     <div class="sql-block">
       <div class="sql-title">Books covered <span class="result">&rarr; 62 / 66 &middot; 93.9%</span></div>
