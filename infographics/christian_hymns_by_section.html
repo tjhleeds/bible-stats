@@ -144,9 +144,10 @@
     overflow-x: auto;
   }
   table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
-  table col.col-name { width: 56%; }
-  table col.col-num { width: 16%; }
-  table col.col-pct { width: 28%; }
+  table col.col-name { width: 52%; }
+  table col.col-num { width: 14%; }
+  table col.col-bar { width: 20%; }
+  table col.col-pct { width: 14%; }
   thead th {
     position: sticky; top: 0;
     background: var(--surface-1);
@@ -160,34 +161,29 @@
     border-bottom: 1px solid var(--gridline);
     z-index: 1;
   }
-  thead th.num, thead th.pctcell { text-align: right; }
-  tbody td { padding: 7px 14px; border-bottom: 1px solid var(--gridline); color: var(--text-primary); vertical-align: middle; }
+  thead th.num, thead th.pct { text-align: right; }
+  /* Top-align every cell: with wrapped multi-line names, centering a number
+     against the label leaves it floating between lines with no clear row —
+     top-aligning keeps it level with the label's first line instead. */
+  tbody td { padding: 7px 14px; border-bottom: 1px solid var(--gridline); color: var(--text-primary); vertical-align: top; }
   tbody tr:last-child td { border-bottom: none; }
   td.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-secondary); white-space: nowrap; }
-  td.pctcell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; white-space: nowrap; }
-  .barcell { width: 64px; height: 8px; background: var(--gridline); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+  td.bar { text-align: right; }
+  td.pct { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-secondary); font-size: 12px; white-space: nowrap; }
+  .barcell { width: 100%; max-width: 64px; height: 8px; margin-top: 5px; background: var(--gridline); border-radius: 3px; overflow: hidden; display: inline-block; }
   .barcell .bar { height: 100%; border-radius: 3px; }
-  .pcttext { font-variant-numeric: tabular-nums; color: var(--text-secondary); width: 40px; text-align: right; font-size: 12px; flex-shrink: 0; }
 
   tr.section-row td {
     background: var(--page-plane);
     font-weight: 700;
     padding: 9px 14px;
   }
-  tr.section-row .num, tr.section-row .pcttext { font-weight: 700; color: var(--text-primary); }
+  tr.section-row .num, tr.section-row .pct { font-weight: 700; color: var(--text-primary); }
   .rowname { display: flex; align-items: flex-start; gap: 9px; }
   .rowname .dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
   tr.sub-row .rowname { padding-left: 20px; }
   tr.sub-row .rowname .dot { width: 8px; height: 8px; margin-top: 4px; }
   tr.sub-row td { color: var(--text-secondary); }
-  tr.note-row td {
-    background: var(--page-plane);
-    color: var(--text-muted);
-    font-size: 12px;
-    font-style: italic;
-    padding: 5px 14px 5px 40px;
-    border-bottom: 1px solid var(--gridline);
-  }
 
   .callout {
     background: var(--surface-1);
@@ -211,15 +207,14 @@
   }
 
   @media (max-width: 480px) {
-    table col.col-name { width: 62%; }
-    table col.col-num { width: 14%; }
-    table col.col-pct { width: 24%; }
+    table col.col-name { width: 66%; }
+    table col.col-num { width: 16%; }
+    table col.col-pct { width: 18%; }
     table { font-size: 12.5px; }
     tbody td, tr.section-row td { padding: 6px 8px; }
     tr.sub-row .rowname { padding-left: 14px; }
-    .barcell { display: none; }
-    .pcttext { width: auto; }
     thead th { padding: 8px 8px; }
+    col.col-bar, th.bar, td.bar { display: none; }
   }
 </style>
 </head>
@@ -260,13 +255,14 @@
     <div class="table-scroll">
       <table>
         <colgroup>
-          <col class="col-name"><col class="col-num"><col class="col-pct">
+          <col class="col-name"><col class="col-num"><col class="col-bar"><col class="col-pct">
         </colgroup>
         <thead>
           <tr>
             <th>Section / subsection</th>
             <th class="num">Hymns</th>
-            <th class="pctcell">% of book</th>
+            <th class="bar"></th>
+            <th class="pct">% of book</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -504,7 +500,8 @@ DATA.forEach(sec => {
   tr.innerHTML = `
     <td><div class="rowname">${dot}${sec.name}</div></td>
     <td class="num">${sec.total}</td>
-    <td class="pctcell"><div class="barcell"><div class="bar" style="width:${pct}%;--cl:${sec.color.light};--cd:${sec.color.dark}"></div></div><span class="pcttext">${pct.toFixed(1)}%</span></td>
+    <td class="bar"><div class="barcell"><div class="bar" style="width:${pct}%;--cl:${sec.color.light};--cd:${sec.color.dark}"></div></div></td>
+    <td class="pct">${pct.toFixed(1)}%</td>
   `;
   tbody.appendChild(tr);
 
@@ -516,7 +513,8 @@ DATA.forEach(sec => {
     subTr.innerHTML = `
       <td><div class="rowname">${subDot}${item.name}</div></td>
       <td class="num">${item.count}</td>
-      <td class="pctcell"><div class="barcell"><div class="bar" style="width:${subPct}%;--cl:${item.color.light};--cd:${item.color.dark}"></div></div><span class="pcttext">${subPct.toFixed(1)}%</span></td>
+      <td class="bar"><div class="barcell"><div class="bar" style="width:${subPct}%;--cl:${item.color.light};--cd:${item.color.dark}"></div></div></td>
+      <td class="pct">${subPct.toFixed(1)}%</td>
     `;
     tbody.appendChild(subTr);
   });
