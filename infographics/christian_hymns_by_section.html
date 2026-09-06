@@ -184,6 +184,27 @@
   tr.sub-row .rowname { padding-left: 20px; }
   tr.sub-row .rowname .dot { width: 8px; height: 8px; margin-top: 4px; }
   tr.sub-row td { color: var(--text-secondary); }
+  .rowname .parent { display: block; font-weight: 400; font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+  tr.section-row .rowname .parent { font-weight: 600; }
+  /* The standalone subsections table isn't nested under a section header,
+     so the usual sub-row indent has nothing to hang off — each row's own
+     "in <section>" label carries that context instead. */
+  tr.sub-row.flush .rowname { padding-left: 0; }
+
+  h3.subhead { font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 28px 0 10px; }
+  section h3.subhead:first-of-type { margin-top: 4px; }
+
+  .sort-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .sort-bar .sort-label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+  .sort-group { display: inline-flex; border: 1px solid var(--card-border); border-radius: 8px; overflow: hidden; }
+  .sort-btn {
+    appearance: none; border: none; background: var(--surface-1); color: var(--text-secondary);
+    font: inherit; font-size: 12.5px; font-weight: 600; padding: 7px 12px; cursor: pointer;
+    border-right: 1px solid var(--card-border);
+  }
+  .sort-group .sort-btn:last-child { border-right: none; }
+  .sort-btn:hover { color: var(--text-primary); }
+  .sort-btn[aria-pressed="true"] { background: var(--series-1); color: #fff; }
 
   .callout {
     background: var(--surface-1);
@@ -213,6 +234,7 @@
     table { font-size: 12.5px; }
     tbody td, tr.section-row td { padding: 6px 8px; }
     tr.sub-row .rowname { padding-left: 14px; }
+    tr.sub-row.flush .rowname { padding-left: 0; }
     thead th { padding: 8px 8px; }
     col.col-bar, th.bar, td.bar { display: none; }
   }
@@ -251,7 +273,43 @@
   </section>
 
   <section>
-    <h2><span class="h2-title">Full breakdown</span>Every section and subsection, in book order</h2>
+    <h2><span class="h2-title">Full breakdown</span>Sections and subsections, sortable independently</h2>
+
+    <h3 class="subhead">Sections <span class="sort-label">(11)</span></h3>
+    <div class="sort-bar">
+      <span class="sort-label">Sort:</span>
+      <div class="sort-group" role="group" aria-label="Sort sections" data-table="sections">
+        <button type="button" class="sort-btn" data-sort="book" aria-pressed="true">Book order</button>
+        <button type="button" class="sort-btn" data-sort="asc" aria-pressed="false">Fewest first</button>
+        <button type="button" class="sort-btn" data-sort="desc" aria-pressed="false">Most first</button>
+      </div>
+    </div>
+    <div class="table-scroll" style="max-height: 420px;">
+      <table>
+        <colgroup>
+          <col class="col-name"><col class="col-num"><col class="col-bar"><col class="col-pct">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th class="num">Hymns</th>
+            <th class="bar"></th>
+            <th class="pct">% of book</th>
+          </tr>
+        </thead>
+        <tbody id="sections-body"></tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead">Subsections <span class="sort-label">(45)</span></h3>
+    <div class="sort-bar">
+      <span class="sort-label">Sort:</span>
+      <div class="sort-group" role="group" aria-label="Sort subsections" data-table="subsections">
+        <button type="button" class="sort-btn" data-sort="book" aria-pressed="true">Book order</button>
+        <button type="button" class="sort-btn" data-sort="asc" aria-pressed="false">Fewest first</button>
+        <button type="button" class="sort-btn" data-sort="desc" aria-pressed="false">Most first</button>
+      </div>
+    </div>
     <div class="table-scroll">
       <table>
         <colgroup>
@@ -259,13 +317,13 @@
         </colgroup>
         <thead>
           <tr>
-            <th>Section / subsection</th>
+            <th>Subsection</th>
             <th class="num">Hymns</th>
             <th class="bar"></th>
             <th class="pct">% of book</th>
           </tr>
         </thead>
-        <tbody id="table-body"></tbody>
+        <tbody id="subsections-body"></tbody>
       </table>
     </div>
   </section>
@@ -490,33 +548,63 @@ tiles.forEach(t => {
   tilesEl.appendChild(div);
 });
 
-// ---- Table ----
-const tbody = document.getElementById('table-body');
-DATA.forEach(sec => {
+// ---- Tables ----
+// Sections and subsections are two independent tables, each sortable on
+// its own: "Book order" (as printed in the contents pages), "Fewest
+// first", or "Most first". Sorting one never reorders the other.
+function buildRow({ color, name, count, isSection, parentLabel, flush }) {
   const tr = document.createElement('tr');
-  tr.className = 'section-row';
-  const dot = `<span class="dot" style="--cl:${sec.color.light};--cd:${sec.color.dark}"></span>`;
-  const pct = (sec.total / GRAND_TOTAL * 100);
+  tr.className = (isSection ? 'section-row' : 'sub-row') + (flush ? ' flush' : '');
+  const pct = (count / GRAND_TOTAL * 100);
+  const dot = `<span class="dot" style="--cl:${color.light};--cd:${color.dark}"></span>`;
+  const parentHTML = parentLabel ? `<span class="parent">${parentLabel}</span>` : '';
   tr.innerHTML = `
-    <td><div class="rowname">${dot}${sec.name}</div></td>
-    <td class="num">${sec.total}</td>
-    <td class="bar"><div class="barcell"><div class="bar" style="width:${pct}%;--cl:${sec.color.light};--cd:${sec.color.dark}"></div></div></td>
+    <td><div class="rowname">${dot}<span>${name}${parentHTML}</span></div></td>
+    <td class="num">${count}</td>
+    <td class="bar"><div class="barcell"><div class="bar" style="width:${pct}%;--cl:${color.light};--cd:${color.dark}"></div></div></td>
     <td class="pct">${pct.toFixed(1)}%</td>
   `;
-  tbody.appendChild(tr);
+  return tr;
+}
 
-  sec.items.forEach(item => {
-    const subTr = document.createElement('tr');
-    subTr.className = 'sub-row';
-    const subDot = `<span class="dot" style="--cl:${item.color.light};--cd:${item.color.dark}"></span>`;
-    const subPct = (item.count / GRAND_TOTAL * 100);
-    subTr.innerHTML = `
-      <td><div class="rowname">${subDot}${item.name}</div></td>
-      <td class="num">${item.count}</td>
-      <td class="bar"><div class="barcell"><div class="bar" style="width:${subPct}%;--cl:${item.color.light};--cd:${item.color.dark}"></div></div></td>
-      <td class="pct">${subPct.toFixed(1)}%</td>
-    `;
-    tbody.appendChild(subTr);
+function sortedBy(list, mode) {
+  if (mode === 'book') return list;
+  const copy = [...list];
+  copy.sort((a, b) => mode === 'asc' ? a.count - b.count : b.count - a.count);
+  return copy;
+}
+
+const sectionsBody = document.getElementById('sections-body');
+function renderSections(mode) {
+  const rows = sortedBy(DATA.map(sec => ({ color: sec.color, name: sec.name, count: sec.total })), mode);
+  sectionsBody.innerHTML = '';
+  rows.forEach(r => sectionsBody.appendChild(buildRow({ ...r, isSection: true })));
+}
+
+const subsectionsBody = document.getElementById('subsections-body');
+function renderSubsections(mode) {
+  const flat = [];
+  DATA.forEach(sec => {
+    sec.items.forEach(item => {
+      flat.push({ color: item.color, name: item.name, count: item.count, parentLabel: `in ${sec.name}` });
+    });
+  });
+  const rows = sortedBy(flat, mode);
+  subsectionsBody.innerHTML = '';
+  rows.forEach(r => subsectionsBody.appendChild(buildRow({ ...r, isSection: false, flush: true })));
+}
+
+renderSections('book');
+renderSubsections('book');
+
+document.querySelectorAll('.sort-group').forEach(group => {
+  const which = group.dataset.table === 'sections' ? renderSections : renderSubsections;
+  group.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('.sort-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      which(btn.dataset.sort);
+    });
   });
 });
 
