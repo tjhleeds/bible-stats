@@ -37,6 +37,15 @@ maintaining the one Python loader script.
   infographic covering every verse in Genesis–Deuteronomy containing
   "abomination"/"abominations" (queried from `KJV.db`), grouped by phrasing
   pattern (e.g. "unto the LORD" vs. "unto you" vs. "unto the Egyptians").
+- `infographics/christian_hymns_by_section.html` — standalone HTML
+  infographic breaking down the 942 hymns in the *Christian Hymns* hymnbook
+  by its 11 top-level sections and 45 subsections (donut chart, legend, full
+  table). Unlike the other infographics, the underlying counts are
+  transcribed by hand from the hymnbook's printed contents pages (page
+  ranges per heading), not queried from `data/*.db` — the data lives inline
+  in the file's own `<script>` block, not in either SQLite database, so the
+  "exact queries + Datasette Lite links" convention below doesn't apply to
+  it (there is no SQL behind these figures).
 
 ### Infographic convention: exact queries + Datasette Lite links
 
