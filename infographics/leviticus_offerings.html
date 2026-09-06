@@ -213,6 +213,44 @@
 
   ::selection{ background: var(--accent-wash); color: var(--ink); }
 
+  .sql-section{
+    margin-top: 28px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 20px 22px 22px;
+  }
+  .sql-section h2{
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 12px;
+  }
+  .sql-section pre{
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 0 0 12px;
+  }
+  .sql-section code{
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    white-space: pre;
+  }
+  .sql-section a{ color: var(--accent-ink); }
+  :root[data-theme="dark"] .sql-section a{ color: var(--accent); }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .sql-section a{ color: var(--accent); }
+  }
+
   @media (max-width: 640px){
     .wrap{ padding: 36px 16px 56px; }
     .table-scroll{ max-height: 82vh; }
@@ -342,6 +380,16 @@
       </div>
     </div>
   </div>
+
+  <section class="sql-section">
+    <h2>The query</h2>
+    <pre><code>SELECT v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE b.name = 'Leviticus' AND v.chapter BETWEEN 1 AND 7
+ORDER BY v.chapter, v.verse</code></pre>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+%3D+%27Leviticus%27+AND+v.chapter+BETWEEN+1+AND+7%0AORDER+BY+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository.</p>
+  </section>
 
   <footer>
     <span>All quotations, King James Version — Leviticus 1–7</span>
