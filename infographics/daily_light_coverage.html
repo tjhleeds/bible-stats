@@ -411,6 +411,29 @@
     white-space: pre;
   }
   .kw { color: var(--series-1); font-weight: 600; }
+
+  .sql-links {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--gridline);
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .sql-links .sql-links-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .sql-links a { color: var(--series-1); }
+  .sql-links .component { margin-bottom: 10px; }
+  .sql-links .component:last-child { margin-bottom: 10px; }
+  .sql-links pre {
+    margin-top: 4px;
+    padding: 10px 12px;
+  }
+  .sql-links code { font-size: 11.5px; }
+  .sql-links p { margin: 0; }
   .cm { color: var(--text-muted); font-style: italic; }
 
   footer {
@@ -621,6 +644,17 @@
 
   <section>
     <h2><span class="h2-title">The SQL</span>Queries used to compute every figure on this page</h2>
+    <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:-6px 0 20px;">
+      Every query below joins <code>data/KJV.db</code> and <code>data/daily_light.db</code> via
+      <code>ATTACH DATABASE</code>. Datasette's hosted SQL runner (including
+      <a href="https://lite.datasette.io/" style="color:var(--series-1);">Datasette Lite</a>) rejects
+      ad-hoc <code>ATTACH</code> statements for security reasons &mdash; cross-database queries there
+      require a local server started with <code>--crossdb</code>, which the hosted tool doesn't offer.
+      Run the query as shown, locally, to reproduce a figure exactly (Python's <code>sqlite3</code>
+      module). Each block below also splits the same computation into two
+      single-database queries &mdash; one against each file, runnable online in Datasette Lite &mdash;
+      with a note on how to reconcile them by hand into the same answer.
+    </p>
 
     <div class="sql-block">
       <div class="sql-title">Books covered <span class="result">&rarr; 62 / 66 &middot; 93.9%</span></div>
@@ -632,6 +666,18 @@
      <span class="kw">FROM</span> kjv.KJV_books b
      <span class="kw">JOIN</span> dl_reading_verses rv <span class="kw">ON</span> rv.kjv_book_name = b.name) <span class="kw">AS</span> books_covered,
     (<span class="kw">SELECT COUNT</span>(*) <span class="kw">FROM</span> kjv.KJV_books) <span class="kw">AS</span> total_books;</code></pre>
+      <div class="sql-links">
+        <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+name+FROM+KJV_books+ORDER+BY+name">KJV.db &mdash; all 66 book names</a>
+          <pre><code>SELECT name FROM KJV_books ORDER BY name</code></pre>
+        </div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+DISTINCT+kjv_book_name+FROM+dl_reading_verses+ORDER+BY+kjv_book_name">daily_light.db &mdash; distinct referenced book names</a>
+          <pre><code>SELECT DISTINCT kjv_book_name FROM dl_reading_verses ORDER BY kjv_book_name</code></pre>
+        </div>
+        <p>Compare the two lists by eye: the 4 names in the first list but missing from the second are exactly the "no readings at all" books shown above.</p>
+      </div>
     </div>
 
     <div class="sql-block">
@@ -649,6 +695,24 @@
        <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start)
 );
 <span class="cm">-- total chapters: SELECT COUNT(*) FROM (SELECT DISTINCT book_id, chapter FROM kjv.KJV_verses) -&gt; 1189</span></code></pre>
+      <div class="sql-links">
+        <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+MAX%28v.verse%29+AS+max_verse%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+b.name%2C+v.chapter%0AORDER+BY+b.name%2C+v.chapter">KJV.db &mdash; every real chapter, with its highest verse number</a>
+          <pre><code>SELECT b.name AS book, v.chapter, MAX(v.verse) AS max_verse
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+GROUP BY b.name, v.chapter
+ORDER BY b.name, v.chapter</code></pre>
+        </div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (book, chapter, verse range)</a>
+          <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
+FROM dl_reading_verses
+ORDER BY kjv_book_name, chapter, verse_start</code></pre>
+        </div>
+        <p>A (book, chapter) pair only counts as covered if some reference's <code>verse_start</code> is &le; that chapter's <code>max_verse</code> above &mdash; matching by chapter number alone overcounts by one: <code>Judges 17:18</code> is referenced, but Judges 17 only has 13 verses, so that reference doesn't land on a real verse (727 naive matches vs. the correct 726).</p>
+      </div>
     </div>
 
     <div class="sql-block">
@@ -666,6 +730,23 @@
     <span class="kw">ON</span> rv.kjv_book_name = b.name
    <span class="kw">AND</span> rv.chapter = v.chapter
    <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start);</code></pre>
+      <div class="sql-links">
+        <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AORDER+BY+b.name%2C+v.chapter%2C+v.verse">KJV.db &mdash; every verse</a>
+          <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+ORDER BY b.name, v.chapter, v.verse</code></pre>
+        </div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
+          <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
+FROM dl_reading_verses
+ORDER BY kjv_book_name, chapter, verse_start</code></pre>
+        </div>
+        <p>Expand each reference's range against the verse list above (dropping any, like <code>Judges 17:18</code>, that don't land on a real verse), then de-duplicate &mdash; overlapping references shouldn't double-count a verse. That reconciliation is exactly what the full query does in one step.</p>
+      </div>
     </div>
 
     <div class="sql-block">
@@ -686,6 +767,23 @@
     (<span class="kw">SELECT SUM</span>(<span class="kw">LENGTH</span>(text) - <span class="kw">LENGTH</span>(<span class="kw">REPLACE</span>(text, ' ', '')) + 1)
      <span class="kw">FROM</span> kjv.KJV_verses)               <span class="kw">AS</span> total_words
 <span class="kw">FROM</span> covered;</code></pre>
+      <div class="sql-links">
+        <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AORDER+BY+b.name%2C+v.chapter%2C+v.verse">KJV.db &mdash; every verse's text</a>
+          <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+ORDER BY b.name, v.chapter, v.verse</code></pre>
+        </div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
+          <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
+FROM dl_reading_verses
+ORDER BY kjv_book_name, chapter, verse_start</code></pre>
+        </div>
+        <p>Same reconciliation as "Verses covered" above, then sum whitespace-based word counts (<code>LENGTH(text) - LENGTH(REPLACE(text, ' ', '')) + 1</code>) over the resulting de-duplicated verse set.</p>
+      </div>
     </div>
 
     <div class="sql-block">
@@ -704,6 +802,24 @@
    <span class="kw">AND</span> rv.chapter = v.chapter
    <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start)
 <span class="kw">GROUP BY</span> testament;</code></pre>
+      <div class="sql-links">
+        <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+CASE+WHEN+b.id+%3C%3D+39+THEN+%27Old+Testament%27+ELSE+%27New+Testament%27+END+AS+testament%2C%0A++++COUNT%28%2A%29+AS+total_verses%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+testament">KJV.db &mdash; total verses per testament</a>
+          <pre><code>SELECT CASE WHEN b.id <= 39 THEN 'Old Testament' ELSE 'New Testament' END AS testament,
+    COUNT(*) AS total_verses
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+GROUP BY testament</code></pre>
+        </div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
+          <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
+FROM dl_reading_verses
+ORDER BY kjv_book_name, chapter, verse_start</code></pre>
+        </div>
+        <p>Classify each reference's book as OT/NT using the "Books covered" query's book list above (Genesis&ndash;Malachi = OT, Matthew&ndash;Revelation of John = NT), reconcile against real verses as in "Verses covered," then count distinct covered verses per testament.</p>
+      </div>
     </div>
 
     <div class="sql-block">
@@ -724,14 +840,32 @@
    <span class="kw">AND</span> v.verse <span class="kw">BETWEEN</span> rv.verse_start <span class="kw">AND</span> <span class="kw">COALESCE</span>(rv.verse_end, rv.verse_start)
 <span class="kw">GROUP BY</span> b.id, b.name
 <span class="kw">ORDER BY</span> b.id;</code></pre>
+      <div class="sql-links">
+        <div class="sql-links-title">Manually cross-check online (two single-database queries)</div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.id%2C+b.name%2C+COUNT%28%2A%29+AS+total_verses%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AGROUP+BY+b.id%2C+b.name%0AORDER+BY+b.id">KJV.db &mdash; total verses per book</a>
+          <pre><code>SELECT b.id, b.name, COUNT(*) AS total_verses
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+GROUP BY b.id, b.name
+ORDER BY b.id</code></pre>
+        </div>
+        <div class="component">
+          <a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2Fdaily_light.db#/daily_light?sql=SELECT+kjv_book_name%2C+chapter%2C+verse_start%2C+verse_end%0AFROM+dl_reading_verses%0AORDER+BY+kjv_book_name%2C+chapter%2C+verse_start">daily_light.db &mdash; every reference (as verse ranges)</a>
+          <pre><code>SELECT kjv_book_name, chapter, verse_start, verse_end
+FROM dl_reading_verses
+ORDER BY kjv_book_name, chapter, verse_start</code></pre>
+        </div>
+        <p>Reconcile each book's references against real verses as in "Verses covered" above, count distinct covered verses per book, then divide by the totals here.</p>
+      </div>
     </div>
   </section>
 
   <footer>
     Generated from <code>data/KJV.db</code> (31,102 verses, 66 books) and
     <code>data/daily_light.db</code> (366 days &middot; 732 readings &middot; 6,018 verse references).<br>
-    Run these queries yourself with Python's <code>sqlite3</code> module &mdash; see
-    <code>CLAUDE.md</code> for the read-only <code>ATTACH DATABASE</code> pattern.<br>
+    Run these queries yourself with Python's <code>sqlite3</code> module, opening both files
+    read-only and using <code>ATTACH DATABASE</code> to join them.<br>
     "Words" are approximated by whitespace-splitting verse text.
   </footer>
 
