@@ -143,7 +143,10 @@
     overflow-y: auto;
     overflow-x: auto;
   }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  table col.col-name { width: 56%; }
+  table col.col-num { width: 16%; }
+  table col.col-pct { width: 28%; }
   thead th {
     position: sticky; top: 0;
     background: var(--surface-1);
@@ -158,13 +161,13 @@
     z-index: 1;
   }
   thead th.num, thead th.pctcell { text-align: right; }
-  tbody td { padding: 7px 14px; border-bottom: 1px solid var(--gridline); color: var(--text-primary); }
+  tbody td { padding: 7px 14px; border-bottom: 1px solid var(--gridline); color: var(--text-primary); vertical-align: middle; }
   tbody tr:last-child td { border-bottom: none; }
   td.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-secondary); white-space: nowrap; }
   td.pctcell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; white-space: nowrap; }
-  .barcell { width: 64px; height: 8px; background: var(--gridline); border-radius: 3px; overflow: hidden; }
+  .barcell { width: 64px; height: 8px; background: var(--gridline); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
   .barcell .bar { height: 100%; border-radius: 3px; }
-  .pcttext { font-variant-numeric: tabular-nums; color: var(--text-secondary); width: 40px; text-align: right; font-size: 12px; }
+  .pcttext { font-variant-numeric: tabular-nums; color: var(--text-secondary); width: 40px; text-align: right; font-size: 12px; flex-shrink: 0; }
 
   tr.section-row td {
     background: var(--page-plane);
@@ -172,10 +175,10 @@
     padding: 9px 14px;
   }
   tr.section-row .num, tr.section-row .pcttext { font-weight: 700; color: var(--text-primary); }
-  .rowname { display: flex; align-items: center; gap: 9px; }
-  .rowname .dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-  tr.sub-row .rowname { padding-left: 22px; }
-  tr.sub-row .rowname .dot { width: 8px; height: 8px; }
+  .rowname { display: flex; align-items: flex-start; gap: 9px; }
+  .rowname .dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
+  tr.sub-row .rowname { padding-left: 20px; }
+  tr.sub-row .rowname .dot { width: 8px; height: 8px; margin-top: 4px; }
   tr.sub-row td { color: var(--text-secondary); }
   tr.note-row td {
     background: var(--page-plane);
@@ -205,6 +208,18 @@
   @media (max-width: 640px) {
     .tiles { grid-template-columns: repeat(2, 1fr); }
     .chart-card { flex-direction: column; }
+  }
+
+  @media (max-width: 480px) {
+    table col.col-name { width: 62%; }
+    table col.col-num { width: 14%; }
+    table col.col-pct { width: 24%; }
+    table { font-size: 12.5px; }
+    tbody td, tr.section-row td { padding: 6px 8px; }
+    tr.sub-row .rowname { padding-left: 14px; }
+    .barcell { display: none; }
+    .pcttext { width: auto; }
+    thead th { padding: 8px 8px; }
   }
 </style>
 </head>
@@ -244,6 +259,9 @@
     <h2><span class="h2-title">Full breakdown</span>Every section and subsection, in book order</h2>
     <div class="table-scroll">
       <table>
+        <colgroup>
+          <col class="col-name"><col class="col-num"><col class="col-pct">
+        </colgroup>
         <thead>
           <tr>
             <th>Section / subsection</th>
@@ -305,7 +323,7 @@ const DATA = [
     ["Conflict and triumph", 388, 393],
     ["Revival and restoration", 394, 404],
     ["The life of prayer", 405, 422],
-    ["The Ordinances (Baptism, Lord's Supper)", 423, 454],
+    ["The Ordinances", 423, 454],
     ["The ministry", 455, 459],
     ["The kingdom of Christ on earth", 460, 486],
   ]},
