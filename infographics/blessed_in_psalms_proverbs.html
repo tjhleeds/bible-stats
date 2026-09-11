@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Blessed" in Psalms and Proverbs (KJV)</title>
+<style>
+  :root {
+    --bg: #f7f3ea;
+    --panel: #ffffff;
+    --ink: #2b241a;
+    --ink-soft: #6b5f4d;
+    --line: #e4dbc8;
+    --accent-a: #2f6d8c; /* trust */
+    --accent-a-bg: #e8f1f5;
+    --accent-b: #6a4694; /* forgiveness */
+    --accent-b-bg: #f1ecf7;
+    --accent-c: #4a6d5c; /* fear of the LORD */
+    --accent-c-bg: #ecf3ee;
+    --accent-d: #7a5a2a; /* wisdom, word */
+    --accent-d-bg: #f6efe2;
+    --accent-e: #a4443a; /* the poor */
+    --accent-e-bg: #fbebe8;
+    --accent-f: #4a5a8a; /* chosen */
+    --accent-f-bg: #ecf0fa;
+    --accent-g: #8a6a1f; /* seed, household */
+    --accent-g-bg: #f8f1dd;
+    --accent-h: #b5762a; /* doxology */
+    --accent-h-bg: #fdf1e2;
+    --accent-i: #5f5b53; /* blessing fails */
+    --accent-i-bg: #eeece7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1b1712;
+      --panel: #24201a;
+      --ink: #ece4d4;
+      --ink-soft: #b9ac93;
+      --line: #3a3225;
+      --accent-a-bg: #162a33;
+      --accent-b-bg: #26203a;
+      --accent-c-bg: #1f2f27;
+      --accent-d-bg: #332813;
+      --accent-e-bg: #3a201d;
+      --accent-f-bg: #1f2536;
+      --accent-g-bg: #352b12;
+      --accent-h-bg: #3a2c15;
+      --accent-i-bg: #272521;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1b1712;
+    --panel: #24201a;
+    --ink: #ece4d4;
+    --ink-soft: #b9ac93;
+    --line: #3a3225;
+    --accent-a-bg: #162a33;
+    --accent-b-bg: #26203a;
+    --accent-c-bg: #1f2f27;
+    --accent-d-bg: #332813;
+    --accent-e-bg: #3a201d;
+    --accent-f-bg: #1f2536;
+    --accent-g-bg: #352b12;
+    --accent-h-bg: #3a2c15;
+    --accent-i-bg: #272521;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  header .kicker {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: clamp(28px, 4.5vw, 44px);
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+  header p.sub {
+    max-width: 680px;
+    margin: 0 auto;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 36px 0 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .stat {
+    text-align: center;
+    min-width: 96px;
+  }
+  .stat .n {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .stat .l {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .note {
+    max-width: 760px;
+    margin: 28px auto 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  /* three grammatical modes */
+  .modes {
+    max-width: 760px;
+    margin: 44px auto 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .bar {
+    display: flex;
+    width: 100%;
+    height: 18px;
+    border-radius: 9px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .bar span { display: block; height: 100%; }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 24px;
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .legend .k { display: flex; align-items: baseline; gap: 7px; }
+  .legend .sw {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    flex: none;
+    transform: translateY(1px);
+  }
+  .legend b { color: var(--ink); font-weight: 700; }
+
+  /* per-book chart */
+  .books {
+    max-width: 360px;
+    margin: 44px auto 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 28px;
+    height: 150px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .book {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+  }
+  .book .val { font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+  .book .col {
+    width: 100%;
+    max-width: 62px;
+    border-radius: 6px 6px 3px 3px;
+    background: var(--accent-h);
+  }
+  .book .name { margin-top: 8px; font-size: 11.5px; color: var(--ink-soft); text-align: center; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-top: 48px;
+  }
+  @media (min-width: 760px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 26px 22px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .card .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .card h2 { font-size: 19px; margin: 0; font-weight: 700; }
+  .card .count {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .card .phrase {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 4px 0 16px;
+  }
+  .card ul.verses {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card ul.verses li { border-radius: 10px; padding: 10px 12px; }
+  .ref {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    display: inline-block;
+    margin-bottom: 3px;
+  }
+  .txt { font-size: 14.5px; color: var(--ink); }
+  .txt b { font-weight: 700; }
+  .txt .thing {
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    display: block;
+    margin-top: 3px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .card.a { border-top: 4px solid var(--accent-a); }
+  .card.a .count { background: var(--accent-a-bg); color: var(--accent-a); }
+  .card.a ul.verses li { background: var(--accent-a-bg); }
+  .card.a .ref { color: var(--accent-a); }
+
+  .card.b { border-top: 4px solid var(--accent-b); }
+  .card.b .count { background: var(--accent-b-bg); color: var(--accent-b); }
+  .card.b ul.verses li { background: var(--accent-b-bg); }
+  .card.b .ref { color: var(--accent-b); }
+
+  .card.c { border-top: 4px solid var(--accent-c); }
+  .card.c .count { background: var(--accent-c-bg); color: var(--accent-c); }
+  .card.c ul.verses li { background: var(--accent-c-bg); }
+  .card.c .ref { color: var(--accent-c); }
+
+  .card.d { border-top: 4px solid var(--accent-d); }
+  .card.d .count { background: var(--accent-d-bg); color: var(--accent-d); }
+  .card.d ul.verses li { background: var(--accent-d-bg); }
+  .card.d .ref { color: var(--accent-d); }
+
+  .card.e { border-top: 4px solid var(--accent-e); }
+  .card.e .count { background: var(--accent-e-bg); color: var(--accent-e); }
+  .card.e ul.verses li { background: var(--accent-e-bg); }
+  .card.e .ref { color: var(--accent-e); }
+
+  .card.f { border-top: 4px solid var(--accent-f); }
+  .card.f .count { background: var(--accent-f-bg); color: var(--accent-f); }
+  .card.f ul.verses li { background: var(--accent-f-bg); }
+  .card.f .ref { color: var(--accent-f); }
+
+  .card.g { border-top: 4px solid var(--accent-g); }
+  .card.g .count { background: var(--accent-g-bg); color: var(--accent-g); }
+  .card.g ul.verses li { background: var(--accent-g-bg); }
+  .card.g .ref { color: var(--accent-g); }
+
+  .card.h { border-top: 4px solid var(--accent-h); }
+  .card.h .count { background: var(--accent-h-bg); color: var(--accent-h); }
+  .card.h ul.verses li { background: var(--accent-h-bg); }
+  .card.h .ref { color: var(--accent-h); }
+
+  .card.i { border-top: 4px solid var(--accent-i); }
+  .card.i .count { background: var(--accent-i-bg); color: var(--accent-i); }
+  .card.i ul.verses li { background: var(--accent-i-bg); }
+  .card.i .ref { color: var(--accent-i); }
+
+  footer {
+    margin-top: 48px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  footer code {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .sql-section {
+    margin-top: 36px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+  }
+  .sql-section h2 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+  }
+  .sql-section h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 22px 0 8px;
+  }
+  .sql-section pre {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 0 0 12px;
+  }
+  .sql-section code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    white-space: pre;
+  }
+  .sql-section p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .sql-section a { color: var(--accent-a); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Psalms &amp; Proverbs &middot; King James Version</div>
+    <h1>Blessed Is the Man</h1>
+    <p class="sub">All 55 verses in Psalms and Proverbs containing "blessed," grouped by theme &mdash; who is called blessed, what they are blessed for, and how often the word turns back on God instead.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n">55</div><div class="l">Verses</div></div>
+    <div class="stat"><div class="n">21</div><div class="l">"Blessed is/are&hellip;"</div></div>
+    <div class="stat"><div class="n">17</div><div class="l">"Blessed be&hellip;"</div></div>
+    <div class="stat"><div class="n">9</div><div class="l">Themes</div></div>
+  </div>
+
+  <div class="modes">
+    <div class="bar" aria-hidden="true">
+      <span style="width:38.2%; background:var(--accent-c);" title="Beatitude"></span>
+      <span style="width:30.9%; background:var(--accent-h);" title="Doxology"></span>
+      <span style="width:30.9%; background:var(--accent-g);" title="Description"></span>
+    </div>
+    <div class="legend">
+      <span class="k"><span class="sw" style="background:var(--accent-c);"></span><span><b>21 beatitude</b> &mdash; "Blessed is the man that&hellip;"</span></span>
+      <span class="k"><span class="sw" style="background:var(--accent-h);"></span><span><b>17 doxology</b> &mdash; "Blessed be the Lord&hellip;"</span></span>
+      <span class="k"><span class="sw" style="background:var(--accent-g);"></span><span><b>17 description</b> &mdash; blessing observed, not declared</span></span>
+    </div>
+  </div>
+
+  <div class="books" aria-hidden="true">
+    <div class="book"><div class="val">47</div><div class="col" style="height:150px; background:var(--accent-c);"></div><div class="name">Psalms<br>19.1 per 1,000 verses</div></div>
+    <div class="book"><div class="val">8</div><div class="col" style="height:26px; background:var(--accent-g);"></div><div class="name">Proverbs<br>8.7 per 1,000 verses</div></div>
+  </div>
+
+  <div class="note">
+    The two books use the word quite differently. Proverbs never says "Blessed be the Lord" &mdash; not once in its 8 verses; blessing there is almost always something seen in a life, in children, a wife, a reputation, a memory. Psalms splits nearly evenly between pronouncing someone blessed (21 verses) and blessing God in return (17). Between them the two books hold 55 of the 290 "blessed" verses in the whole KJV.
+  </div>
+
+  <div class="grid">
+
+    <div class="card a">
+      <div class="top">
+        <h2>1&nbsp;&middot; Trust and refuge in the LORD</h2>
+        <span class="count">5 verses</span>
+      </div>
+      <p class="phrase">"Blessed is the man that trusteth in him" — blessing attached not to circumstance but to reliance</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 2:12</span>
+          <div class="txt">Kiss the Son, lest he be angry, and ye perish from the way, when his wrath is kindled but a little. <b>Blessed</b> are all they that put their trust in him.<span class="thing">All who take refuge in the Son</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 34:8</span>
+          <div class="txt">O taste and see that the Lord is good: <b>blessed</b> is the man that trusteth in him.<span class="thing">The one who tastes and trusts</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 40:4</span>
+          <div class="txt"><b>Blessed</b> is that man that maketh the Lord his trust, and respecteth not the proud, nor such as turn aside to lies.<span class="thing">Trust in the LORD over pride and lies</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 84:5</span>
+          <div class="txt"><b>Blessed</b> is the man whose strength is in thee; in whose heart are the ways of them.<span class="thing">Strength found in God, not self</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 84:12</span>
+          <div class="txt">O Lord of hosts, <b>blessed</b> is the man that trusteth in thee.<span class="thing">Simple trust, stated as a closing refrain</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card b">
+      <div class="top">
+        <h2>2&nbsp;&middot; Sin forgiven, iniquity not imputed</h2>
+        <span class="count">2 verses</span>
+      </div>
+      <p class="phrase">"Blessed is he whose transgression is forgiven" — the only pair in Psalms where blessing is defined by what is removed</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 32:1</span>
+          <div class="txt"><b>Blessed</b> is he whose transgression is forgiven, whose sin is covered.<span class="thing">Transgression forgiven, sin covered</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 32:2</span>
+          <div class="txt"><b>Blessed</b> is the man unto whom the Lord imputeth not iniquity, and in whose spirit there is no guile.<span class="thing">Iniquity not reckoned; no guile within</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card c">
+      <div class="top">
+        <h2>3&nbsp;&middot; The fear of the LORD and a blameless walk</h2>
+        <span class="count">6 verses</span>
+      </div>
+      <p class="phrase">"Blessed is every one that feareth the LORD; that walketh in his ways" — conduct as the test</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 1:1</span>
+          <div class="txt"><b>Blessed</b> is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful.<span class="thing">Refusing the counsel, way and seat of the wicked</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 106:3</span>
+          <div class="txt"><b>Blessed</b> are they that keep judgment, and he that doeth righteousness at all times.<span class="thing">Keeping judgment, doing righteousness at all times</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 112:1</span>
+          <div class="txt">Praise ye the Lord. <b>Blessed</b> is the man that feareth the Lord, that delighteth greatly in his commandments.<span class="thing">Fearing the LORD, delighting in his commandments</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 119:1</span>
+          <div class="txt"><b>Blessed</b> are the undefiled in the way, who walk in the law of the Lord.<span class="thing">Undefiled in the way</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 128:1</span>
+          <div class="txt"><b>Blessed</b> is every one that feareth the Lord; that walketh in his ways.<span class="thing">Fearing the LORD and walking in his ways</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 128:4</span>
+          <div class="txt">Behold, that thus shall the man be <b>blessed</b> that feareth the Lord.<span class="thing">The same man, restated as a result</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card d">
+      <div class="top">
+        <h2>4&nbsp;&middot; Hearing wisdom, keeping the word, taking correction</h2>
+        <span class="count">4 verses</span>
+      </div>
+      <p class="phrase">"Blessed is the man that heareth me, watching daily at my gates" — attentiveness, including to chastening</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 94:12</span>
+          <div class="txt"><b>Blessed</b> is the man whom thou chastenest, O Lord, and teachest him out of thy law;<span class="thing">The man God chastens and teaches</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 119:2</span>
+          <div class="txt"><b>Blessed</b> are they that keep his testimonies, and that seek him with the whole heart.<span class="thing">Keeping his testimonies, seeking with the whole heart</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 8:32</span>
+          <div class="txt">Now therefore hearken unto me, O ye children: for <b>blessed</b> are they that keep my ways.<span class="thing">Keeping the ways of Wisdom</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 8:34</span>
+          <div class="txt"><b>Blessed</b> is the man that heareth me, watching daily at my gates, waiting at the posts of my doors.<span class="thing">Daily, watchful hearing</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card e">
+      <div class="top">
+        <h2>5&nbsp;&middot; Mercy to the poor</h2>
+        <span class="count">3 verses</span>
+      </div>
+      <p class="phrase">"Blessed is he that considereth the poor" — the one theme both books state in the same terms</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 41:1</span>
+          <div class="txt"><b>Blessed</b> is he that considereth the poor: the Lord will deliver him in time of trouble.<span class="thing">Considering the poor</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 41:2</span>
+          <div class="txt">The Lord will preserve him, and keep him alive; and he shall be <b>blessed</b> upon the earth: and thou wilt not deliver him unto the will of his enemies.<span class="thing">The promised outcome for that man</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 22:9</span>
+          <div class="txt">He that hath a bountiful eye shall be <b>blessed</b>; for he giveth of his bread to the poor.<span class="thing">The bountiful eye that shares bread</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card f">
+      <div class="top">
+        <h2>6&nbsp;&middot; Chosen, gathered, brought near</h2>
+        <span class="count">5 verses</span>
+      </div>
+      <p class="phrase">blessing on a people rather than an individual — God’s choice, not the chooser’s merit</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 33:12</span>
+          <div class="txt"><b>Blessed</b> is the nation whose God is the Lord; and the people whom he hath chosen for his own inheritance.<span class="thing">The nation whose God is the LORD</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 65:4</span>
+          <div class="txt"><b>Blessed</b> is the man whom thou choosest, and causest to approach unto thee, that he may dwell in thy courts: we shall be satisfied with the goodness of thy house, even of thy holy temple.<span class="thing">The man God chooses and brings into his courts</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 84:4</span>
+          <div class="txt"><b>Blessed</b> are they that dwell in thy house: they will be still praising thee. Selah.<span class="thing">Those who dwell in God’s house</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 89:15</span>
+          <div class="txt"><b>Blessed</b> is the people that know the joyful sound: they shall walk, O Lord, in the light of thy countenance.<span class="thing">The people who know the joyful sound</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 115:15</span>
+          <div class="txt">Ye are <b>blessed</b> of the Lord which made heaven and earth.<span class="thing">Israel addressed directly as blessed</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card g">
+      <div class="top">
+        <h2>7&nbsp;&middot; Blessing that lands on a life: seed, household, name</h2>
+        <span class="count">11 verses</span>
+      </div>
+      <p class="phrase">blessing as something observed — in children, harvest, reputation and memory</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 21:6</span>
+          <div class="txt">For thou hast made him most <b>blessed</b> for ever: thou hast made him exceeding glad with thy countenance.<span class="thing">The king, made most blessed for ever</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 37:22</span>
+          <div class="txt">For such as be <b>blessed</b> of him shall inherit the earth; and they that be cursed of him shall be cut off.<span class="thing">Those blessed of him inherit the earth</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 37:26</span>
+          <div class="txt">He is ever merciful, and lendeth; and his seed is <b>blessed</b>.<span class="thing">The merciful lender’s seed</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 45:2</span>
+          <div class="txt">Thou art fairer than the children of men: grace is poured into thy lips: therefore God hath <b>blessed</b> thee for ever.<span class="thing">The king blessed for ever</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 72:17</span>
+          <div class="txt">His name shall endure for ever: his name shall be continued as long as the sun: and men shall be <b>blessed</b> in him: all nations shall call him <b>blessed</b>.<span class="thing">All nations calling him blessed</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 112:2</span>
+          <div class="txt">His seed shall be mighty upon earth: the generation of the upright shall be <b>blessed</b>.<span class="thing">The generation of the upright</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 147:13</span>
+          <div class="txt">For he hath strengthened the bars of thy gates; he hath <b>blessed</b> thy children within thee.<span class="thing">Children within Jerusalem’s gates</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 5:18</span>
+          <div class="txt">Let thy fountain be <b>blessed</b>: and rejoice with the wife of thy youth.<span class="thing">A man’s own fountain and wife</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 10:7</span>
+          <div class="txt">The memory of the just is <b>blessed</b>: but the name of the wicked shall rot.<span class="thing">The memory of the just</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 20:7</span>
+          <div class="txt">The just man walketh in his integrity: his children are <b>blessed</b> after him.<span class="thing">The just man’s children after him</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 31:28</span>
+          <div class="txt">Her children arise up, and call her <b>blessed</b>; her husband also, and he praiseth her.<span class="thing">The virtuous woman, called blessed at home</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card h">
+      <div class="top">
+        <h2>8&nbsp;&middot; "Blessed be the LORD" — blessing returned to God</h2>
+        <span class="count">17 verses</span>
+      </div>
+      <p class="phrase">the largest group by far: not a description of anyone’s state, but praise directed back at God</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 18:46</span>
+          <div class="txt">The Lord liveth; and <b>blessed</b> be my rock; and let the God of my salvation be exalted.<span class="thing">Blessed be my rock</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 28:6</span>
+          <div class="txt"><b>Blessed</b> be the Lord, because he hath heard the voice of my supplications.<span class="thing">For hearing supplication</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 31:21</span>
+          <div class="txt"><b>Blessed</b> be the Lord: for he hath shewed me his marvellous kindness in a strong city.<span class="thing">For marvellous kindness</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 41:13</span>
+          <div class="txt"><b>Blessed</b> be the Lord God of Israel from everlasting, and to everlasting. Amen, and Amen.<span class="thing">Doxology closing Book I</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 66:20</span>
+          <div class="txt"><b>Blessed</b> be God, which hath not turned away my prayer, nor his mercy from me.<span class="thing">For not turning away prayer</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 68:19</span>
+          <div class="txt"><b>Blessed</b> be the Lord, who daily loadeth us with benefits, even the God of our salvation. Selah.<span class="thing">For daily benefits</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 68:35</span>
+          <div class="txt">O God, thou art terrible out of thy holy places: the God of Israel is he that giveth strength and power unto his people. <b>Blessed</b> be God.<span class="thing">For strength given to his people</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 72:18</span>
+          <div class="txt"><b>Blessed</b> be the Lord God, the God of Israel, who only doeth wondrous things.<span class="thing">Doxology closing Book II</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 72:19</span>
+          <div class="txt">And <b>blessed</b> be his glorious name for ever: and let the whole earth be filled with his glory; Amen, and Amen.<span class="thing">Blessed be his glorious name</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 89:52</span>
+          <div class="txt"><b>Blessed</b> be the Lord for evermore. Amen, and Amen.<span class="thing">Doxology closing Book III</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 106:48</span>
+          <div class="txt"><b>Blessed</b> be the Lord God of Israel from everlasting to everlasting: and let all the people say, Amen. Praise ye the Lord.<span class="thing">Doxology closing Book IV</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 113:2</span>
+          <div class="txt"><b>Blessed</b> be the name of the Lord from this time forth and for evermore.<span class="thing">Blessed be the name, for evermore</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 118:26</span>
+          <div class="txt"><b>Blessed</b> be he that cometh in the name of the Lord: we have <b>blessed</b> you out of the house of the Lord.<span class="thing">Benediction on the one who comes</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 119:12</span>
+          <div class="txt"><b>Blessed</b> art thou, O Lord: teach me thy statutes.<span class="thing">Blessed art thou — praise joined to a request</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 124:6</span>
+          <div class="txt"><b>Blessed</b> be the Lord, who hath not given us as a prey to their teeth.<span class="thing">For deliverance from the enemy</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 135:21</span>
+          <div class="txt"><b>Blessed</b> be the Lord out of Zion, which dwelleth at Jerusalem. Praise ye the Lord.<span class="thing">Blessed be the LORD out of Zion</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 144:1</span>
+          <div class="txt"><b>Blessed</b> be the Lord my strength, which teacheth my hands to war, and my fingers to fight:<span class="thing">For strength and training for war</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card i">
+      <div class="top">
+        <h2>9&nbsp;&middot; Where blessing fails</h2>
+        <span class="count">2 verses</span>
+      </div>
+      <p class="phrase">the two counter-cases — blessing pronounced on oneself, and blessing that never arrives</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 49:18</span>
+          <div class="txt">Though while he lived he <b>blessed</b> his soul: and men will praise thee, when thou doest well to thyself.<span class="thing">The rich man blessing his own soul</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 20:21</span>
+          <div class="txt">An inheritance may be gotten hastily at the beginning; but the end thereof shall not be <b>blessed</b>.<span class="thing">An inheritance gained in haste</span></div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <section class="sql-section">
+    <h2>The queries</h2>
+
+    <h3>Every "blessed" verse in Psalms and Proverbs &mdash; the 55 verses above</h3>
+    <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE b.name IN (&#39;Psalms&#39;, &#39;Proverbs&#39;)
+  AND v.text LIKE &#39;%blessed%&#39;
+ORDER BY v.book_id, v.chapter, v.verse</code></pre>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+v.text+LIKE+%27%25blessed%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. <code>LIKE</code> is case-insensitive for ASCII in SQLite, so this catches both "Blessed" and "blessed". Grouping into the nine themes above is editorial, done by reading the 55 results &mdash; it is not in the query.</p>
+
+    <h3>The beatitudes &mdash; 21 verses</h3>
+    <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE b.name IN (&#39;Psalms&#39;, &#39;Proverbs&#39;)
+  AND (v.text LIKE &#39;%lessed is%&#39; OR v.text LIKE &#39;%lessed are%&#39;)
+ORDER BY v.book_id, v.chapter, v.verse</code></pre>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+%28v.text+LIKE+%27%25lessed+is%25%27+OR+v.text+LIKE+%27%25lessed+are%25%27%29%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>. Matching on <code>lessed</code> without its first letter keeps both sentence-initial "Blessed" and mid-sentence "blessed" (as in Psalm 34:8) without needing two more patterns.</p>
+
+    <h3>The doxologies &mdash; 16 of the 17</h3>
+    <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE b.name IN (&#39;Psalms&#39;, &#39;Proverbs&#39;)
+  AND v.text LIKE &#39;%Blessed be%&#39;
+ORDER BY v.book_id, v.chapter, v.verse</code></pre>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+v.text+LIKE+%27%25Blessed+be%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>. It returns 16 rows; Psalm 119:12 is counted as the seventeenth doxology here because it addresses God directly ("Blessed art thou, O Lord") rather than describing anyone as blessed.</p>
+  </section>
+
+  <footer>
+    Source: KJV text queried from <code>data/KJV.db</code> in this repository &middot; 55 verses in Psalms (47) and Proverbs (8) matching <code>LIKE &#39;%blessed%&#39;</code> &middot; every quotation is the full, unedited verse as stored in the database
+  </footer>
+
+</div>
+</body>
+</html>
