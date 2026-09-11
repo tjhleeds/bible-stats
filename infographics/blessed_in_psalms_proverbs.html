@@ -200,15 +200,17 @@
   .book .name { margin-top: 8px; font-size: 11.5px; color: var(--ink-soft); text-align: center; }
 
   .grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 22px;
     margin-top: 48px;
+    columns: 1;
+    column-gap: 22px;
   }
   @media (min-width: 760px) {
-    .grid { grid-template-columns: 1fr 1fr; }
+    .grid { columns: 2; }
   }
   .card {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    margin: 0 0 22px;
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 16px;
@@ -386,12 +388,12 @@
 
   <div class="modes">
     <div class="bar" aria-hidden="true">
-      <span style="width:38.2%; background:var(--accent-c);" title="Beatitude"></span>
+      <span style="width:38.2%; background:var(--accent-c);" title="Pronounced blessed"></span>
       <span style="width:30.9%; background:var(--accent-h);" title="Doxology"></span>
       <span style="width:30.9%; background:var(--accent-g);" title="Description"></span>
     </div>
     <div class="legend">
-      <span class="k"><span class="sw" style="background:var(--accent-c);"></span><span><b>21 beatitude</b> &mdash; "Blessed is the man that&hellip;"</span></span>
+      <span class="k"><span class="sw" style="background:var(--accent-c);"></span><span><b>21 pronounced blessed</b> &mdash; "Blessed is the man that&hellip;"</span></span>
       <span class="k"><span class="sw" style="background:var(--accent-h);"></span><span><b>17 doxology</b> &mdash; "Blessed be the Lord&hellip;"</span></span>
       <span class="k"><span class="sw" style="background:var(--accent-g);"></span><span><b>17 description</b> &mdash; blessing observed, not declared</span></span>
     </div>
@@ -732,7 +734,7 @@ WHERE b.name IN (&#39;Psalms&#39;, &#39;Proverbs&#39;)
 ORDER BY v.book_id, v.chapter, v.verse</code></pre>
     <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+v.text+LIKE+%27%25blessed%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. <code>LIKE</code> is case-insensitive for ASCII in SQLite, so this catches both "Blessed" and "blessed". Grouping into the nine themes above is editorial, done by reading the 55 results &mdash; it is not in the query.</p>
 
-    <h3>The beatitudes &mdash; 21 verses</h3>
+    <h3>Verses that pronounce someone blessed &mdash; 21 verses</h3>
     <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
 FROM KJV_verses v
 JOIN KJV_books b ON b.id = v.book_id
