@@ -29,6 +29,8 @@
     --accent-h-bg: #fdf1e2;
     --accent-i: #5f5b53; /* blessing fails */
     --accent-i-bg: #eeece7;
+    --accent-j: #7b3b52; /* vengeance */
+    --accent-j-bg: #f7ebf0;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -46,6 +48,7 @@
       --accent-g-bg: #352b12;
       --accent-h-bg: #3a2c15;
       --accent-i-bg: #272521;
+      --accent-j-bg: #33202a;
     }
   }
   :root[data-theme="dark"] {
@@ -63,6 +66,7 @@
     --accent-g-bg: #352b12;
     --accent-h-bg: #3a2c15;
     --accent-i-bg: #272521;
+    --accent-j-bg: #33202a;
   }
   * { box-sizing: border-box; }
   body {
@@ -328,6 +332,11 @@
   .card.i ul.verses li { background: var(--accent-i-bg); }
   .card.i .ref { color: var(--accent-i); }
 
+  .card.j { border-top: 4px solid var(--accent-j); }
+  .card.j .count { background: var(--accent-j-bg); color: var(--accent-j); }
+  .card.j ul.verses li { background: var(--accent-j-bg); }
+  .card.j .ref { color: var(--accent-j); }
+
   footer {
     margin-top: 48px;
     text-align: center;
@@ -394,36 +403,36 @@
   <header>
     <div class="kicker">Psalms &amp; Proverbs &middot; King James Version</div>
     <h1>Blessed Is the Man</h1>
-    <p class="sub">All 55 verses in Psalms and Proverbs containing "blessed," grouped by theme &mdash; who is called blessed, what they are blessed for, and how often the word turns back on God instead.</p>
+    <p class="sub">All 67 verses in Psalms and Proverbs that call someone blessed or happy, or bless God, grouped by theme &mdash; who is called blessed, what they are blessed for, and how often the word turns back on God instead.</p>
   </header>
 
   <div class="stats">
-    <div class="stat"><div class="n">55</div><div class="l">Verses</div></div>
-    <div class="stat"><div class="n">21</div><div class="l">"Blessed is/are&hellip;"</div></div>
+    <div class="stat"><div class="n">67</div><div class="l">Verses</div></div>
+    <div class="stat"><div class="n">33</div><div class="l">Someone called blessed</div></div>
     <div class="stat"><div class="n">16</div><div class="l">Bless God back</div></div>
-    <div class="stat"><div class="n">9</div><div class="l">Themes</div></div>
+    <div class="stat"><div class="n">10</div><div class="l">Themes</div></div>
   </div>
 
   <div class="modes">
     <div class="bar" aria-hidden="true">
-      <span style="width:40.0%; background:var(--accent-c);" title="Pronounced blessed"></span>
-      <span style="width:29.1%; background:var(--accent-h);" title="Doxology"></span>
-      <span style="width:30.9%; background:var(--accent-g);" title="Description"></span>
+      <span style="width:49.3%; background:var(--accent-c);" title="Pronounced blessed"></span>
+      <span style="width:23.9%; background:var(--accent-h);" title="Doxology"></span>
+      <span style="width:26.8%; background:var(--accent-g);" title="Description"></span>
     </div>
     <div class="legend">
-      <span class="k"><span class="sw" style="background:var(--accent-c);"></span><span><b>22 pronounced blessed</b> &mdash; "Blessed is the man that&hellip;"</span></span>
+      <span class="k"><span class="sw" style="background:var(--accent-c);"></span><span><b>33 pronounced blessed</b> &mdash; "Blessed is the man that&hellip;"</span></span>
       <span class="k"><span class="sw" style="background:var(--accent-h);"></span><span><b>16 doxology</b> &mdash; "Blessed be the Lord&hellip;"</span></span>
-      <span class="k"><span class="sw" style="background:var(--accent-g);"></span><span><b>17 description</b> &mdash; blessing observed, not declared</span></span>
+      <span class="k"><span class="sw" style="background:var(--accent-g);"></span><span><b>18 description</b> &mdash; blessing observed, not declared</span></span>
     </div>
   </div>
 
   <div class="books" aria-hidden="true">
-    <div class="book"><div class="val">47</div><div class="col" style="height:150px; background:var(--accent-c);"></div><div class="name">Psalms<br>19.1 per 1,000 verses</div></div>
-    <div class="book"><div class="val">8</div><div class="col" style="height:26px; background:var(--accent-g);"></div><div class="name">Proverbs<br>8.7 per 1,000 verses</div></div>
+    <div class="book"><div class="val">53</div><div class="col" style="height:150px; background:var(--accent-c);"></div><div class="name">Psalms<br>21.5 per 1,000 verses</div></div>
+    <div class="book"><div class="val">14</div><div class="col" style="height:40px; background:var(--accent-g);"></div><div class="name">Proverbs<br>15.3 per 1,000 verses</div></div>
   </div>
 
   <div class="note">
-    The two books use the word quite differently. Proverbs never says "Blessed be the Lord" &mdash; not once in its 8 verses; blessing there is almost always something seen in a life, in children, a wife, a reputation, a memory. Psalms splits nearly evenly between pronouncing someone blessed and blessing God in return. Between them the two books hold 55 of the 290 "blessed" verses in the whole KJV.
+    The two books use the word quite differently. Proverbs never says "Blessed be the Lord" &mdash; not once in its 14 verses; blessing there is almost always something seen in a life, in children, a wife, a reputation, a memory. Psalms splits nearly evenly between pronouncing someone blessed and blessing God in return. Between them the two books hold 67 of the 307 such verses in the whole KJV.
   </div>
 
   <div class="note">
@@ -435,7 +444,7 @@
     <div class="card a">
       <div class="top">
         <h2>1&nbsp;&middot; Trust and refuge in the LORD</h2>
-        <span class="count">4 verses</span>
+        <span class="count">6 verses</span>
       </div>
       <p class="phrase">"Blessed is the man that trusteth in him" &mdash; blessing attached not to circumstance but to reliance</p>
       <ul class="verses">
@@ -459,6 +468,16 @@
           <div class="txt">O Lord of hosts, <b>blessed</b> is the man that trusteth in thee.<span class="thing">Simple trust, stated as a closing refrain</span>
             <span class="ctx">Closes Psalm 84, where 84:11 has just promised that no good thing is withheld from them that walk uprightly.</span></div>
         </li>
+        <li>
+          <span class="ref">Psalm 146:5</span>
+          <div class="txt"><b>Happy</b> is he that hath the God of Jacob for his help, whose hope is in the Lord his God:<span class="thing">Hope set on the God of Jacob</span>
+            <span class="ctx">Sharpened by the warning it answers: "Put not your trust in princes, nor in the son of man, in whom there is no help" (146:3&ndash;4).</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 16:20</span>
+          <div class="txt">He that handleth a matter wisely shall find good: and whoso trusteth in the Lord, <b>happy</b> is he.<span class="thing">Trusting the LORD rather than one’s own handling</span>
+            <span class="ctx">Placed just after "Pride goeth before destruction" (16:18), so the trust is set against self-reliance.</span></div>
+        </li>
       </ul>
     </div>
 
@@ -467,7 +486,7 @@
         <h2>2&nbsp;&middot; Sin forgiven, iniquity not imputed</h2>
         <span class="count">2 verses</span>
       </div>
-      <p class="phrase">"Blessed is he whose transgression is forgiven" &mdash; the only pair in Psalms where blessing is defined by what is removed</p>
+      <p class="phrase">the only pair in either book where blessing is defined by what is taken away</p>
       <ul class="verses">
         <li>
           <span class="ref">Psalm 32:1</span>
@@ -485,7 +504,7 @@
     <div class="card c">
       <div class="top">
         <h2>3&nbsp;&middot; The fear of the LORD and a blameless walk</h2>
-        <span class="count">6 verses</span>
+        <span class="count">9 verses</span>
       </div>
       <p class="phrase">"Blessed is every one that feareth the LORD; that walketh in his ways" &mdash; conduct as the test</p>
       <ul class="verses">
@@ -511,13 +530,27 @@
         </li>
         <li>
           <span class="ref">Psalm 128:1</span>
-          <div class="txt"><b>Blessed</b> is every one that feareth the Lord; that walketh in his ways.<span class="thing">Fearing the LORD and walking in his ways</span>
-            <span class="ctx">The very next verse restates the same blessing with a different English word &mdash; "happy shalt thou be" (128:2), which no search for "blessed" will find.</span></div>
+          <div class="txt"><b>Blessed</b> is every one that feareth the Lord; that walketh in his ways.<span class="thing">Fearing the LORD and walking in his ways</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 128:2</span>
+          <div class="txt">For thou shalt eat the labour of thine hands: <b>happy</b> shalt thou be, and it shall be well with thee.<span class="thing">Eating the labour of his own hands</span>
+            <span class="ctx">The middle of a four-verse unit: 128:1 and 128:4 frame it, and 128:3 fills it out with a fruitful wife and children round the table.</span></div>
         </li>
         <li>
           <span class="ref">Psalm 128:4</span>
           <div class="txt">Behold, that thus shall the man be <b>blessed</b> that feareth the Lord.<span class="thing">The blessing summed up and pointed back at</span>
-            <span class="ctx">"Thus" points back to 128:2&ndash;3: the labour of his hands, a wife as a fruitful vine, children like olive plants round the table.</span></div>
+            <span class="ctx">"Thus" points back to 128:2&ndash;3: the labour of his hands, a wife as a fruitful vine, children like olive plants.</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 28:14</span>
+          <div class="txt"><b>Happy</b> is the man that feareth alway: but he that hardeneth his heart shall fall into mischief.<span class="thing">The man who fears always</span>
+            <span class="ctx">Its opposite is given in the same verse &mdash; hardening the heart &mdash; and 28:13 has just contrasted covering sins with confessing them.</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 29:18</span>
+          <div class="txt">Where there is no vision, the people perish: but he that keepeth the law, <b>happy</b> is he.<span class="thing">Keeping the law where there is no vision</span>
+            <span class="ctx">Sits among sayings on correction (29:15, 29:17): the law does for a people what reproof does for a child.</span></div>
         </li>
       </ul>
     </div>
@@ -525,7 +558,7 @@
     <div class="card d">
       <div class="top">
         <h2>4&nbsp;&middot; Hearing wisdom, keeping the word, taking correction</h2>
-        <span class="count">4 verses</span>
+        <span class="count">6 verses</span>
       </div>
       <p class="phrase">"Blessed is the man that heareth me, watching daily at my gates" &mdash; attentiveness, including to chastening</p>
       <ul class="verses">
@@ -537,6 +570,16 @@
         <li>
           <span class="ref">Psalm 119:2</span>
           <div class="txt"><b>Blessed</b> are they that keep his testimonies, and that seek him with the whole heart.<span class="thing">Keeping his testimonies, seeking him with the whole heart</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 3:13</span>
+          <div class="txt"><b>Happy</b> is the man that findeth wisdom, and the man that getteth understanding.<span class="thing">Finding wisdom and getting understanding</span>
+            <span class="ctx">Follows straight on from "whom the Lord loveth he correcteth" (3:11&ndash;12), which puts the finding of wisdom on the far side of correction.</span></div>
+        </li>
+        <li>
+          <span class="ref">Proverbs 3:18</span>
+          <div class="txt">She is a tree of life to them that lay hold upon her: and <b>happy</b> is every one that retaineth her.<span class="thing">Holding wisdom fast once found</span>
+            <span class="ctx">The tree of life image caps the valuation of 3:14&ndash;17: better than silver, more precious than rubies, length of days in her right hand.</span></div>
         </li>
         <li>
           <span class="ref">Proverbs 8:32</span>
@@ -554,9 +597,9 @@
     <div class="card e">
       <div class="top">
         <h2>5&nbsp;&middot; Mercy to the poor</h2>
-        <span class="count">3 verses</span>
+        <span class="count">4 verses</span>
       </div>
-      <p class="phrase">"Blessed is he that considereth the poor" &mdash; the one theme both books state in the same terms</p>
+      <p class="phrase">the one theme both books state in almost the same terms</p>
       <ul class="verses">
         <li>
           <span class="ref">Psalm 41:1</span>
@@ -569,6 +612,11 @@
             <span class="ctx">"He" is still the man of 41:1 who considered the poor; the promise runs straight on.</span></div>
         </li>
         <li>
+          <span class="ref">Proverbs 14:21</span>
+          <div class="txt">He that despiseth his neighbour sinneth: but he that hath mercy on the poor, <b>happy</b> is he.<span class="thing">Mercy on the poor rather than contempt</span>
+            <span class="ctx">Answers 14:20 directly: "The poor is hated even of his own neighbour: but the rich hath many friends."</span></div>
+        </li>
+        <li>
           <span class="ref">Proverbs 22:9</span>
           <div class="txt">He that hath a bountiful eye shall be <b>blessed</b>; for he giveth of his bread to the poor.<span class="thing">The bountiful eye that shares bread</span>
             <span class="ctx">22:7 has just described the rich ruling over the poor and the borrower serving the lender; the bountiful eye reverses that flow.</span></div>
@@ -579,7 +627,7 @@
     <div class="card f">
       <div class="top">
         <h2>6&nbsp;&middot; Brought near: chosen, gathered, welcomed in</h2>
-        <span class="count">7 verses</span>
+        <span class="count">8 verses</span>
       </div>
       <p class="phrase">blessing tied to the house of God and to God&rsquo;s own choosing rather than to the person chosen</p>
       <ul class="verses">
@@ -601,7 +649,7 @@
         <li>
           <span class="ref">Psalm 84:5</span>
           <div class="txt"><b>Blessed</b> is the man whose strength is in thee; in whose heart are the ways of them.<span class="thing">The pilgrim on the road to Zion</span>
-            <span class="ctx">Regrouped on the strength of the context. 84:6&ndash;7 shows the "ways" in his heart are pilgrim roads: through the valley of Baca, "from strength to strength," until "in Zion appeareth before God." This is a pilgrimage blessing, not a general remark about inner strength.</span></div>
+            <span class="ctx">84:6&ndash;7 shows the "ways" in his heart are pilgrim roads: through the valley of Baca, "from strength to strength," until "in Zion appeareth before God." A pilgrimage blessing, not a general remark about inner strength.</span></div>
         </li>
         <li>
           <span class="ref">Psalm 89:15</span>
@@ -616,7 +664,12 @@
         <li>
           <span class="ref">Psalm 118:26</span>
           <div class="txt"><b>Blessed</b> be he that cometh in the name of the Lord: we have <b>blessed</b> you out of the house of the Lord.<span class="thing">Benediction on the worshipper arriving at the temple</span>
-            <span class="ctx">Regrouped on the strength of the context. This is not praise directed at God: the second half of the verse says who is speaking and to whom &mdash; "we have blessed you out of the house of the Lord" &mdash; and 118:19&ndash;20 has just opened the gates of righteousness to let him in.</span></div>
+            <span class="ctx">Not praise directed at God: the second half of the verse names the speakers and their target &mdash; "we have blessed you out of the house of the Lord" &mdash; and 118:19&ndash;20 has just opened the gates of righteousness to let him in.</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 144:15</span>
+          <div class="txt"><b>Happy</b> is that people, that is in such a case: yea, <b>happy</b> is that people, whose God is the Lord.<span class="thing">The people whose God is the LORD</span>
+            <span class="ctx">The second half re-reads the first: 144:12&ndash;14 has listed full barns, strong oxen and no complaining in the streets, then the verse locates the real cause elsewhere.</span></div>
         </li>
       </ul>
     </div>
@@ -624,7 +677,7 @@
     <div class="card g">
       <div class="top">
         <h2>7&nbsp;&middot; Blessing that lands on a life: seed, household, name</h2>
-        <span class="count">11 verses</span>
+        <span class="count">12 verses</span>
       </div>
       <p class="phrase">blessing as something observed &mdash; in children, harvest, reputation and memory</p>
       <ul class="verses">
@@ -657,6 +710,11 @@
           <span class="ref">Psalm 112:2</span>
           <div class="txt">His seed shall be mighty upon earth: the generation of the upright shall be <b>blessed</b>.<span class="thing">The generation of the upright</span>
             <span class="ctx">"His" is the God-fearing man of 112:1; the seed inherits the standing the father was blessed with.</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 127:5</span>
+          <div class="txt"><b>Happy</b> is the man that hath his quiver full of them: they shall not be ashamed, but they shall speak with the enemies in the gate.<span class="thing">The man with a quiver full of children</span>
+            <span class="ctx">Conditioned by the two verses before it: unless the Lord builds the house the builders labour in vain, and children are "an heritage of the Lord" (127:1&ndash;3).</span></div>
         </li>
         <li>
           <span class="ref">Psalm 147:13</span>
@@ -770,7 +828,7 @@
         <h2>9&nbsp;&middot; Where blessing fails</h2>
         <span class="count">2 verses</span>
       </div>
-      <p class="phrase">the two counter-cases &mdash; blessing pronounced on oneself, and blessing that never arrives</p>
+      <p class="phrase">blessing pronounced on oneself, and blessing that never arrives</p>
       <ul class="verses">
         <li>
           <span class="ref">Psalm 49:18</span>
@@ -784,28 +842,49 @@
         </li>
       </ul>
     </div>
+
+    <div class="card j">
+      <div class="top">
+        <h2>10&nbsp;&middot; Blessing pronounced on vengeance</h2>
+        <span class="count">2 verses</span>
+      </div>
+      <p class="phrase">the hardest case in either book &mdash; the formula turned on Babylon</p>
+      <ul class="verses">
+        <li>
+          <span class="ref">Psalm 137:8</span>
+          <div class="txt">O daughter of Babylon, who art to be destroyed; <b>happy</b> shall he be, that rewardeth thee as thou hast served us.<span class="thing">Whoever repays Babylon in kind</span>
+            <span class="ctx">The psalm of exile: 137:1&ndash;4 is captivity by the rivers of Babylon, where the captors demanded a song of Zion, and 137:7 has just asked God to remember what Edom did.</span></div>
+        </li>
+        <li>
+          <span class="ref">Psalm 137:9</span>
+          <div class="txt"><b>Happy</b> shall he be, that taketh and dasheth thy little ones against the stones.<span class="thing">Whoever dashes her children on the stones</span>
+            <span class="ctx">The measure is set by 137:8, "as thou hast served us" &mdash; the verse asks for what Babylon did to Jerusalem, not more. Psalm 138:1 then opens with unbroken praise.</span></div>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <section class="sql-section">
     <h2>The queries</h2>
 
-    <h3>Every "blessed" verse in Psalms and Proverbs &mdash; the 55 verses above</h3>
+    <h3>Every verse in play &mdash; the 67 verses above</h3>
     <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
 FROM KJV_verses v
 JOIN KJV_books b ON b.id = v.book_id
 WHERE b.name IN (&#39;Psalms&#39;, &#39;Proverbs&#39;)
-  AND v.text LIKE &#39;%blessed%&#39;
+  AND (v.text LIKE &#39;%blessed%&#39; OR v.text LIKE &#39;%happy%&#39;)
 ORDER BY v.book_id, v.chapter, v.verse</code></pre>
-    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+v.text+LIKE+%27%25blessed%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. <code>LIKE</code> is case-insensitive for ASCII in SQLite, so this catches both "Blessed" and "blessed". Grouping into the nine themes above is editorial, done by reading the 55 results &mdash; it is not in the query.</p>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+%28v.text+LIKE+%27%25blessed%25%27+OR+v.text+LIKE+%27%25happy%25%27%29%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. <code>LIKE</code> is case-insensitive for ASCII in SQLite, so this catches "Blessed" and "blessed", "Happy" and "happy" alike. Both words are needed: the King James translators render the same pronouncement either way, sometimes within a single passage &mdash; Psalm 128 alternates between them across four consecutive verses. Grouping the results into the ten themes above is editorial, done by reading them; it is not in the query.</p>
 
-    <h3>Verses that pronounce someone blessed &mdash; 21 verses</h3>
+    <h3>Verses that call someone blessed &mdash; 32 of the 33</h3>
     <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
 FROM KJV_verses v
 JOIN KJV_books b ON b.id = v.book_id
 WHERE b.name IN (&#39;Psalms&#39;, &#39;Proverbs&#39;)
-  AND (v.text LIKE &#39;%lessed is%&#39; OR v.text LIKE &#39;%lessed are%&#39;)
+  AND (v.text LIKE &#39;%lessed is%&#39; OR v.text LIKE &#39;%lessed are%&#39;
+       OR v.text LIKE &#39;%appy is%&#39; OR v.text LIKE &#39;%appy shall%&#39;)
 ORDER BY v.book_id, v.chapter, v.verse</code></pre>
-    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+%28v.text+LIKE+%27%25lessed+is%25%27+OR+v.text+LIKE+%27%25lessed+are%25%27%29%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>. Matching on <code>lessed</code> without its first letter keeps both sentence-initial "Blessed" and mid-sentence "blessed" (as in Psalm 34:8) without needing two more patterns.</p>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+%28v.text+LIKE+%27%25lessed+is%25%27+OR+v.text+LIKE+%27%25lessed+are%25%27%0A+++++++OR+v.text+LIKE+%27%25appy+is%25%27+OR+v.text+LIKE+%27%25appy+shall%25%27%29%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>. Matching on <code>lessed</code> and <code>appy</code> without their first letters keeps both the sentence-initial and the mid-sentence spellings without needing four more patterns. The thirty-third is Psalm 118:26, "Blessed be he that cometh in the name of the Lord," which uses the pattern of the next query while blessing a person rather than God.</p>
 
     <h3>Verses that bless God &mdash; 16 verses</h3>
     <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
@@ -814,21 +893,11 @@ JOIN KJV_books b ON b.id = v.book_id
 WHERE b.name IN (&#39;Psalms&#39;, &#39;Proverbs&#39;)
   AND v.text LIKE &#39;%Blessed be%&#39;
 ORDER BY v.book_id, v.chapter, v.verse</code></pre>
-    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+v.text+LIKE+%27%25Blessed+be%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>. It returns 16 rows, but the two figures do not line up the way they look. One of those rows, Psalm 118:26, blesses a person rather than God: reading its neighbours shows priests greeting an arriving worshipper, so it is grouped under theme 6 above, not theme 8. Psalm 119:12 takes its place in theme 8, since "Blessed art thou, O Lord" addresses God directly without matching this pattern. Fifteen rows from this query plus Psalm 119:12 make the 16 verses in theme 8.</p>
-
-    <h3>What a search for "blessed" misses &mdash; 10 further verses</h3>
-    <pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
-FROM KJV_verses v
-JOIN KJV_books b ON b.id = v.book_id
-WHERE b.name IN (&#39;Psalms&#39;, &#39;Proverbs&#39;)
-  AND (v.text LIKE &#39;%appy is%&#39; OR v.text LIKE &#39;%appy are%&#39;
-       OR v.text LIKE &#39;%appy shalt%&#39;)
-ORDER BY v.book_id, v.chapter, v.verse</code></pre>
-    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+%28v.text+LIKE+%27%25appy+is%25%27+OR+v.text+LIKE+%27%25appy+are%25%27%0A+++++++OR+v.text+LIKE+%27%25appy+shalt%25%27%29%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>. Reading the context around each of the 55 verses turned this up. The King James translators sometimes render the same pronouncement as "happy" instead of "blessed," and a word search cannot see it. Psalm 128:2 ("happy shalt thou be") sits between Psalm 128:1 and 128:4, both shown above. Psalm 144:15 ("happy is that people, whose God is the Lord") is all but a restatement of Psalm 33:12 in theme 6. Proverbs 14:21 matches theme 5, Proverbs 16:20 theme 1, Proverbs 3:13 theme 4, and Proverbs 28:14 theme 3. These 10 verses are deliberately not counted in the 55 above, which is strictly what the word "blessed" returns; they are listed here so the gap is visible.</p>
+    <p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+b.name+IN+%28%27Psalms%27%2C+%27Proverbs%27%29%0A++AND+v.text+LIKE+%27%25Blessed+be%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>. It returns 16 rows, but not the same 16. Psalm 118:26 blesses a person, so it is grouped under theme 6; Psalm 119:12 takes its place in theme 8, since "Blessed art thou, O Lord" addresses God directly without matching this pattern.</p>
   </section>
 
   <footer>
-    Source: KJV text queried from <code>data/KJV.db</code> in this repository &middot; 55 verses in Psalms (47) and Proverbs (8) matching <code>LIKE &#39;%blessed%&#39;</code> &middot; every quotation is the full, unedited verse as stored in the database &middot; each verse read with its five neighbours on either side
+    Source: KJV text queried from <code>data/KJV.db</code> in this repository &middot; 67 verses in Psalms (53) and Proverbs (14) matching <code>LIKE &#39;%blessed%&#39;</code> or <code>LIKE &#39;%happy%&#39;</code> &middot; every quotation is the full, unedited verse as stored in the database &middot; each verse read with its five neighbours on either side
   </footer>
 
 </div>
