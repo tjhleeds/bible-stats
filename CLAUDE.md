@@ -86,7 +86,13 @@ into the same answer by hand. This is what `daily_light_coverage.html` does
 for each of its six figures — see its `.sql-links` blocks for the pattern.
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
-  `data/daily_light.db`.
+  `data/daily_light.db`. It also reads `data/KJV.db` (read-only) to align the
+  devotional's printed wording to each citation — see "Quoted text" below.
+- `scripts/migrate_daily_light_quotes.sql` — one-off DDL adding the
+  `quoted_text` / `is_partial` / `quote_score` columns to
+  `dl_reading_verses`. The loader repopulates rows but never creates or
+  alters tables, so this must be applied before the first load that
+  populates those columns.
 - `verses per book.md` — links to prebuilt [Datasette Lite](https://lite.datasette.io/)
   queries against `KJV.db` for verses/chapters/words per book.
 
@@ -153,8 +159,23 @@ and example queries (retrieve a book, get a chapter, search verse text by
 Two tables: `dl_readings` (one row per morning/evening reading per calendar
 day: month, day, period, title) and `dl_reading_verses` (one row per verse
 reference within a reading: sequence, `kjv_book_name`, chapter, verse_start,
-verse_end). `dl_reading_verses.kjv_book_name` must match `KJV_books.name`
-in `KJV.db` **exactly** — this is how the two databases are joined.
+verse_end, plus `quoted_text`, `is_partial` and `quote_score`).
+`dl_reading_verses.kjv_book_name` must match `KJV_books.name` in `KJV.db`
+**exactly** — this is how the two databases are joined.
+
+### Quoted text
+
+*Daily Light* often quotes only part of a verse it cites (~54% of citations).
+`quoted_text` holds the devotional's own printed wording, `is_partial` flags
+whether it omits any of the cited range, and `quote_score` records how
+confidently the wording was matched to that citation. Scores of ~0.46 and up
+are reliably correct, so **consumers should suppress quotes below a
+threshold** rather than risk showing a quote against the wrong verse.
+
+The wording is a lightly modernised KJV and is not interchangeable with
+`KJV_verses.text` — keep it alongside the KJV text, never in place of it.
+Full derivation, caveats and example queries are in
+`docs/daily_light_schema.md`.
 
 To query full verse text for a devotional reading, `ATTACH DATABASE
 'data/KJV.db' AS kjv` and join `dl_reading_verses` to `kjv.KJV_books`/
@@ -177,9 +198,23 @@ python3 scripts/load_daily_light.py
 # Or load from a local copy of DailyLight.json
 python3 scripts/load_daily_light.py --json /path/to/DailyLight.json
 
-# Target a different database file
-python3 scripts/load_daily_light.py --db data/daily_light.db
+# Target a different database file, or a KJV.db elsewhere
+python3 scripts/load_daily_light.py --db data/daily_light.db --kjv data/KJV.db
+
+# Assert the quoted-text alignment still looks sane (exits non-zero if not)
+python3 scripts/load_daily_light.py --self-check
 ```
+
+`--self-check` is the closest thing this repo has to a test suite for the
+loader. Run it after any change to the parsing, segmentation or alignment
+code, and eyeball a sample of `quoted_text` against the KJV text before
+committing a regenerated `data/daily_light.db` — a mis-attached quote is
+worse than a missing one.
+
+**`data/daily_light.db` is duplicated in the
+[daily-light](https://github.com/tjhleeds/daily-light) app repo.** After
+regenerating it here, copy it there in the same change, or the app will query
+columns its own copy lacks.
 
 The script maps abbreviated book names (from the source JSON's reference
 strings, e.g. `1co`, `ps`, `re`) to canonical KJV book names via

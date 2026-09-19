@@ -48,10 +48,82 @@ are stored as separate rows with consecutive `sequence` values.
 | `chapter`       | int     | Chapter number                                                           |
 | `verse_start`   | int     | First (or only) verse number in the reference                            |
 | `verse_end`     | int     | Last verse number for a range; `NULL` for a single-verse reference       |
+| `quoted_text`   | text    | The devotional's own printed wording for this citation; `NULL` when unavailable |
+| `is_partial`    | int     | 1 when the quote omits words from the cited range; 0 when it quotes it in full  |
+| `quote_score`   | real    | Alignment confidence, 0–1                                                |
 
 Constraint: `UNIQUE(reading_id, sequence)`
 
 Indexes: `(reading_id)`, `(kjv_book_name, chapter, verse_start)`
+
+## Quoted text
+
+*Daily Light* frequently quotes only **part** of a verse it cites — about 54%
+of citations print less than 90% of the cited range, and a quarter print half
+or less.  `quoted_text` records what Bagster actually printed, so a consumer
+can show the original extract rather than assume the whole verse was quoted.
+
+The wording is a lightly modernised KJV ("to" for "unto", "does" for "doth"),
+so it is **not** interchangeable with `KJV_verses.text` — it is the
+devotional's own presentation, kept alongside the KJV rather than in place of
+it.  Square-bracketed insertions are Bagster's editorial additions (supplying
+a name the KJV leaves as a pronoun, marginal readings, glosses) and are
+preserved verbatim.  `…` marks an elision the source itself marked.
+
+### How it is derived
+
+The source JSON gives one run of printed prose per reading, with no
+machine-readable link to the individual citations.  Mapping it by position
+fails — the heading sometimes covers only part of the first citation, the
+source sometimes omits trailing citations, and a comma-separated citation
+sometimes prints as two segments.  So `scripts/load_daily_light.py` matches
+printed segments to citations **by content**, scoring each candidate pairing
+on how much of the segment's wording appears in the cited KJV text and
+resolving the whole reading with an order-preserving dynamic program.
+
+Of the 6,018 citations, 5,557 carry a quote; the remaining 461 are citations
+whose text the source omits.  55% of stored quotes are flagged `is_partial`.
+
+`quote_score` is the share of the quote's words found, in order, within the
+cited KJV text.  Scores of about 0.46 and above are reliably correct; the
+small number below that are where a quote may have been attached to the wrong
+citation, so **consumers should suppress quotes below a threshold** rather
+than display them.  Re-running the loader with `--self-check` asserts the
+overall distribution still looks sane.
+
+### Example: partial quotes for one reading
+
+```sql
+ATTACH DATABASE 'data/KJV.db' AS kjv;
+
+SELECT
+    rv.kjv_book_name || ' ' || rv.chapter || ':' || rv.verse_start AS reference,
+    rv.is_partial,
+    ROUND(rv.quote_score, 2) AS score,
+    rv.quoted_text                                                 AS printed,
+    group_concat(v.text, ' ')                                      AS full_verse
+FROM dl_readings r
+JOIN dl_reading_verses rv ON rv.reading_id = r.id
+JOIN kjv.KJV_books  b ON b.name   = rv.kjv_book_name
+JOIN kjv.KJV_verses v ON v.book_id = b.id
+                     AND v.chapter  = rv.chapter
+                     AND v.verse BETWEEN rv.verse_start
+                                     AND COALESCE(rv.verse_end, rv.verse_start)
+WHERE r.month = 1 AND r.day = 2 AND r.period = 'morning'
+  AND rv.quoted_text IS NOT NULL
+GROUP BY rv.id
+ORDER BY rv.sequence;
+```
+
+### Adding these columns to an existing database
+
+The loader repopulates rows but does not create tables.  Apply
+`scripts/migrate_daily_light_quotes.sql` once before reloading:
+
+```bash
+sqlite3 data/daily_light.db < scripts/migrate_daily_light_quotes.sql
+python3 scripts/load_daily_light.py --self-check
+```
 
 ## Joining to the KJV Database
 
