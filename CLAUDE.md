@@ -37,6 +37,17 @@ maintaining the one Python loader script.
   infographic covering every verse in Genesis–Deuteronomy containing
   "abomination"/"abominations" (queried from `KJV.db`), grouped by phrasing
   pattern (e.g. "unto the LORD" vs. "unto you" vs. "unto the Egyptians").
+- `infographics/blessed_in_psalms_proverbs.html` — standalone HTML
+  infographic covering every verse in Psalms and Proverbs containing
+  "blessed" or "happy" (67 verses, queried from `KJV.db`), grouped into ten
+  themes (trust, forgiveness, the fear of the LORD, wisdom, mercy to the
+  poor, election, household blessing, doxology, blessing that fails, and
+  blessing pronounced on vengeance). Both words are needed because the KJV
+  renders the same pronouncement either way — Psalm 128 alternates between
+  them across four consecutive verses — so a search for "blessed" alone
+  misses 12 verses. The thematic grouping is editorial and stated as such in
+  the page; the verse set and the counts it reports are query results. Every
+  quotation is the full verse text exactly as stored in `KJV_verses.text`.
 - `infographics/christian_hymns_by_section.html` — standalone HTML
   infographic breaking down the 942 hymns in the *Christian Hymns* hymnbook
   by its 11 top-level sections and 45 subsections (donut chart, legend, full
