@@ -48,6 +48,26 @@ maintaining the one Python loader script.
   misses 12 verses. The thematic grouping is editorial and stated as such in
   the page; the verse set and the counts it reports are query results. Every
   quotation is the full verse text exactly as stored in `KJV_verses.text`.
+- `infographics/sanctification_*.html` — a five-page series on
+  sanctification, linked to each other by a shared nav bar. All five draw on
+  one verse set: every verse matching `LIKE` `%sanctif%`, `%hallow%`,
+  `%consecrat%`, `%holiness%` or `%holily%` (240 verses; 46 in the New
+  Testament). `holy` is deliberately excluded (549 verses, mostly "Holy
+  Ghost", "holy place", "Holy One"); page 1 explains why. Pages:
+  `sanctification_vocabulary` (word families, OT/NT split, neighbouring
+  words such as purify/cleanse/saints counted for comparison),
+  `sanctification_across_the_bible` (per-book counts and density, hotspot
+  chapters), `sanctification_gods_part_and_ours` ("sanctify yourselves" vs.
+  "I the Lord … sanctify you" vs. "I am holy" — these three queries reach
+  beyond the 240-verse set), `sanctification_sources_nt` (NT verses grouped
+  by who/what sanctifies) and `sanctification_already_not_yet` (NT verses
+  grouped as already / now / not yet). Verse sets and counts are query
+  results; the groupings on pages 3–5 are editorial and say so on the page.
+  The pages are generated — edit `scripts/build_sanctification_infographics.py`
+  and re-run it (`python3 scripts/build_sanctification_infographics.py`)
+  rather than editing the HTML by hand. The editorial groupings live in the
+  script, and `assert`s fail the build if a grouping no longer covers exactly
+  its query's rows.
 - `infographics/christian_hymns_by_section.html` — standalone HTML
   infographic breaking down the 942 hymns in the *Christian Hymns* hymnbook
   by its 11 top-level sections and 45 subsections (donut chart, legend, full
@@ -98,6 +118,9 @@ for each of its six figures — see its `.sql-links` blocks for the pattern.
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
   `data/daily_light.db`.
+- `scripts/build_sanctification_infographics.py` — regenerates the five
+  `infographics/sanctification_*.html` pages from `data/KJV.db` (read-only).
+  Takes an optional repo-root argument; defaults to the repo containing it.
 - `verses per book.md` — links to prebuilt [Datasette Lite](https://lite.datasette.io/)
   queries against `KJV.db` for verses/chapters/words per book.
 

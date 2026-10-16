@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>God’s Part and Ours</title>
+<style>
+:root{color-scheme:light;--bg:#f7f5f0;--panel:#ffffff;--ink:#1f1c17;--soft:#5e574b;--muted:#8a8377;--line:#e4dfd3;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#6250d6;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#141311;--panel:#1e1c19;--ink:#efece6;--soft:#b8b1a3;--muted:#8a8377;--line:#34302a;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#9085e9;}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#141311;--panel:#1e1c19;--ink:#efece6;--soft:#b8b1a3;--muted:#8a8377;--line:#34302a;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#9085e9;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.5}
+.sans,nav,.kicker,.stat,.chart,.legend,.count,.ref,.sql-section,footer,.tag{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 16px 72px}
+nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;font-size:13px;margin-bottom:32px}
+nav a,nav span{padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--soft);text-decoration:none}
+nav span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav a:hover{border-color:var(--s1);color:var(--ink)}
+header{text-align:center;margin-bottom:28px}
+.kicker{text-transform:uppercase;letter-spacing:.16em;font-size:12px;color:var(--soft);margin-bottom:10px}
+h1{font-size:clamp(28px,4.5vw,44px);margin:0 0 12px;line-height:1.15}
+.sub{max-width:700px;margin:0 auto;color:var(--soft);font-size:16px}
+.stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin:30px 0 8px}
+.stat{text-align:center;min-width:92px}
+.stat .n{font-size:30px;font-weight:800;line-height:1}
+.stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--soft);margin-top:6px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:28px 0}
+.panel h2{font-size:21px;margin:0 0 4px}
+.panel .lede{color:var(--soft);margin:0 0 18px;font-size:15px}
+.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:28px 0}
+.insight{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--s1);border-radius:12px;padding:14px 16px;font-size:15px}
+.insight b{display:block;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;letter-spacing:.02em;margin-bottom:4px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12.5px;color:var(--soft);margin:0 0 14px}
+.legend .k{display:flex;align-items:center;gap:7px}
+.sw{width:10px;height:10px;border-radius:3px;flex:none}
+.hbar{display:grid;grid-template-columns:minmax(92px,150px) 1fr;gap:6px 12px;align-items:center;font-size:13px}
+.hbar .lab{color:var(--ink);text-align:right}
+.hbar .lab small{display:block;color:var(--muted);font-size:11px}
+.track{display:flex;align-items:center;gap:2px;min-height:18px}
+.seg{height:16px;border-radius:0}
+.seg:first-child{border-radius:4px 0 0 4px}.seg:last-of-type{border-radius:0 4px 4px 0}.seg:only-of-type{border-radius:4px}
+.track .v{margin-left:8px;color:var(--soft);font-size:12px;white-space:nowrap}
+.track .v b{color:var(--ink)}
+.grid{columns:1;column-gap:22px;margin-top:8px}
+@media (min-width:760px){.grid{columns:2}}
+.card{break-inside:avoid;margin:0 0 22px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px 16px;border-top:4px solid var(--c,var(--s1))}
+.card .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.card h3{font-size:18px;margin:0}
+.card .phrase{font-style:italic;font-size:14px;color:var(--soft);margin:4px 0 10px}
+.count{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap;border:1px solid var(--line);color:var(--ink)}
+ul.vv{list-style:none;padding:0;margin:0}
+ul.vv li{padding:10px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:118px 1fr;gap:10px;font-size:15px}
+ul.vv li:first-child{border-top:0}
+@media (max-width:520px){ul.vv li{grid-template-columns:1fr;gap:2px}}
+.ref{font-size:12.5px;font-weight:700;color:var(--soft);padding-top:2px}
+.txt b{background:color-mix(in srgb,var(--c,var(--s1)) 22%,transparent);border-radius:3px;padding:0 2px;font-weight:600}
+.ctx{display:block;font-size:13px;color:var(--soft);margin-top:5px;font-style:italic}
+.tag{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px;margin-right:4px;border:1px solid var(--line);color:var(--soft)}
+.sql-section{margin-top:56px;font-size:14px}
+.sql-section h2{font-size:20px}
+.sql-section h3{font-size:15px;margin:26px 0 8px}
+.sql-section pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:12.5px;line-height:1.45}
+.sql-section p{color:var(--soft)}
+.sql-section a,.panel a{color:var(--s1)}
+footer{margin-top:48px;text-align:center;font-size:12.5px;color:var(--muted)}
+footer a{color:inherit}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+details summary{cursor:pointer;color:var(--soft);font-size:13px;margin-top:14px}
+
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;font-size:18px}
+.pair p{margin:6px 0 0}
+.pair .arrow{font-size:28px;color:var(--soft)}
+@media (max-width:640px){.pair{grid-template-columns:1fr}.pair .arrow{text-align:center}}
+.pair b{background:color-mix(in srgb,var(--s2) 22%,transparent);border-radius:3px;padding:0 2px}
+.sides{display:grid;grid-template-columns:1fr;gap:28px;margin-top:28px}
+@media (min-width:860px){.sides{grid-template-columns:1fr 1fr}}
+.side-h{font-size:20px;margin:0 0 4px}
+.sides .lede{color:var(--soft);margin:0 0 16px;font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Sanctification series"><a href="../index.html">All infographics</a><a href="sanctification_vocabulary.html">The words</a><a href="sanctification_across_the_bible.html">Where it clusters</a><span>God’s part and ours</span><a href="sanctification_sources_nt.html">Who sanctifies</a><a href="sanctification_already_not_yet.html">Already, now, not yet</a></nav>
+<header>
+  <div class="kicker">Sanctification in the KJV · 3 of 5</div>
+  <h1>God’s Part and Ours</h1>
+  <p class="sub">“Sanctify yourselves” and “I am the Lord which sanctify you” run side by side through the Old Testament. Here is every verse of each.</p>
+</header>
+<div class="stats"><div class="stat"><div class="n">24</div><div class="l">“sanctify yourselves”</div></div><div class="stat"><div class="n">10</div><div class="l">“I the Lord sanctify you”</div></div><div class="stat"><div class="n">7</div><div class="l">“I am holy”</div></div></div><div class="panel pair"><div><span class="ref">Leviticus 20:7</span><p><b>Sanctify</b> yourselves therefore, and be ye <b>holy</b>: for I am the Lord your God.</p></div>
+<div class="arrow" aria-hidden="true">⇄</div>
+<div><span class="ref">Leviticus 20:8</span><p>And ye shall keep my statutes, and do them: I am the Lord which <b>sanctify</b> you.</p></div></div>
+<p class="sub" style="text-align:center;margin:-8px auto 24px">Two consecutive verses state both sides: the people are to sanctify themselves, and it is the Lord who sanctifies them.</p><div class="insights"><div class="insight" style="border-left-color:var(--s2)"><b>God’s refrain is concentrated in Leviticus</b>7 of the 10 “I the Lord … sanctify” verses are in Leviticus, all of them in chapters 20–22. Ezekiel repeats it twice, both times as something Israel or the nations will come to know.</div><div class="insight" style="border-left-color:var(--s1)"><b>“Against to morrow”</b>Several commands to sanctify come the day before God acts: Sinai (Exodus 19:10–11), the quails (Numbers 11:18), the Jordan (Joshua 3:5), Achan (Joshua 7:13).</div><div class="insight" style="border-left-color:var(--s3)"><b>The Levites outdo the priests</b>In Hezekiah’s reform the priests were “too few”, and the Passover itself was delayed because they “had not sanctified themselves sufficiently” (2 Chronicles 29:34, 30:3).</div><div class="insight" style="border-left-color:var(--s4)"><b>“Be ye holy; for I am holy”</b>The reason given is always God’s own holiness. The phrase “am holy” is in 7 verses: five in Leviticus, one in Psalms, and Peter quoting it in 1 Peter 1:16.</div></div><div class="sides"><div><h2 class="side-h">Ours: “sanctify yourselves”</h2><p class="lede">Every verse where someone sanctifies or consecrates <em>themselves</em>, grouped by occasion.</p><div class="card" style="--c:var(--s1)"><div class="top"><h3>Israel, its priests and Levites</h3><span class="count">11 verses</span></div><div class="phrase">Usually before God acts, or before a sacrifice or a holy task</div><ul class="vv"><li><span class="ref">Exodus 19:22</span><div class="txt">And let the priests also, which come near to the Lord, <b>sanctify</b> themselves, lest the Lord break forth upon them.<span class="ctx">At Sinai, before the Lord comes down on the mount (19:11).</span></div></li><li><span class="ref">Exodus 32:29</span><div class="txt">For Moses had said, <b>Consecrate</b> yourselves to day to the Lord, even every man upon his son, and upon his brother; that he may bestow upon you a blessing this day.<span class="ctx">After the golden calf.</span></div></li><li><span class="ref">Leviticus 11:44</span><div class="txt">For I am the Lord your God: ye shall therefore <b>sanctify</b> yourselves, and ye shall be <b>holy</b>; for I am <b>holy</b>: neither shall ye defile yourselves with any manner of creeping thing that creepeth upon the earth.</div></li><li><span class="ref">Leviticus 20:7</span><div class="txt"><b>Sanctify</b> yourselves therefore, and be ye <b>holy</b>: for I am the Lord your God.<span class="ctx">The next verse answers it: “I am the Lord which sanctify you.”</span></div></li><li><span class="ref">Numbers 11:18</span><div class="txt">And say thou unto the people, <b>Sanctify</b> yourselves against to morrow, and ye shall eat flesh: for ye have wept in the ears of the Lord, saying, Who shall give us flesh to eat? for it was well with us in Egypt: therefore the Lord will give you flesh, and ye shall eat.<span class="ctx">Before the quails.</span></div></li><li><span class="ref">Joshua 3:5</span><div class="txt">And Joshua said unto the people, <b>Sanctify</b> yourselves: for to morrow the Lord will do wonders among you.<span class="ctx">Before crossing the Jordan.</span></div></li><li><span class="ref">Joshua 7:13</span><div class="txt">Up, <b>sanctify</b> the people, and say, <b>Sanctify</b> yourselves against to morrow: for thus saith the Lord God of Israel, There is an accursed thing in the midst of thee, O Israel: thou canst not stand before thine enemies, until ye take away the accursed thing from among you.<span class="ctx">Before the lot falls on Achan.</span></div></li><li><span class="ref">1 Samuel 16:5</span><div class="txt">And he said, Peaceably: I am come to sacrifice unto the Lord: <b>sanctify</b> yourselves, and come with me to the sacrifice. And he <b>sanctified</b> Jesse and his sons, and called them to the sacrifice.<span class="ctx">Before the anointing of David.</span></div></li><li><span class="ref">1 Chronicles 15:12</span><div class="txt">And said unto them, Ye are the chief of the fathers of the Levites: <b>sanctify</b> yourselves, both ye and your brethren, that ye may bring up the ark of the Lord God of Israel unto the place that I have prepared for it.<span class="ctx">Before bringing up the ark.</span></div></li><li><span class="ref">1 Chronicles 15:14</span><div class="txt">So the priests and the Levites <b>sanctified</b> themselves to bring up the ark of the Lord God of Israel.</div></li><li><span class="ref">Ezekiel 43:26</span><div class="txt">Seven days shall they purge the altar and purify it; and they shall <b>consecrate</b> themselves.<span class="ctx">In Ezekiel’s vision of the restored altar.</span></div></li></ul></div><div class="card" style="--c:var(--s3)"><div class="top"><h3>Hezekiah and Josiah restore the temple</h3><span class="count">9 verses</span></div><div class="phrase">Nine verses from two reforms: the house of the Lord cleansed and the Passover kept again</div><ul class="vv"><li><span class="ref">2 Chronicles 29:5</span><div class="txt">And said unto them, Hear me, ye Levites, <b>sanctify</b> now yourselves, and <b>sanctify</b> the house of the Lord God of your fathers, and carry forth the filthiness out of the <b>holy</b> place.</div></li><li><span class="ref">2 Chronicles 29:15</span><div class="txt">And they gathered their brethren, and <b>sanctified</b> themselves, and came, according to the commandment of the king, by the words of the Lord, to cleanse the house of the Lord.</div></li><li><span class="ref">2 Chronicles 29:31</span><div class="txt">Then Hezekiah answered and said, Now ye have <b>consecrated</b> yourselves unto the Lord, come near and bring sacrifices and thank offerings into the house of the Lord. And the congregation brought in sacrifices and thank offerings; and as many as were of a free heart burnt offerings.</div></li><li><span class="ref">2 Chronicles 29:34</span><div class="txt">But the priests were too few, so that they could not flay all the burnt offerings: wherefore their brethren the Levites did help them, till the work was ended, and until the other priests had <b>sanctified</b> themselves: for the Levites were more upright in heart to <b>sanctify</b> themselves than the priests.<span class="ctx">“The Levites were more upright in heart to sanctify themselves than the priests.”</span></div></li><li><span class="ref">2 Chronicles 30:3</span><div class="txt">For they could not keep it at that time, because the priests had not <b>sanctified</b> themselves sufficiently, neither had the people gathered themselves together to Jerusalem.<span class="ctx">The Passover had to be moved to the second month.</span></div></li><li><span class="ref">2 Chronicles 30:15</span><div class="txt">Then they killed the passover on the fourteenth day of the second month: and the priests and the Levites were ashamed, and <b>sanctified</b> themselves, and brought in the burnt offerings into the house of the Lord.</div></li><li><span class="ref">2 Chronicles 30:24</span><div class="txt">For Hezekiah king of Judah did give to the congregation a thousand bullocks and seven thousand sheep; and the princes gave to the congregation a thousand bullocks and ten thousand sheep: and a great number of priests <b>sanctified</b> themselves.</div></li><li><span class="ref">2 Chronicles 31:18</span><div class="txt">And to the genealogy of all their little ones, their wives, and their sons, and their daughters, through all the congregation: for in their set office they <b>sanctified</b> themselves in <b>holiness</b>:</div></li><li><span class="ref">2 Chronicles 35:6</span><div class="txt">So kill the passover, and <b>sanctify</b> yourselves, and prepare your brethren, that they may do according to the word of the Lord by the hand of Moses.<span class="ctx">Josiah’s Passover.</span></div></li></ul></div><div class="card" style="--c:var(--s5)"><div class="top"><h3>Self-sanctification God rejects</h3><span class="count">2 verses</span></div><div class="phrase">Sanctifying yourself outside what God commanded</div><ul class="vv"><li><span class="ref">2 Chronicles 13:9</span><div class="txt">Have ye not cast out the priests of the Lord, the sons of Aaron, and the Levites, and have made you priests after the manner of the nations of other lands? so that whosoever cometh to <b>consecrate</b> himself with a young bullock and seven rams, the same may be a priest of them that are no gods.<span class="ctx">Abijah condemning Jeroboam’s priests.</span></div></li><li><span class="ref">Isaiah 66:17</span><div class="txt">They that <b>sanctify</b> themselves, and purify themselves in the gardens behind one tree in the midst, eating swine’s flesh, and the abomination, and the mouse, shall be consumed together, saith the Lord.<span class="ctx">Pagan rites in the gardens.</span></div></li></ul></div><div class="card" style="--c:var(--s6)"><div class="top"><h3>“Sanctify myself”</h3><span class="count">2 verses</span></div><div class="phrase">The first person singular is said only by the Lord in Ezekiel and by Jesus</div><ul class="vv"><li><span class="ref">Ezekiel 38:23</span><div class="txt">Thus will I magnify myself, and <b>sanctify</b> myself; and I will be known in the eyes of many nations, and they shall know that I am the Lord.<span class="ctx">In the prophecy against Gog.</span></div></li><li><span class="ref">John 17:19</span><div class="txt">And for their sakes I <b>sanctify</b> myself, that they also might be <b>sanctified</b> through the truth.<span class="ctx">Jesus praying for his disciples on the night before the crucifixion.</span></div></li></ul></div></div>
+<div><h2 class="side-h">God’s: “I am the Lord which sanctify you”</h2><p class="lede">Every verse where the Lord names himself as the one who sanctifies.</p>
+<div class="card" style="--c:var(--s2)"><div class="top"><h3>The refrain</h3><span class="count">10 verses</span></div><div class="phrase">Usually closing a law, as its reason</div><ul class="vv"><li><span class="ref">Exodus 31:13</span><div class="txt">Speak thou also unto the children of Israel, saying, Verily my sabbaths ye shall keep: for it is a sign between me and you throughout your generations; that ye may know that I am the Lord that doth <b>sanctify</b> you.</div></li><li><span class="ref">Leviticus 20:8</span><div class="txt">And ye shall keep my statutes, and do them: I am the Lord which <b>sanctify</b> you.</div></li><li><span class="ref">Leviticus 21:8</span><div class="txt">Thou shalt <b>sanctify</b> him therefore; for he offereth the bread of thy God: he shall be <b>holy</b> unto thee: for I the Lord, which <b>sanctify</b> you, am <b>holy</b>.</div></li><li><span class="ref">Leviticus 21:15</span><div class="txt">Neither shall he profane his seed among his people: for I the Lord do <b>sanctify</b> him.</div></li><li><span class="ref">Leviticus 21:23</span><div class="txt">Only he shall not go in unto the vail, nor come nigh unto the altar, because he hath a blemish; that he profane not my sanctuaries: for I the Lord do <b>sanctify</b> them.</div></li><li><span class="ref">Leviticus 22:9</span><div class="txt">They shall therefore keep mine ordinance, lest they bear sin for it, and die therefore, if they profane it: I the Lord do <b>sanctify</b> them.</div></li><li><span class="ref">Leviticus 22:16</span><div class="txt">Or suffer them to bear the iniquity of trespass, when they eat their <b>holy</b> things: for I the Lord do <b>sanctify</b> them.</div></li><li><span class="ref">Leviticus 22:32</span><div class="txt">Neither shall ye profane my <b>holy</b> name; but I will be <b>hallowed</b> among the children of Israel: I am the Lord which <b>hallow</b> you,</div></li><li><span class="ref">Ezekiel 20:12</span><div class="txt">Moreover also I gave them my sabbaths, to be a sign between me and them, that they might know that I am the Lord that <b>sanctify</b> them.</div></li><li><span class="ref">Ezekiel 37:28</span><div class="txt">And the heathen shall know that I the Lord do <b>sanctify</b> Israel, when my sanctuary shall be in the midst of them for evermore.</div></li></ul></div>
+<div class="card" style="--c:var(--s4)"><div class="top"><h3>“For I am holy”</h3><span class="count">7 verses</span></div><div class="phrase">The ground of the command: the holiness of God himself</div><ul class="vv"><li><span class="ref">Leviticus 11:44</span><div class="txt">For I am the Lord your God: ye shall therefore <b>sanctify</b> yourselves, and ye shall be <b>holy</b>; for I am <b>holy</b>: neither shall ye defile yourselves with any manner of creeping thing that creepeth upon the earth.</div></li><li><span class="ref">Leviticus 11:45</span><div class="txt">For I am the Lord that bringeth you up out of the land of Egypt, to be your God: ye shall therefore be <b>holy</b>, for I am <b>holy</b>.</div></li><li><span class="ref">Leviticus 19:2</span><div class="txt">Speak unto all the congregation of the children of Israel, and say unto them, Ye shall be <b>holy</b>: for I the Lord your God am <b>holy</b>.</div></li><li><span class="ref">Leviticus 20:26</span><div class="txt">And ye shall be <b>holy</b> unto me: for I the Lord am <b>holy</b>, and have severed you from other people, that ye should be mine.</div></li><li><span class="ref">Leviticus 21:8</span><div class="txt">Thou shalt <b>sanctify</b> him therefore; for he offereth the bread of thy God: he shall be <b>holy</b> unto thee: for I the Lord, which <b>sanctify</b> you, am <b>holy</b>.</div></li><li><span class="ref">Psalm 86:2</span><div class="txt">Preserve my soul; for I am <b>holy</b>: O thou my God, save thy servant that trusteth in thee.<span class="ctx">The only one not spoken by God: the psalmist says it of himself.</span></div></li><li><span class="ref">1 Peter 1:16</span><div class="txt">Because it is written, Be ye <b>holy</b>; for I am <b>holy</b>.<span class="ctx">“Because it is written”: Peter quotes the Leviticus refrain to the church.</span></div></li></ul></div></div></div>
+<section class="sql-section"><h2>The queries</h2><h3>“Sanctify yourselves” — the 24 verses on the left</h3>
+<pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE v.text LIKE &#x27;%sanctify yourselves%&#x27;
+   OR v.text LIKE &#x27;%sanctify now yourselves%&#x27;
+   OR v.text LIKE &#x27;%sanctify themselves%&#x27;
+   OR v.text LIKE &#x27;%sanctified themselves%&#x27;
+   OR v.text LIKE &#x27;%sanctify myself%&#x27;
+   OR v.text LIKE &#x27;%consecrate yourselves%&#x27;
+   OR v.text LIKE &#x27;%consecrated yourselves%&#x27;
+   OR v.text LIKE &#x27;%consecrate themselves%&#x27;
+   OR v.text LIKE &#x27;%consecrate himself%&#x27;
+ORDER BY v.book_id, v.chapter, v.verse</code></pre>
+<p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+v.text+LIKE+%27%25sanctify+yourselves%25%27%0A+++OR+v.text+LIKE+%27%25sanctify+now+yourselves%25%27%0A+++OR+v.text+LIKE+%27%25sanctify+themselves%25%27%0A+++OR+v.text+LIKE+%27%25sanctified+themselves%25%27%0A+++OR+v.text+LIKE+%27%25sanctify+myself%25%27%0A+++OR+v.text+LIKE+%27%25consecrate+yourselves%25%27%0A+++OR+v.text+LIKE+%27%25consecrated+yourselves%25%27%0A+++OR+v.text+LIKE+%27%25consecrate+themselves%25%27%0A+++OR+v.text+LIKE+%27%25consecrate+himself%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. These are the verb followed directly by a reflexive pronoun. Grouping them by occasion is editorial, done by reading each verse in its chapter.</p>
+<h3>“I the Lord … sanctify” — the 10 refrain verses</h3>
+<pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE v.text LIKE &#x27;%Lord that doth sanctify%&#x27;
+   OR v.text LIKE &#x27;%Lord which sanctify%&#x27;
+   OR v.text LIKE &#x27;%Lord, which sanctify%&#x27;
+   OR v.text LIKE &#x27;%Lord do sanctify%&#x27;
+   OR v.text LIKE &#x27;%Lord that sanctify%&#x27;
+   OR v.text LIKE &#x27;%Lord which hallow%&#x27;
+ORDER BY v.book_id, v.chapter, v.verse</code></pre>
+<p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+v.text+LIKE+%27%25Lord+that+doth+sanctify%25%27%0A+++OR+v.text+LIKE+%27%25Lord+which+sanctify%25%27%0A+++OR+v.text+LIKE+%27%25Lord%2C+which+sanctify%25%27%0A+++OR+v.text+LIKE+%27%25Lord+do+sanctify%25%27%0A+++OR+v.text+LIKE+%27%25Lord+that+sanctify%25%27%0A+++OR+v.text+LIKE+%27%25Lord+which+hallow%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. Every spelling of the formula found in the KJV. Leviticus 22:32 uses “hallow” rather than “sanctify”.</p>
+<h3>“I am holy” — 7 verses</h3>
+<pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE v.text LIKE &#x27;%am holy%&#x27;
+ORDER BY v.book_id, v.chapter, v.verse</code></pre>
+<p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+v.text+LIKE+%27%25am+holy%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. This one reaches beyond the 240-verse set, since “holy” is not one of its search words (see page 1).</p>
+</section>
+<footer>Source: KJV text queried from <code>data/KJV.db</code> in this repository &middot; every quotation is the full verse exactly as stored in <code>KJV_verses.text</code> &middot; <a href="https://github.com/tjhleeds/bible-stats">Source on GitHub</a></footer>
+</div>
+</body>
+</html>

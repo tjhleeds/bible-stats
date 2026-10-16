@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Words for Sanctification</title>
+<style>
+:root{color-scheme:light;--bg:#f7f5f0;--panel:#ffffff;--ink:#1f1c17;--soft:#5e574b;--muted:#8a8377;--line:#e4dfd3;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#6250d6;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#141311;--panel:#1e1c19;--ink:#efece6;--soft:#b8b1a3;--muted:#8a8377;--line:#34302a;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#9085e9;}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#141311;--panel:#1e1c19;--ink:#efece6;--soft:#b8b1a3;--muted:#8a8377;--line:#34302a;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#9085e9;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.5}
+.sans,nav,.kicker,.stat,.chart,.legend,.count,.ref,.sql-section,footer,.tag{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 16px 72px}
+nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;font-size:13px;margin-bottom:32px}
+nav a,nav span{padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--soft);text-decoration:none}
+nav span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav a:hover{border-color:var(--s1);color:var(--ink)}
+header{text-align:center;margin-bottom:28px}
+.kicker{text-transform:uppercase;letter-spacing:.16em;font-size:12px;color:var(--soft);margin-bottom:10px}
+h1{font-size:clamp(28px,4.5vw,44px);margin:0 0 12px;line-height:1.15}
+.sub{max-width:700px;margin:0 auto;color:var(--soft);font-size:16px}
+.stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin:30px 0 8px}
+.stat{text-align:center;min-width:92px}
+.stat .n{font-size:30px;font-weight:800;line-height:1}
+.stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--soft);margin-top:6px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:28px 0}
+.panel h2{font-size:21px;margin:0 0 4px}
+.panel .lede{color:var(--soft);margin:0 0 18px;font-size:15px}
+.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:28px 0}
+.insight{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--s1);border-radius:12px;padding:14px 16px;font-size:15px}
+.insight b{display:block;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;letter-spacing:.02em;margin-bottom:4px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12.5px;color:var(--soft);margin:0 0 14px}
+.legend .k{display:flex;align-items:center;gap:7px}
+.sw{width:10px;height:10px;border-radius:3px;flex:none}
+.hbar{display:grid;grid-template-columns:minmax(92px,150px) 1fr;gap:6px 12px;align-items:center;font-size:13px}
+.hbar .lab{color:var(--ink);text-align:right}
+.hbar .lab small{display:block;color:var(--muted);font-size:11px}
+.track{display:flex;align-items:center;gap:2px;min-height:18px}
+.seg{height:16px;border-radius:0}
+.seg:first-child{border-radius:4px 0 0 4px}.seg:last-of-type{border-radius:0 4px 4px 0}.seg:only-of-type{border-radius:4px}
+.track .v{margin-left:8px;color:var(--soft);font-size:12px;white-space:nowrap}
+.track .v b{color:var(--ink)}
+.grid{columns:1;column-gap:22px;margin-top:8px}
+@media (min-width:760px){.grid{columns:2}}
+.card{break-inside:avoid;margin:0 0 22px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px 16px;border-top:4px solid var(--c,var(--s1))}
+.card .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.card h3{font-size:18px;margin:0}
+.card .phrase{font-style:italic;font-size:14px;color:var(--soft);margin:4px 0 10px}
+.count{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap;border:1px solid var(--line);color:var(--ink)}
+ul.vv{list-style:none;padding:0;margin:0}
+ul.vv li{padding:10px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:118px 1fr;gap:10px;font-size:15px}
+ul.vv li:first-child{border-top:0}
+@media (max-width:520px){ul.vv li{grid-template-columns:1fr;gap:2px}}
+.ref{font-size:12.5px;font-weight:700;color:var(--soft);padding-top:2px}
+.txt b{background:color-mix(in srgb,var(--c,var(--s1)) 22%,transparent);border-radius:3px;padding:0 2px;font-weight:600}
+.ctx{display:block;font-size:13px;color:var(--soft);margin-top:5px;font-style:italic}
+.tag{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px;margin-right:4px;border:1px solid var(--line);color:var(--soft)}
+.sql-section{margin-top:56px;font-size:14px}
+.sql-section h2{font-size:20px}
+.sql-section h3{font-size:15px;margin:26px 0 8px}
+.sql-section pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:12.5px;line-height:1.45}
+.sql-section p{color:var(--soft)}
+.sql-section a,.panel a{color:var(--s1)}
+footer{margin-top:48px;text-align:center;font-size:12.5px;color:var(--muted)}
+footer a{color:inherit}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+details summary{cursor:pointer;color:var(--soft);font-size:13px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Sanctification series"><a href="../index.html">All infographics</a><span>The words</span><a href="sanctification_across_the_bible.html">Where it clusters</a><a href="sanctification_gods_part_and_ours.html">God’s part and ours</a><a href="sanctification_sources_nt.html">Who sanctifies</a><a href="sanctification_already_not_yet.html">Already, now, not yet</a></nav>
+<header>
+  <div class="kicker">Sanctification in the KJV · 1 of 5</div>
+  <h1>The Words for Sanctification</h1>
+  <p class="sub">Which English words the King James Bible uses for making something holy, how often, and how the vocabulary shifts between the Old and New Testaments.</p>
+</header>
+<div class="stats"><div class="stat"><div class="n">240</div><div class="l">verses in the set</div></div><div class="stat"><div class="n">5</div><div class="l">word families</div></div><div class="stat"><div class="n">194</div><div class="l">Old Testament</div></div><div class="stat"><div class="n">46</div><div class="l">New Testament</div></div><div class="stat"><div class="n">4</div><div class="l">use two families</div></div></div><div class="insights"><div class="insight" style="border-left-color:var(--s1)"><b>“Sanctification” is a New Testament noun</b>The noun appears in 5 verses, all in the New Testament. The Old Testament only ever uses the verb: “sanctify” is in 59 Old Testament verses.</div><div class="insight" style="border-left-color:var(--s2)"><b>“Hallow” almost vanishes</b>33 of the 35 “hallow” verses are in the Old Testament. The other 2 are the same prayer, twice: “Hallowed be thy name” (Matthew 6:9, Luke 11:2).</div><div class="insight" style="border-left-color:var(--s3)"><b>“Consecrate” is a priestly word</b>38 of its 40 verses are Old Testament, most about ordaining priests. Its two New Testament uses are both in Hebrews, and both are about Christ.</div><div class="insight" style="border-left-color:var(--s4)"><b>“Holiness” is the most even</b>30 Old Testament and 13 New Testament verses: about a third New Testament, against roughly a fifth for the set as a whole.</div></div><div class="panel"><h2>The five word families in the set</h2>
+<p class="lede">The 240 verses on these pages are every KJV verse containing <em>sanctif-</em>, <em>hallow</em>, <em>consecrat-</em>, <em>holiness</em> or <em>holily</em>. The bars add up to 244, not 240, because 4 verses use two of the families at once.</p>
+<div class="legend"><span class="k"><span class="sw" style="background:var(--s1)"></span>Old Testament</span><span class="k"><span class="sw" style="background:var(--s2)"></span>New Testament</span><span class="k">Figures are verses containing the word (OT · NT)</span></div><div class="hbar"><div class="lab">sanctify (sanctif-)</div><div class="track" role="img" aria-label="sanctify (sanctif-): 125 verses"><span class="seg" style="width:77.60%;background:var(--s1)" title="sanctify (sanctif-): 97 Old Testament verses"></span><span class="seg" style="width:22.40%;background:var(--s2)" title="sanctify (sanctif-): 28 New Testament verses"></span><span class="v"><b>125</b> (97 · 28)</span></div><div class="lab">hallow</div><div class="track" role="img" aria-label="hallow: 35 verses"><span class="seg" style="width:26.40%;background:var(--s1)" title="hallow: 33 Old Testament verses"></span><span class="seg" style="width:1.60%;background:var(--s2)" title="hallow: 2 New Testament verses"></span><span class="v"><b>35</b> (33 · 2)</span></div><div class="lab">consecrate (consecrat-)</div><div class="track" role="img" aria-label="consecrate (consecrat-): 40 verses"><span class="seg" style="width:30.40%;background:var(--s1)" title="consecrate (consecrat-): 38 Old Testament verses"></span><span class="seg" style="width:1.60%;background:var(--s2)" title="consecrate (consecrat-): 2 New Testament verses"></span><span class="v"><b>40</b> (38 · 2)</span></div><div class="lab">holiness</div><div class="track" role="img" aria-label="holiness: 43 verses"><span class="seg" style="width:24.00%;background:var(--s1)" title="holiness: 30 Old Testament verses"></span><span class="seg" style="width:10.40%;background:var(--s2)" title="holiness: 13 New Testament verses"></span><span class="v"><b>43</b> (30 · 13)</span></div><div class="lab">holily</div><div class="track" role="img" aria-label="holily: 1 verses"><span class="seg" style="width:0.80%;background:var(--s2)" title="holily: 1 New Testament verses"></span><span class="v"><b>1</b> (0 · 1)</span></div></div></div>
+<div class="panel"><h2>The sanctify family, form by form</h2>
+<p class="lede">The Old Testament commands and describes acts (“sanctify”, “sanctified”). The forms that describe sanctification as an ongoing action or a state (“sanctifieth”, “sanctification”) appear only in the New Testament.</p>
+<div class="legend"><span class="k"><span class="sw" style="background:var(--s1)"></span>Old Testament</span><span class="k"><span class="sw" style="background:var(--s2)"></span>New Testament</span><span class="k">Figures are verses containing the word (OT · NT)</span></div><div class="hbar"><div class="lab">sanctify</div><div class="track" role="img" aria-label="sanctify: 65 verses"><span class="seg" style="width:90.77%;background:var(--s1)" title="sanctify: 59 OT verses"></span><span class="seg" style="width:9.23%;background:var(--s2)" title="sanctify: 6 NT verses"></span><span class="v"><b>65</b> (59 · 6)</span></div><div class="lab">sanctified</div><div class="track" role="img" aria-label="sanctified: 58 verses"><span class="seg" style="width:66.15%;background:var(--s1)" title="sanctified: 43 OT verses"></span><span class="seg" style="width:23.08%;background:var(--s2)" title="sanctified: 15 NT verses"></span><span class="v"><b>58</b> (43 · 15)</span></div><div class="lab">sanctifieth</div><div class="track" role="img" aria-label="sanctifieth: 4 verses"><span class="seg" style="width:6.15%;background:var(--s2)" title="sanctifieth: 4 NT verses"></span><span class="v"><b>4</b> (0 · 4)</span></div><div class="lab">sanctification</div><div class="track" role="img" aria-label="sanctification: 5 verses"><span class="seg" style="width:7.69%;background:var(--s2)" title="sanctification: 5 NT verses"></span><span class="v"><b>5</b> (0 · 5)</span></div></div></div>
+<div class="panel"><h2>Neighbouring words, searched but left out</h2>
+<p class="lede">These words often appear alongside sanctification, but most of their uses are about something else: ritual washing, leprosy, the Nazarite vow, dividing land. They are counted here for comparison and are <strong>not</strong> in the 240-verse set. “Holy” is left out for the same reason: it is in 549 verses, but 89 of those are “Holy Ghost”, 63 “holy place” and 52 “Holy One”: mostly names and places, not the act of making holy.</p>
+<div class="legend"><span class="k"><span class="sw" style="background:var(--s1)"></span>Old Testament</span><span class="k"><span class="sw" style="background:var(--s2)"></span>New Testament</span><span class="k">Figures are verses containing the word (OT · NT)</span></div><div class="hbar"><div class="lab">saint(s)</div><div class="track" role="img" aria-label="saint(s): 98 verses"><span class="seg" style="width:28.80%;background:var(--s1)" title="saint(s): 36 Old Testament verses"></span><span class="seg" style="width:49.60%;background:var(--s2)" title="saint(s): 62 New Testament verses"></span><span class="v"><b>98</b> (36 · 62)</span></div><div class="lab">separate (separat-)</div><div class="track" role="img" aria-label="separate (separat-): 88 verses"><span class="seg" style="width:60.80%;background:var(--s1)" title="separate (separat-): 76 Old Testament verses"></span><span class="seg" style="width:9.60%;background:var(--s2)" title="separate (separat-): 12 New Testament verses"></span><span class="v"><b>88</b> (76 · 12)</span></div><div class="lab">cleanse (cleans-)</div><div class="track" role="img" aria-label="cleanse (cleans-): 82 verses"><span class="seg" style="width:51.20%;background:var(--s1)" title="cleanse (cleans-): 64 Old Testament verses"></span><span class="seg" style="width:14.40%;background:var(--s2)" title="cleanse (cleans-): 18 New Testament verses"></span><span class="v"><b>82</b> (64 · 18)</span></div><div class="lab">purify (purif-)</div><div class="track" role="img" aria-label="purify (purif-): 44 verses"><span class="seg" style="width:24.00%;background:var(--s1)" title="purify (purif-): 30 Old Testament verses"></span><span class="seg" style="width:11.20%;background:var(--s2)" title="purify (purif-): 14 New Testament verses"></span><span class="v"><b>44</b> (30 · 14)</span></div><div class="lab">blameless</div><div class="track" role="img" aria-label="blameless: 15 verses"><span class="seg" style="width:2.40%;background:var(--s1)" title="blameless: 3 Old Testament verses"></span><span class="seg" style="width:9.60%;background:var(--s2)" title="blameless: 12 New Testament verses"></span><span class="v"><b>15</b> (3 · 12)</span></div><div class="lab">undefiled</div><div class="track" role="img" aria-label="undefiled: 7 verses"><span class="seg" style="width:2.40%;background:var(--s1)" title="undefiled: 3 Old Testament verses"></span><span class="seg" style="width:3.20%;background:var(--s2)" title="undefiled: 4 New Testament verses"></span><span class="v"><b>7</b> (3 · 4)</span></div><div class="lab">unblameable</div><div class="track" role="img" aria-label="unblameable: 3 verses"><span class="seg" style="width:2.40%;background:var(--s2)" title="unblameable: 3 New Testament verses"></span><span class="v"><b>3</b> (0 · 3)</span></div></div></div>
+<div class="grid"><div class="card" style="--c:var(--s3)"><div class="top"><h3>Verses that use two families at once</h3><span class="count">4 verses</span></div><div class="phrase">Three of the four come from the ordination of Aaron and his sons</div><ul class="vv"><li><span class="ref">Exodus 28:41</span><div class="txt">And thou shalt put them upon Aaron thy brother, and his sons with him; and shalt anoint them, and <b>consecrate</b> them, and <b>sanctify</b> them, that they may minister unto me in the priest’s office.</div></li><li><span class="ref">Exodus 29:27</span><div class="txt">And thou shalt <b>sanctify</b> the breast of the wave offering, and the shoulder of the heave offering, which is waved, and which is heaved up, of the ram of the <b>consecration</b>, even of that which is for Aaron, and of that which is for his sons:</div></li><li><span class="ref">Exodus 29:33</span><div class="txt">And they shall eat those things wherewith the atonement was made, to <b>consecrate</b> and to <b>sanctify</b> them: but a stranger shall not eat thereof, because they are <b>holy</b>.</div></li><li><span class="ref">2 Chronicles 31:18</span><div class="txt">And to the genealogy of all their little ones, their wives, and their sons, and their daughters, through all the congregation: for in their set office they <b>sanctified</b> themselves in <b>holiness</b>:</div></li></ul></div></div>
+<section class="sql-section"><h2>The queries</h2><h3>The 240-verse set used on all five pages</h3>
+<pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE (v.text LIKE &#x27;%sanctif%&#x27; OR v.text LIKE &#x27;%hallow%&#x27; OR v.text LIKE &#x27;%consecrat%&#x27;
+       OR v.text LIKE &#x27;%holiness%&#x27; OR v.text LIKE &#x27;%holily%&#x27;)
+ORDER BY v.book_id, v.chapter, v.verse</code></pre>
+<p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+%28v.text+LIKE+%27%25sanctif%25%27+OR+v.text+LIKE+%27%25hallow%25%27+OR+v.text+LIKE+%27%25consecrat%25%27%0A+++++++OR+v.text+LIKE+%27%25holiness%25%27+OR+v.text+LIKE+%27%25holily%25%27%29%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. <code>LIKE</code> is case-insensitive for ASCII in SQLite, so “Sanctify” and “sanctify” both match. <code>sanctif</code> catches sanctify, sanctified, sanctifieth and sanctification without catching “sanctuary”.</p>
+<h3>Verses per word family, split by Testament (all three bar charts’ families)</h3>
+<pre><code>SELECT w.word, COUNT(*) AS verses,
+       SUM(v.book_id &lt;= 39) AS ot, SUM(v.book_id &gt;= 40) AS nt
+FROM (SELECT 1 AS ord, &#x27;sanctify (sanctif-)&#x27; AS word, &#x27;%sanctif%&#x27; AS pat
+      UNION ALL SELECT 2, &#x27;hallow&#x27;, &#x27;%hallow%&#x27;
+      UNION ALL SELECT 3, &#x27;consecrate (consecrat-)&#x27;, &#x27;%consecrat%&#x27;
+      UNION ALL SELECT 4, &#x27;holiness&#x27;, &#x27;%holiness%&#x27;
+      UNION ALL SELECT 5, &#x27;holily&#x27;, &#x27;%holily%&#x27;
+      UNION ALL SELECT 6, &#x27;saint(s)&#x27;, &#x27;%saint%&#x27;
+      UNION ALL SELECT 7, &#x27;separate (separat-)&#x27;, &#x27;%separat%&#x27;
+      UNION ALL SELECT 8, &#x27;cleanse (cleans-)&#x27;, &#x27;%cleans%&#x27;
+      UNION ALL SELECT 9, &#x27;purify (purif-)&#x27;, &#x27;%purif%&#x27;
+      UNION ALL SELECT 10, &#x27;blameless&#x27;, &#x27;%blameless%&#x27;
+      UNION ALL SELECT 11, &#x27;undefiled&#x27;, &#x27;%undefiled%&#x27;
+      UNION ALL SELECT 12, &#x27;unblameable&#x27;, &#x27;%unblameab%&#x27;) w
+JOIN KJV_verses v ON v.text LIKE w.pat
+GROUP BY w.ord, w.word
+ORDER BY w.ord</code></pre>
+<p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+w.word%2C+COUNT%28%2A%29+AS+verses%2C%0A+++++++SUM%28v.book_id+%3C%3D+39%29+AS+ot%2C+SUM%28v.book_id+%3E%3D+40%29+AS+nt%0AFROM+%28SELECT+1+AS+ord%2C+%27sanctify+%28sanctif-%29%27+AS+word%2C+%27%25sanctif%25%27+AS+pat%0A++++++UNION+ALL+SELECT+2%2C+%27hallow%27%2C+%27%25hallow%25%27%0A++++++UNION+ALL+SELECT+3%2C+%27consecrate+%28consecrat-%29%27%2C+%27%25consecrat%25%27%0A++++++UNION+ALL+SELECT+4%2C+%27holiness%27%2C+%27%25holiness%25%27%0A++++++UNION+ALL+SELECT+5%2C+%27holily%27%2C+%27%25holily%25%27%0A++++++UNION+ALL+SELECT+6%2C+%27saint%28s%29%27%2C+%27%25saint%25%27%0A++++++UNION+ALL+SELECT+7%2C+%27separate+%28separat-%29%27%2C+%27%25separat%25%27%0A++++++UNION+ALL+SELECT+8%2C+%27cleanse+%28cleans-%29%27%2C+%27%25cleans%25%27%0A++++++UNION+ALL+SELECT+9%2C+%27purify+%28purif-%29%27%2C+%27%25purif%25%27%0A++++++UNION+ALL+SELECT+10%2C+%27blameless%27%2C+%27%25blameless%25%27%0A++++++UNION+ALL+SELECT+11%2C+%27undefiled%27%2C+%27%25undefiled%25%27%0A++++++UNION+ALL+SELECT+12%2C+%27unblameable%27%2C+%27%25unblameab%25%27%29+w%0AJOIN+KJV_verses+v+ON+v.text+LIKE+w.pat%0AGROUP+BY+w.ord%2C+w.word%0AORDER+BY+w.ord">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. Books 1–39 are the Old Testament and 40–66 the New. A verse is counted once per family it contains, however many times the word occurs in it.</p>
+<h3>The sanctify family, form by form</h3>
+<pre><code>SELECT w.form, COUNT(*) AS verses,
+       SUM(v.book_id &lt;= 39) AS ot, SUM(v.book_id &gt;= 40) AS nt
+FROM (SELECT 1 AS ord, &#x27;sanctify&#x27; AS form
+      UNION ALL SELECT 2, &#x27;sanctified&#x27;
+      UNION ALL SELECT 3, &#x27;sanctifieth&#x27;
+      UNION ALL SELECT 4, &#x27;sanctification&#x27;) w
+JOIN KJV_verses v ON v.text LIKE &#x27;%&#x27; || w.form || &#x27;%&#x27;
+GROUP BY w.ord, w.form
+ORDER BY w.ord</code></pre>
+<p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+w.form%2C+COUNT%28%2A%29+AS+verses%2C%0A+++++++SUM%28v.book_id+%3C%3D+39%29+AS+ot%2C+SUM%28v.book_id+%3E%3D+40%29+AS+nt%0AFROM+%28SELECT+1+AS+ord%2C+%27sanctify%27+AS+form%0A++++++UNION+ALL+SELECT+2%2C+%27sanctified%27%0A++++++UNION+ALL+SELECT+3%2C+%27sanctifieth%27%0A++++++UNION+ALL+SELECT+4%2C+%27sanctification%27%29+w%0AJOIN+KJV_verses+v+ON+v.text+LIKE+%27%25%27+%7C%7C+w.form+%7C%7C+%27%25%27%0AGROUP+BY+w.ord%2C+w.form%0AORDER+BY+w.ord">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. Each form is a distinct substring (“sanctify” does not match “sanctified”), so no verse is double-counted within a form.</p>
+<h3>Why “holy” is left out</h3>
+<pre><code>SELECT COUNT(*) AS verses,
+       SUM(v.text LIKE &#x27;%Holy Ghost%&#x27;) AS holy_ghost,
+       SUM(v.text LIKE &#x27;%holy place%&#x27;) AS holy_place,
+       SUM(v.text LIKE &#x27;%Holy One%&#x27;) AS holy_one
+FROM KJV_verses v
+WHERE v.text LIKE &#x27;%holy%&#x27;</code></pre>
+<p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+COUNT%28%2A%29+AS+verses%2C%0A+++++++SUM%28v.text+LIKE+%27%25Holy+Ghost%25%27%29+AS+holy_ghost%2C%0A+++++++SUM%28v.text+LIKE+%27%25holy+place%25%27%29+AS+holy_place%2C%0A+++++++SUM%28v.text+LIKE+%27%25Holy+One%25%27%29+AS+holy_one%0AFROM+KJV_verses+v%0AWHERE+v.text+LIKE+%27%25holy%25%27">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. The three sub-counts can overlap and do not add up to the total.</p>
+<h3>Verses using two families — the 4 verses above</h3>
+<pre><code>SELECT b.name AS book, v.chapter, v.verse, v.text,
+       (v.text LIKE &#x27;%sanctif%&#x27;) + (v.text LIKE &#x27;%hallow%&#x27;) + (v.text LIKE &#x27;%consecrat%&#x27;)
+       + (v.text LIKE &#x27;%holiness%&#x27;) + (v.text LIKE &#x27;%holily%&#x27;) AS families
+FROM KJV_verses v
+JOIN KJV_books b ON b.id = v.book_id
+WHERE (v.text LIKE &#x27;%sanctif%&#x27; OR v.text LIKE &#x27;%hallow%&#x27; OR v.text LIKE &#x27;%consecrat%&#x27;
+       OR v.text LIKE &#x27;%holiness%&#x27; OR v.text LIKE &#x27;%holily%&#x27;)
+  AND families &gt;= 2
+ORDER BY v.book_id, v.chapter, v.verse</code></pre>
+<p><a href="https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%2C%0A+++++++%28v.text+LIKE+%27%25sanctif%25%27%29+%2B+%28v.text+LIKE+%27%25hallow%25%27%29+%2B+%28v.text+LIKE+%27%25consecrat%25%27%29%0A+++++++%2B+%28v.text+LIKE+%27%25holiness%25%27%29+%2B+%28v.text+LIKE+%27%25holily%25%27%29+AS+families%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+%28v.text+LIKE+%27%25sanctif%25%27+OR+v.text+LIKE+%27%25hallow%25%27+OR+v.text+LIKE+%27%25consecrat%25%27%0A+++++++OR+v.text+LIKE+%27%25holiness%25%27+OR+v.text+LIKE+%27%25holily%25%27%29%0A++AND+families+%3E%3D+2%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse">Run this query in Datasette Lite</a>, loaded directly from <code>data/KJV.db</code> in this repository. Each <code>LIKE</code> comparison returns 1 or 0, so adding them counts how many families a verse uses.</p>
+</section>
+<footer>Source: KJV text queried from <code>data/KJV.db</code> in this repository &middot; every quotation is the full verse exactly as stored in <code>KJV_verses.text</code> &middot; <a href="https://github.com/tjhleeds/bible-stats">Source on GitHub</a></footer>
+</div>
+</body>
+</html>
