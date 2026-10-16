@@ -63,6 +63,11 @@ maintaining the one Python loader script.
   by who/what sanctifies) and `sanctification_already_not_yet` (NT verses
   grouped as already / now / not yet). Verse sets and counts are query
   results; the groupings on pages 3–5 are editorial and say so on the page.
+  The pages are generated — edit `scripts/build_sanctification_infographics.py`
+  and re-run it (`python3 scripts/build_sanctification_infographics.py`)
+  rather than editing the HTML by hand. The editorial groupings live in the
+  script, and `assert`s fail the build if a grouping no longer covers exactly
+  its query's rows.
 - `infographics/christian_hymns_by_section.html` — standalone HTML
   infographic breaking down the 942 hymns in the *Christian Hymns* hymnbook
   by its 11 top-level sections and 45 subsections (donut chart, legend, full
@@ -113,6 +118,9 @@ for each of its six figures — see its `.sql-links` blocks for the pattern.
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
   `data/daily_light.db`.
+- `scripts/build_sanctification_infographics.py` — regenerates the five
+  `infographics/sanctification_*.html` pages from `data/KJV.db` (read-only).
+  Takes an optional repo-root argument; defaults to the repo containing it.
 - `verses per book.md` — links to prebuilt [Datasette Lite](https://lite.datasette.io/)
   queries against `KJV.db` for verses/chapters/words per book.
 
