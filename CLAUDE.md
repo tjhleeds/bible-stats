@@ -97,9 +97,9 @@ into the same answer by hand. This is what `daily_light_coverage.html` does
 for each of its six figures — see its `.sql-links` blocks for the pattern.
 - `infographics/clouds_in_the_bible.html` — single-screen, animated
   infographic (built with the `/html-infographic` command below) of every
-  KJV verse containing "cloud" or "clouds" (141 verses, 34 books, queried
-  from `KJV.db` with `LIKE '%cloud%' AND NOT LIKE '%cloudy%'` — the six
-  "cloudy" verses contain no other cloud word, so the exclusion is exact).
+  KJV verse containing "cloud", "clouds" or "cloudy" (147 verses, 34
+  books, queried from `KJV.db` with `LIKE '%cloud%'` — no other KJV word
+  contains "cloud").
   A hub-and-spoke SVG shows eight themes: presence of God (pillar that
   leads, glory and God's voice, coming in the clouds, Lord of the skies),
   miracles and signs, darkness and judgment, figures of speech, and weather
