@@ -95,6 +95,27 @@ note on the manual reconciliation step (expand ranges, drop references that
 don't land on a real verse, de-duplicate overlaps) needed to combine them
 into the same answer by hand. This is what `daily_light_coverage.html` does
 for each of its six figures — see its `.sql-links` blocks for the pattern.
+- `infographics/clouds_in_the_bible.html` — single-screen, animated
+  infographic (built with the `/html-infographic` command below) of every
+  KJV verse containing "cloud" or "clouds" (141 verses, 34 books, queried
+  from `KJV.db` with `LIKE '%cloud%' AND NOT LIKE '%cloudy%'` — the six
+  "cloudy" verses contain no other cloud word, so the exclusion is exact).
+  A hub-and-spoke SVG shows eight themes: presence of God (pillar that
+  leads, glory and God's voice, coming in the clouds, Lord of the skies),
+  miracles and signs, darkness and judgment, figures of speech, and weather
+  and incense. Selecting a theme opens a panel with its verses in full; a
+  "Queries & method" panel holds the SQL and Datasette Lite links. Each
+  verse is in exactly one theme; the assignment is editorial and stated as
+  such in the page. Verse text and queries live in the file's inline
+  `<script>` data, rendered by JavaScript (needs JS to display).
+- `.claude/commands/html-infographic.md` — the
+  [`/html-infographic`](https://github.com/mitchelfletcher11/html-infographic)
+  Claude Code command (copied verbatim from that repo's `SKILL.md`): builds
+  a single-screen, dark-theme, Anime.js-animated SVG infographic. Its
+  generic instructions (save to the working directory, no scrolling) are
+  overridden by this file's conventions: save under `infographics/`, and
+  still show every query with a Datasette Lite link (e.g. in a panel that
+  scrolls within the single screen, as `clouds_in_the_bible.html` does).
 - `scripts/load_daily_light.py` — one-off/idempotent loader that downloads
   `DailyLight.json` (or reads a local copy) and repopulates
   `data/daily_light.db`.

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clouds in the Bible</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<style>
+  :root {
+    --bg: #06080C;
+    --panel: #0C1017;
+    --text: #F2EEE8;
+    --muted: rgba(242,238,232,.5);
+    --acc: #F2C14E;
+    --acc-d: rgba(242,193,78,.10);
+    --bdr: rgba(255,255,255,.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 48px;
+  }
+
+  header { text-align: center; margin-bottom: 8px; position: relative; z-index: 1; }
+  .pre-label { font-size: 10px; font-weight: 600; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
+  h1 { font-size: clamp(22px, 3vw, 36px); font-weight: 800; margin-top: 4px; }
+
+  main { flex: 1; min-height: 0; width: 100%; max-width: 1200px; position: relative; display: flex; align-items: center; justify-content: center; }
+  .glow { position: absolute; width: 600px; height: 300px; max-width: 100%; background: radial-gradient(ellipse, var(--acc-d) 0%, transparent 70%); filter: blur(60px); pointer-events: none; z-index: 0; }
+  svg#chart { width: 100%; height: 100%; overflow: visible; position: relative; z-index: 1; }
+
+  .pulse { transform-box: fill-box; transform-origin: center; }
+  g[role="button"] { cursor: pointer; outline: none; }
+  g[role="button"] .box { transition: stroke .15s, fill .15s; }
+  g[role="button"]:hover .box, g[role="button"]:focus-visible .box { stroke: var(--text); stroke-opacity: 1; }
+
+  footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 24px; margin-top: 8px; position: relative; z-index: 1; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .hint { font-size: 11px; color: var(--muted); }
+  button.link { font: inherit; font-size: 11px; font-weight: 600; letter-spacing: .06em; color: var(--acc); background: var(--acc-d); border: 1px solid rgba(242,193,78,.35); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  button.link:hover, button.link:focus-visible { border-color: var(--acc); outline: none; }
+
+  .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; z-index: 5; }
+  aside { position: fixed; top: 0; right: 0; height: 100%; width: min(480px, 100%); background: var(--panel); border-left: 1px solid var(--bdr); overflow-y: auto; padding: 28px 24px 40px; transform: translateX(100%); visibility: hidden; transition: transform .3s ease, visibility .3s; z-index: 6; }
+  body.drawer-open .backdrop { opacity: 1; visibility: visible; }
+  body.drawer-open aside { transform: none; visibility: visible; transition: transform .3s ease; } /* no visibility delay on open, so focus can move in */
+  .close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--bdr); background: transparent; color: var(--text); font-size: 18px; line-height: 1; cursor: pointer; }
+  .close:hover, .close:focus-visible { border-color: var(--text); outline: none; }
+  aside h2 { font-size: 24px; font-weight: 800; margin: 6px 40px 10px 0; }
+  aside h3 { font-size: 14px; font-weight: 700; margin: 24px 0 8px; }
+  aside p { font-size: 14px; line-height: 1.55; color: rgba(242,238,232,.75); }
+  aside .note { font-size: 12px; color: var(--muted); margin-top: 20px; }
+  aside a { color: var(--acc); }
+  aside code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+  aside pre { background: rgba(255,255,255,.04); border: 1px solid var(--bdr); border-radius: 8px; padding: 12px; overflow-x: auto; margin-bottom: 8px; }
+  ol.verses { list-style: none; margin-top: 18px; }
+  ol.verses li { font-size: 14px; line-height: 1.55; padding: 10px 0; border-top: 1px solid var(--bdr); }
+  ol.verses .ref { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
+
+  @media (max-width: 640px) {
+    body { padding: 16px; }
+    footer { gap: 6px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="pre-label">KJV &middot; every verse containing &ldquo;cloud&rdquo; or &ldquo;clouds&rdquo;</span>
+  <h1>Clouds in the Bible</h1>
+</header>
+
+<main>
+  <div class="glow"></div>
+  <svg id="chart" role="group" aria-label="141 verses grouped into eight themes. Select a theme to read its verses."></svg>
+  <noscript><p class="hint">This infographic needs JavaScript to draw.</p></noscript>
+</main>
+
+<footer>
+  <span class="legend-item"><span class="dot" style="background:#F2C14E"></span>Presence of God</span>
+  <span class="legend-item"><span class="dot" style="background:#4FC3F7"></span>Miracles</span>
+  <span class="legend-item"><span class="dot" style="background:#E57373"></span>Judgment</span>
+  <span class="legend-item"><span class="dot" style="background:#B39DDB"></span>Figurative</span>
+  <span class="legend-item"><span class="dot" style="background:#9AA5B1"></span>Ordinary</span>
+  <span class="hint">Select a theme to read every verse</span>
+  <button class="link" id="open-queries" type="button">Queries &amp; method</button>
+</footer>
+
+<div class="backdrop" id="backdrop"></div>
+<aside id="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-title">
+  <button class="close" id="close" type="button" aria-label="Close">&times;</button>
+  <div id="dr-body"></div>
+</aside>
+
+<script>
+const D = {"themes": [{"key": "A", "label": "Pillar that leads", "group": "presence", "desc": "The pillar of cloud by day that led Israel out of Egypt and through the wilderness, rising and resting over the tabernacle to set every march and every camp; recalled in Nehemiah, the Psalms, Isaiah and by Paul.", "verses": [{"ref": "Exodus 13:21", "text": "And the Lord went before them by day in a pillar of a cloud, to lead them the way; and by night in a pillar of fire, to give them light; to go by day and night:"}, {"ref": "Exodus 13:22", "text": "He took not away the pillar of the cloud by day, nor the pillar of fire by night, from before the people. "}, {"ref": "Exodus 40:36", "text": "And when the cloud was taken up from over the tabernacle, the children of Israel went onward in all their journeys:"}, {"ref": "Exodus 40:37", "text": "But if the cloud were not taken up, then they journeyed not till the day that it was taken up."}, {"ref": "Exodus 40:38", "text": "For the cloud of the Lord was upon the tabernacle by day, and fire was on it by night, in the sight of all the house of Israel, throughout all their journeys.  "}, {"ref": "Numbers 9:15", "text": "And on the day that the tabernacle was reared up the cloud covered the tabernacle, namely, the tent of the testimony: and at even there was upon the tabernacle as it were the appearance of fire, until the morning."}, {"ref": "Numbers 9:16", "text": "So it was alway: the cloud covered it by day, and the appearance of fire by night."}, {"ref": "Numbers 9:17", "text": "And when the cloud was taken up from the tabernacle, then after that the children of Israel journeyed: and in the place where the cloud abode, there the children of Israel pitched their tents."}, {"ref": "Numbers 9:18", "text": "At the commandment of the Lord the children of Israel journeyed, and at the commandment of the Lord they pitched: as long as the cloud abode upon the tabernacle they rested in their tents."}, {"ref": "Numbers 9:19", "text": "And when the cloud tarried long upon the tabernacle many days, then the children of Israel kept the charge of the Lord, and journeyed not."}, {"ref": "Numbers 9:20", "text": "And so it was, when the cloud was a few days upon the tabernacle; according to the commandment of the Lord they abode in their tents, and according to the commandment of the Lord they journeyed."}, {"ref": "Numbers 9:21", "text": "And so it was, when the cloud abode from even unto the morning, and that the cloud was taken up in the morning, then they journeyed: whether it was by day or by night that the cloud was taken up, they journeyed."}, {"ref": "Numbers 9:22", "text": "Or whether it were two days, or a month, or a year, that the cloud tarried upon the tabernacle, remaining thereon, the children of Israel abode in their tents, and journeyed not: but when it was taken up, they journeyed."}, {"ref": "Numbers 10:11", "text": "And it came to pass on the twentieth day of the second month, in the second year, that the cloud was taken up from off the tabernacle of the testimony."}, {"ref": "Numbers 10:12", "text": "And the children of Israel took their journeys out of the wilderness of Sinai; and the cloud rested in the wilderness of Paran."}, {"ref": "Numbers 10:34", "text": "And the cloud of the Lord was upon them by day, when they went out of the camp."}, {"ref": "Numbers 14:14", "text": "And they will tell it to the inhabitants of this land: for they have heard that thou Lord art among this people, that thou Lord art seen face to face, and that thy cloud standeth over them, and that thou goest before them, by day time in a pillar of a cloud, and in a pillar of fire by night."}, {"ref": "Deuteronomy 1:33", "text": "Who went in the way before you, to search you out a place to pitch your tents in, in fire by night, to shew you by what way ye should go, and in a cloud by day."}, {"ref": "Nehemiah 9:19", "text": "Yet thou in thy manifold mercies forsookest them not in the wilderness: the pillar of the cloud departed not from them by day, to lead them in the way; neither the pillar of fire by night, to shew them light, and the way wherein they should go."}, {"ref": "Psalms 78:14", "text": "In the daytime also he led them with a cloud, and all the night with a light of fire."}, {"ref": "Psalms 105:39", "text": "He spread a cloud for a covering; and fire to give light in the night."}, {"ref": "Isaiah 4:5", "text": "And the Lord will create upon every dwelling place of mount Zion, and upon her assemblies, a cloud and smoke by day, and the shining of a flaming fire by night: for upon all the glory shall be a defence."}, {"ref": "I Corinthians 10:1", "text": "Moreover, brethren, I would not that ye should be ignorant, how that all our fathers were under the cloud, and all passed through the sea;"}, {"ref": "I Corinthians 10:2", "text": "And were all baptized unto Moses in the cloud and in the sea;"}]}, {"key": "B", "label": "Glory and God's voice", "group": "presence", "desc": "The cloud as the place where the LORD appears and speaks: on Sinai, filling the tabernacle and Solomon's temple, over the mercy seat, in Ezekiel's visions, and at the Transfiguration.", "verses": [{"ref": "Exodus 16:10", "text": "And it came to pass, as Aaron spake unto the whole congregation of the children of Israel, that they looked toward the wilderness, and, behold, the glory of the Lord appeared in the cloud."}, {"ref": "Exodus 19:9", "text": "And the Lord said unto Moses, Lo, I come unto thee in a thick cloud, that the people may hear when I speak with thee, and believe thee for ever. And Moses told the words of the people unto the Lord."}, {"ref": "Exodus 19:16", "text": "And it came to pass on the third day in the morning, that there were thunders and lightnings, and a thick cloud upon the mount, and the voice of the trumpet exceeding loud; so that all the people that was in the camp trembled."}, {"ref": "Exodus 24:15", "text": "And Moses went up into the mount, and a cloud covered the mount."}, {"ref": "Exodus 24:16", "text": "And the glory of the Lord abode upon mount Sinai, and the cloud covered it six days: and the seventh day he called unto Moses out of the midst of the cloud."}, {"ref": "Exodus 24:18", "text": "And Moses went into the midst of the cloud, and gat him up into the mount: and Moses was in the mount forty days and forty nights. "}, {"ref": "Exodus 34:5", "text": "And the Lord descended in the cloud, and stood with him there, and proclaimed the name of the Lord."}, {"ref": "Exodus 40:34", "text": "Then a cloud covered the tent of the congregation, and the glory of the Lord filled the tabernacle."}, {"ref": "Exodus 40:35", "text": "And Moses was not able to enter into the tent of the congregation, because the cloud abode thereon, and the glory of the Lord filled the tabernacle."}, {"ref": "Leviticus 16:2", "text": "And the Lord said unto Moses, Speak unto Aaron thy brother, that he come not at all times into the holy place within the vail before the mercy seat, which is upon the ark; that he die not: for I will appear in the cloud upon the mercy seat."}, {"ref": "Numbers 11:25", "text": "And the Lord came down in a cloud, and spake unto him, and took of the spirit that was upon him, and gave it unto the seventy elders: and it came to pass, that, when the spirit rested upon them, they prophesied, and did not cease."}, {"ref": "Numbers 12:5", "text": "And the Lord came down in the pillar of the cloud, and stood in the door of the tabernacle, and called Aaron and Miriam: and they both came forth."}, {"ref": "Numbers 12:10", "text": "And the cloud departed from off the tabernacle; and, behold, Miriam became leprous, white as snow: and Aaron looked upon Miriam, and, behold, she was leprous."}, {"ref": "Numbers 16:42", "text": "And it came to pass, when the congregation was gathered against Moses and against Aaron, that they looked toward the tabernacle of the congregation: and, behold, the cloud covered it, and the glory of the Lord appeared."}, {"ref": "Deuteronomy 4:11", "text": "And ye came near and stood under the mountain; and the mountain burned with fire unto the midst of heaven, with darkness, clouds, and thick darkness."}, {"ref": "Deuteronomy 5:22", "text": "These words the Lord spake unto all your assembly in the mount out of the midst of the fire, of the cloud, and of the thick darkness, with a great voice: and he added no more. And he wrote them in two tables of stone, and delivered them unto me."}, {"ref": "Deuteronomy 31:15", "text": "And the Lord appeared in the tabernacle in a pillar of a cloud: and the pillar of the cloud stood over the door of the tabernacle."}, {"ref": "I Kings 8:10", "text": "And it came to pass, when the priests were come out of the holy place, that the cloud filled the house of the Lord,"}, {"ref": "I Kings 8:11", "text": "So that the priests could not stand to minister because of the cloud: for the glory of the Lord had filled the house of the Lord."}, {"ref": "II Chronicles 5:13", "text": "It came even to pass, as the trumpeters and singers were as one, to make one sound to be heard in praising and thanking the Lord; and when they lifted up their voice with the trumpets and cymbals and instruments of musick, and praised the Lord, saying, For he is good; for his mercy endureth for ever: that then the house was filled with a cloud, even the house of the Lord;"}, {"ref": "II Chronicles 5:14", "text": "So that the priests could not stand to minister by reason of the cloud: for the glory of the Lord had filled the house of God. "}, {"ref": "Ezekiel 1:4", "text": "And I looked, and, behold, a whirlwind came out of the north, a great cloud, and a fire infolding itself, and a brightness was about it, and out of the midst thereof as the colour of amber, out of the midst of the fire."}, {"ref": "Ezekiel 1:28", "text": "As the appearance of the bow that is in the cloud in the day of rain, so was the appearance of the brightness round about. This was the appearance of the likeness of the glory of the Lord. And when I saw it, I fell upon my face, and I heard a voice of one that spake. "}, {"ref": "Ezekiel 10:3", "text": "Now the cherubims stood on the right side of the house, when the man went in; and the cloud filled the inner court."}, {"ref": "Ezekiel 10:4", "text": "Then the glory of the Lord went up from the cherub, and stood over the threshold of the house; and the house was filled with the cloud, and the court was full of the brightness of the Lord’s glory."}, {"ref": "Matthew 17:5", "text": "While he yet spake, behold, a bright cloud overshadowed them: and behold a voice out of the cloud, which said, This is my beloved Son, in whom I am well pleased; hear ye him."}, {"ref": "Mark 9:7", "text": "And there was a cloud that overshadowed them: and a voice came out of the cloud, saying, This is my beloved Son: hear him."}, {"ref": "Luke 9:34", "text": "While he thus spake, there came a cloud, and overshadowed them: and they feared as they entered into the cloud."}, {"ref": "Luke 9:35", "text": "And there came a voice out of the cloud, saying, This is my beloved Son: hear him."}]}, {"key": "C", "label": "Coming in the clouds", "group": "presence", "desc": "Daniel's Son of man coming with the clouds of heaven, Christ's own words about his return, the ascension, believers caught up to meet the Lord, and the clouds of Revelation.", "verses": [{"ref": "Daniel 7:13", "text": "I saw in the night visions, and, behold, one like the Son of man came with the clouds of heaven, and came to the Ancient of days, and they brought him near before him."}, {"ref": "Matthew 24:30", "text": "And then shall appear the sign of the Son of man in heaven: and then shall all the tribes of the earth mourn, and they shall see the Son of man coming in the clouds of heaven with power and great glory."}, {"ref": "Matthew 26:64", "text": "Jesus saith unto him, Thou hast said: nevertheless I say unto you, Hereafter shall ye see the Son of man sitting on the right hand of power, and coming in the clouds of heaven."}, {"ref": "Mark 13:26", "text": "And then shall they see the Son of man coming in the clouds with great power and glory."}, {"ref": "Mark 14:62", "text": "And Jesus said, I am: and ye shall see the Son of man sitting on the right hand of power, and coming in the clouds of heaven."}, {"ref": "Luke 21:27", "text": "And then shall they see the Son of man coming in a cloud with power and great glory."}, {"ref": "Acts 1:9", "text": "And when he had spoken these things, while they beheld, he was taken up; and a cloud received him out of their sight."}, {"ref": "I Thessalonians 4:17", "text": "Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord."}, {"ref": "Revelation of John 1:7", "text": "Behold, he cometh with clouds; and every eye shall see him, and they also which pierced him: and all kindreds of the earth shall wail because of him. Even so, Amen."}, {"ref": "Revelation of John 10:1", "text": "And I saw another mighty angel come down from heaven, clothed with a cloud: and a rainbow was upon his head, and his face was as it were the sun, and his feet as pillars of fire:"}, {"ref": "Revelation of John 11:12", "text": "And they heard a great voice from heaven saying unto them, Come up hither. And they ascended up to heaven in a cloud; and their enemies beheld them."}, {"ref": "Revelation of John 14:14", "text": "And I looked, and behold a white cloud, and upon the cloud one sat like unto the Son of man, having on his head a golden crown, and in his hand a sharp sickle."}, {"ref": "Revelation of John 14:15", "text": "And another angel came out of the temple, crying with a loud voice to him that sat on the cloud, Thrust in thy sickle, and reap: for the time is come for thee to reap; for the harvest of the earth is ripe."}, {"ref": "Revelation of John 14:16", "text": "And he that sat on the cloud thrust in his sickle on the earth; and the earth was reaped."}]}, {"key": "D", "label": "Lord of the skies", "group": "presence", "desc": "Clouds as God's handiwork and his surroundings: he binds up the waters in them, makes them his chariot and pavilion, covers the heaven with them, and they are the dust of his feet.", "verses": [{"ref": "Judges 5:4", "text": "Lord, when thou wentest out of Seir, when thou marchedst out of the field of Edom, the earth trembled, and the heavens dropped, the clouds also dropped water."}, {"ref": "II Samuel 22:12", "text": "And he made darkness pavilions round about him, dark waters, and thick clouds of the skies."}, {"ref": "Job 22:13", "text": "And thou sayest, How doth God know? can he judge through the dark cloud?"}, {"ref": "Job 22:14", "text": "Thick clouds are a covering to him, that he seeth not; and he walketh in the circuit of heaven."}, {"ref": "Job 26:8", "text": "He bindeth up the waters in his thick clouds; and the cloud is not rent under them."}, {"ref": "Job 26:9", "text": "He holdeth back the face of his throne, and spreadeth his cloud upon it."}, {"ref": "Job 36:28", "text": "Which the clouds do drop and distil upon man abundantly."}, {"ref": "Job 36:29", "text": "Also can any understand the spreadings of the clouds, or the noise of his tabernacle?"}, {"ref": "Job 36:32", "text": "With clouds he covereth the light; and commandeth it not to shine by the cloud that cometh betwixt."}, {"ref": "Job 37:11", "text": "Also by watering he wearieth the thick cloud: he scattereth his bright cloud:"}, {"ref": "Job 37:15", "text": "Dost thou know when God disposed them, and caused the light of his cloud to shine?"}, {"ref": "Job 37:16", "text": "Dost thou know the balancings of the clouds, the wondrous works of him which is perfect in knowledge?"}, {"ref": "Job 37:21", "text": "And now men see not the bright light which is in the clouds: but the wind passeth, and cleanseth them."}, {"ref": "Job 38:9", "text": "When I made the cloud the garment thereof, and thick darkness a swaddlingband for it,"}, {"ref": "Job 38:34", "text": "Canst thou lift up thy voice to the clouds, that abundance of waters may cover thee?"}, {"ref": "Job 38:37", "text": "Who can number the clouds in wisdom? or who can stay the bottles of heaven,"}, {"ref": "Psalms 18:11", "text": "He made darkness his secret place; his pavilion round about him were dark waters and thick clouds of the skies."}, {"ref": "Psalms 18:12", "text": "At the brightness that was before him his thick clouds passed, hail stones and coals of fire."}, {"ref": "Psalms 68:34", "text": "Ascribe ye strength unto God: his excellency is over Israel, and his strength is in the clouds."}, {"ref": "Psalms 77:17", "text": "The clouds poured out water: the skies sent out a sound: thine arrows also went abroad."}, {"ref": "Psalms 97:2", "text": "Clouds and darkness are round about him: righteousness and judgment are the habitation of his throne."}, {"ref": "Psalms 104:3", "text": "Who layeth the beams of his chambers in the waters: who maketh the clouds his chariot: who walketh upon the wings of the wind:"}, {"ref": "Psalms 147:8", "text": "Who covereth the heaven with clouds, who prepareth rain for the earth, who maketh grass to grow upon the mountains."}, {"ref": "Proverbs 3:20", "text": "By his knowledge the depths are broken up, and the clouds drop down the dew."}, {"ref": "Proverbs 8:28", "text": "When he established the clouds above: when he strengthened the fountains of the deep:"}, {"ref": "Isaiah 19:1", "text": "The burden of Egypt. Behold, the Lord rideth upon a swift cloud, and shall come into Egypt: and the idols of Egypt shall be moved at his presence, and the heart of Egypt shall melt in the midst of it."}, {"ref": "Nahum 1:3", "text": "The Lord is slow to anger, and great in power, and will not at all acquit the wicked: the Lord hath his way in the whirlwind and in the storm, and the clouds are the dust of his feet."}, {"ref": "Zechariah 10:1", "text": "Ask ye of the Lord rain in the time of the latter rain; so the Lord shall make bright clouds, and give them showers of rain, to every one grass in the field."}]}, {"key": "E", "label": "Miracles and signs", "group": "sign", "desc": "The bow set in the cloud as the token of the covenant with Noah, the cloud that came between Israel and Egypt at the Red Sea, Elijah's little cloud like a man's hand, and the clouds commanded before the manna fell.", "verses": [{"ref": "Genesis 9:13", "text": "I do set my bow in the cloud, and it shall be for a token of a covenant between me and the earth."}, {"ref": "Genesis 9:14", "text": "And it shall come to pass, when I bring a cloud over the earth, that the bow shall be seen in the cloud:"}, {"ref": "Genesis 9:16", "text": "And the bow shall be in the cloud; and I will look upon it, that I may remember the everlasting covenant between God and every living creature of all flesh that is upon the earth."}, {"ref": "Exodus 14:19", "text": "And the angel of God, which went before the camp of Israel, removed and went behind them; and the pillar of the cloud went from before their face, and stood behind them:"}, {"ref": "Exodus 14:20", "text": "And it came between the camp of the Egyptians and the camp of Israel; and it was a cloud and darkness to them, but it gave light by night to these: so that the one came not near the other all the night."}, {"ref": "Exodus 14:24", "text": "And it came to pass, that in the morning watch the Lord looked unto the host of the Egyptians through the pillar of fire and of the cloud, and troubled the host of the Egyptians,"}, {"ref": "I Kings 18:44", "text": "And it came to pass at the seventh time, that he said, Behold, there ariseth a little cloud out of the sea, like a man’s hand. And he said, Go up, say unto Ahab, Prepare thy chariot, and get thee down, that the rain stop thee not."}, {"ref": "I Kings 18:45", "text": "And it came to pass in the mean while, that the heaven was black with clouds and wind, and there was a great rain. And Ahab rode, and went to Jezreel."}, {"ref": "Psalms 78:23", "text": "Though he had commanded the clouds from above, and opened the doors of heaven,"}]}, {"key": "F", "label": "Darkness and judgment", "group": "judgment", "desc": "Cloud as a mark of wrath and gloom: the day of the LORD as a day of clouds and thick darkness, Zion covered with a cloud in anger, invaders coming like clouds, and clouds commanded not to rain.", "verses": [{"ref": "Job 3:5", "text": "Let darkness and the shadow of death stain it; let a cloud dwell upon it; let the blackness of the day terrify it."}, {"ref": "Isaiah 5:6", "text": "And I will lay it waste: it shall not be pruned, nor digged; but there shall come up briers and thorns: I will also command the clouds that they rain no rain upon it."}, {"ref": "Jeremiah 4:13", "text": "Behold, he shall come up as clouds, and his chariots shall be as a whirlwind: his horses are swifter than eagles. Woe unto us! for we are spoiled."}, {"ref": "Lamentations 2:1", "text": "How hath the Lord covered the daughter of Zion with a cloud in his anger, and cast down from heaven unto the earth the beauty of Israel, and remembered not his footstool in the day of his anger!"}, {"ref": "Lamentations 3:44", "text": "Thou hast covered thyself with a cloud, that our prayer should not pass through."}, {"ref": "Ezekiel 30:18", "text": "At Tehaphnehes also the day shall be darkened, when I shall break there the yokes of Egypt: and the pomp of her strength shall cease in her: as for her, a cloud shall cover her, and her daughters shall go into captivity."}, {"ref": "Ezekiel 32:7", "text": "And when I shall put thee out, I will cover the heaven, and make the stars thereof dark; I will cover the sun with a cloud, and the moon shall not give her light."}, {"ref": "Ezekiel 38:9", "text": "Thou shalt ascend and come like a storm, thou shalt be like a cloud to cover the land, thou, and all thy bands, and many people with thee."}, {"ref": "Ezekiel 38:16", "text": "And thou shalt come up against my people of Israel, as a cloud to cover the land; it shall be in the latter days, and I will bring thee against my land, that the heathen may know me, when I shall be sanctified in thee, O Gog, before their eyes."}, {"ref": "Joel 2:2", "text": "A day of darkness and of gloominess, a day of clouds and of thick darkness, as the morning spread upon the mountains: a great people and a strong; there hath not been ever the like, neither shall be any more after it, even to the years of many generations."}, {"ref": "Zephaniah 1:15", "text": "That day is a day of wrath, a day of trouble and distress, a day of wasteness and desolation, a day of darkness and gloominess, a day of clouds and thick darkness,"}]}, {"key": "G", "label": "Figures of speech", "group": "figure", "desc": "Clouds as images: life and goodness vanishing like a morning cloud, sins blotted out as a cloud, boasters and false teachers as clouds without water, a great cloud of witnesses, and mercy that reaches to the clouds.", "verses": [{"ref": "II Samuel 23:4", "text": "And he shall be as the light of the morning, when the sun riseth, even a morning without clouds; as the tender grass springing out of the earth by clear shining after rain."}, {"ref": "Job 7:9", "text": "As the cloud is consumed and vanisheth away: so he that goeth down to the grave shall come up no more."}, {"ref": "Job 20:6", "text": "Though his excellency mount up to the heavens, and his head reach unto the clouds;"}, {"ref": "Job 30:15", "text": "Terrors are turned upon me: they pursue my soul as the wind: and my welfare passeth away as a cloud."}, {"ref": "Job 35:5", "text": "Look unto the heavens, and see; and behold the clouds which are higher than thou."}, {"ref": "Psalms 36:5", "text": "Thy mercy, O Lord, is in the heavens; and thy faithfulness reacheth unto the clouds."}, {"ref": "Psalms 57:10", "text": "For thy mercy is great unto the heavens, and thy truth unto the clouds."}, {"ref": "Psalms 108:4", "text": "For thy mercy is great above the heavens: and thy truth reacheth unto the clouds."}, {"ref": "Proverbs 16:15", "text": "In the light of the king’s countenance is life; and his favour is as a cloud of the latter rain."}, {"ref": "Proverbs 25:14", "text": "Whoso boasteth himself of a false gift is like clouds and wind without rain."}, {"ref": "Ecclesiastes 12:2", "text": "While the sun, or the light, or the moon, or the stars, be not darkened, nor the clouds return after the rain:"}, {"ref": "Isaiah 14:14", "text": "I will ascend above the heights of the clouds; I will be like the most High."}, {"ref": "Isaiah 18:4", "text": "For so the Lord said unto me, I will take my rest, and I will consider in my dwelling place like a clear heat upon herbs, and like a cloud of dew in the heat of harvest."}, {"ref": "Isaiah 25:5", "text": "Thou shalt bring down the noise of strangers, as the heat in a dry place; even the heat with the shadow of a cloud: the branch of the terrible ones shall be brought low."}, {"ref": "Isaiah 44:22", "text": "I have blotted out, as a thick cloud, thy transgressions, and, as a cloud, thy sins: return unto me; for I have redeemed thee."}, {"ref": "Isaiah 60:8", "text": "Who are these that fly as a cloud, and as the doves to their windows?"}, {"ref": "Hosea 6:4", "text": "O Ephraim, what shall I do unto thee? O Judah, what shall I do unto thee? for your goodness is as a morning cloud, and as the early dew it goeth away."}, {"ref": "Hosea 13:3", "text": "Therefore they shall be as the morning cloud, and as the early dew that passeth away, as the chaff that is driven with the whirlwind out of the floor, and as the smoke out of the chimney."}, {"ref": "Hebrews 12:1", "text": "Wherefore seeing we also are compassed about with so great a cloud of witnesses, let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us,"}, {"ref": "II Peter 2:17", "text": "These are wells without water, clouds that are carried with a tempest; to whom the mist of darkness is reserved for ever."}, {"ref": "Jude 1:12", "text": "These are spots in your feasts of charity, when they feast with you, feeding themselves without fear: clouds they are without water, carried about of winds; trees whose fruit withereth, without fruit, twice dead, plucked up by the roots;"}]}, {"key": "H", "label": "Weather and incense", "group": "ordinary", "desc": "Clouds with no theological weight in the verse itself: weather lore in Ecclesiastes and Luke, and the smoke of incense in Leviticus and Ezekiel.", "verses": [{"ref": "Leviticus 16:13", "text": "And he shall put the incense upon the fire before the Lord, that the cloud of the incense may cover the mercy seat that is upon the testimony, that he die not:"}, {"ref": "Ecclesiastes 11:3", "text": "If the clouds be full of rain, they empty themselves upon the earth: and if the tree fall toward the south, or toward the north, in the place where the tree falleth, there it shall be."}, {"ref": "Ecclesiastes 11:4", "text": "He that observeth the wind shall not sow; and he that regardeth the clouds shall not reap."}, {"ref": "Ezekiel 8:11", "text": "And there stood before them seventy men of the ancients of the house of Israel, and in the midst of them stood Jaazaniah the son of Shaphan, with every man his censer in his hand; and a thick cloud of incense went up."}, {"ref": "Luke 12:54", "text": "And he said also to the people, When ye see a cloud rise out of the west, straightway ye say, There cometh a shower; and so it is."}]}], "queries": [{"title": "Every verse in the picture: 141 verses", "sql": "SELECT b.name AS book, v.chapter, v.verse, v.text\nFROM KJV_verses v\nJOIN KJV_books b ON b.id = v.book_id\nWHERE v.text LIKE '%cloud%'\n  AND v.text NOT LIKE '%cloudy%'\nORDER BY v.book_id, v.chapter, v.verse", "link": "https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+v.text+LIKE+%27%25cloud%25%27%0A++AND+v.text+NOT+LIKE+%27%25cloudy%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse", "note": "LIKE is case-insensitive for ASCII in SQLite, so this matches \"cloud\", \"clouds\" and \"Clouds\". Its only other match in the KJV is \"cloudy\", which the second condition removes (see the third query). Sorting the 141 results into the eight themes is editorial, done by reading each verse in context; it is not in the query."}, {"title": "The headline counts: 141 verses, 34 books, 118 Old Testament, 23 New Testament", "sql": "SELECT COUNT(*) AS verses,\n       COUNT(DISTINCT v.book_id) AS books,\n       SUM(v.book_id <= 39) AS old_testament,\n       SUM(v.book_id >= 40) AS new_testament\nFROM KJV_verses v\nWHERE v.text LIKE '%cloud%'\n  AND v.text NOT LIKE '%cloudy%'", "link": "https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+COUNT%28%2A%29+AS+verses%2C%0A+++++++COUNT%28DISTINCT+v.book_id%29+AS+books%2C%0A+++++++SUM%28v.book_id+%3C%3D+39%29+AS+old_testament%2C%0A+++++++SUM%28v.book_id+%3E%3D+40%29+AS+new_testament%0AFROM+KJV_verses+v%0AWHERE+v.text+LIKE+%27%25cloud%25%27%0A++AND+v.text+NOT+LIKE+%27%25cloudy%25%27", "note": "KJV_books ids run in canonical order, so ids 1 to 39 are Genesis to Malachi and 40 to 66 are Matthew to Revelation."}, {"title": "What was left out: the six \"cloudy\" verses", "sql": "SELECT b.name AS book, v.chapter, v.verse, v.text\nFROM KJV_verses v\nJOIN KJV_books b ON b.id = v.book_id\nWHERE v.text LIKE '%cloudy%'\nORDER BY v.book_id, v.chapter, v.verse", "link": "https://lite.datasette.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftjhleeds%2Fbible-stats%2Fmain%2Fdata%2FKJV.db#/KJV?sql=SELECT+b.name+AS+book%2C+v.chapter%2C+v.verse%2C+v.text%0AFROM+KJV_verses+v%0AJOIN+KJV_books+b+ON+b.id+%3D+v.book_id%0AWHERE+v.text+LIKE+%27%25cloudy%25%27%0AORDER+BY+v.book_id%2C+v.chapter%2C+v.verse", "note": "None of these six also contains \"cloud\" or \"clouds\", so excluding them drops no verse that was asked for. Four of them (Exodus 33:9-10, Nehemiah 9:12, Psalms 99:7) name the \"cloudy pillar\" and would otherwise belong to the first two themes."}]};
+const COL = { presence: '#F2C14E', sign: '#4FC3F7', judgment: '#E57373', figure: '#B39DDB', ordinary: '#9AA5B1' };
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('chart');
+const MAX = Math.max(...D.themes.map(t => t.verses.length));
+
+function el(tag, attrs, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+function layout() {
+  if (innerWidth < innerHeight * 0.85) {
+    // Portrait (phones): cloud on top, themes in a 2 x 4 grid below.
+    return { vb: '0 0 400 760', c: [200, 115], pos: D.themes.map((_, i) => [105 + (i % 2) * 190, 270 + Math.floor(i / 2) * 130]) };
+  }
+  return { vb: '0 0 1000 600', c: [500, 300], pos: D.themes.map((_, i) => {
+    const a = (-90 + i * 45) * Math.PI / 180;
+    return [500 + 370 * Math.cos(a), 300 + 225 * Math.sin(a)];
+  }) };
+}
+
+// Split a label into at most two lines at the space nearest its middle.
+function twoLines(s) {
+  if (s.length <= 12) return [s];
+  let best = -1;
+  for (let i = 0; i < s.length; i++) if (s[i] === ' ' && (best < 0 || Math.abs(i - s.length / 2) < Math.abs(best - s.length / 2))) best = i;
+  return best < 0 ? [s] : [s.slice(0, best), s.slice(best + 1)];
+}
+
+let mode = null;
+function draw() {
+  const L = layout();
+  if (L.vb === mode) return false;
+  mode = L.vb;
+  if (typeof anime !== 'undefined') anime.remove(svg.querySelectorAll('*'));
+  svg.textContent = '';
+  svg.setAttribute('viewBox', L.vb);
+
+  const lines = el('g', {}, svg);
+  D.themes.forEach((t, i) => {
+    const [x, y] = L.pos[i];
+    el('line', { x1: L.c[0], y1: L.c[1], x2: x, y2: y, stroke: COL[t.group], 'stroke-width': 2.5, 'stroke-dasharray': '0.1 9', 'stroke-linecap': 'round', opacity: .6, class: 'flow-path' }, lines);
+  });
+
+  const total = D.themes.reduce((s, t) => s + t.verses.length, 0);
+  const centre = el('g', { transform: `translate(${L.c[0]},${L.c[1]})` }, svg);
+  const p = el('g', { class: 'pulse' }, el('g', { class: 'ic' }, centre));
+  el('path', { d: 'M-104,44 A44,44 0 0 1 -80,-22 A58,58 0 0 1 12,-52 A48,48 0 0 1 92,-12 A40,40 0 0 1 104,44 Z', fill: '#0B0E14', stroke: 'var(--acc)', 'stroke-width': 1.5 }, p);
+  el('path', { d: 'M-104,44 A44,44 0 0 1 -80,-22 A58,58 0 0 1 12,-52 A48,48 0 0 1 92,-12 A40,40 0 0 1 104,44 Z', fill: 'var(--acc-d)' }, p);
+  el('text', { x: 0, y: -6, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-family': 'Inter', 'font-size': 40, 'font-weight': 900, fill: 'var(--acc)' }, p, total);
+  el('text', { x: 0, y: 22, 'text-anchor': 'middle', 'font-family': 'Inter', 'font-size': 11, 'font-weight': 600, fill: 'var(--text)' }, p, 'verses in 34 books');
+  el('text', { x: 0, y: 36, 'text-anchor': 'middle', 'font-family': 'Inter', 'font-size': 10, fill: 'var(--muted)' }, p, '118 OT · 23 NT');
+
+  D.themes.forEach((t, i) => {
+    const n = t.verses.length, col = COL[t.group];
+    const outer = el('g', { transform: `translate(${L.pos[i][0]},${L.pos[i][1]})`, role: 'button', tabindex: 0, 'aria-label': `${t.label}: ${n} verses` }, svg);
+    const g = el('g', { class: 'ic' }, outer);
+    el('rect', { class: 'box', x: -90, y: -32, width: 180, height: 64, rx: 8, fill: '#0B0E14', stroke: col, 'stroke-opacity': .4 }, g);
+    el('rect', { x: -90, y: -32, width: 180, height: 64, rx: 8, fill: col, opacity: .08 }, g);
+    el('text', { x: -76, y: 0, 'dominant-baseline': 'central', 'font-family': 'Inter', 'font-size': 26, 'font-weight': 800, fill: col }, g, n);
+    const ls = twoLines(t.label);
+    ls.forEach((s, k) => el('text', { x: -32, y: (k - (ls.length - 1) / 2) * 15 - 3, 'dominant-baseline': 'central', 'font-family': 'Inter', 'font-size': 13, 'font-weight': 600, fill: 'var(--text)' }, g, s));
+    el('rect', { x: -32, y: 19, width: 108, height: 3, rx: 1.5, fill: 'rgba(255,255,255,.08)' }, g);
+    el('rect', { x: -32, y: 19, width: 108 * n / MAX, height: 3, rx: 1.5, fill: col }, g);
+    outer.addEventListener('click', () => openTheme(t, outer));
+    outer.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openTheme(t, outer); } });
+  });
+  return true;
+}
+
+function animate() {
+  if (typeof anime === 'undefined') return; // CDN failed: everything is already visible
+  anime.set('.ic', { opacity: 0, translateY: 14 });
+  anime({ targets: '.ic', opacity: 1, translateY: 0, delay: anime.stagger(110), easing: 'easeOutExpo', duration: 650 });
+  anime({ targets: '.flow-path', opacity: [0.15, 0.9, 0.15], delay: anime.stagger(150, { start: 900 }), easing: 'easeInOutSine', duration: 2400, loop: true });
+  anime({ targets: '.pulse', scale: [1, 1.04, 1], easing: 'easeInOutSine', duration: 2600, loop: true });
+}
+
+// Drawer
+const body = document.getElementById('dr-body');
+let returnFocus = null;
+function h(tag, attrs, text) {
+  const e = document.createElement(tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  return e;
+}
+function openDrawer(from) {
+  returnFocus = from;
+  document.body.classList.add('drawer-open');
+  const drawer = document.getElementById('drawer');
+  drawer.scrollTop = 0;
+  document.getElementById('close').focus();
+}
+function closeDrawer() {
+  document.body.classList.remove('drawer-open');
+  if (returnFocus) returnFocus.focus();
+}
+
+function openTheme(t, from) {
+  body.textContent = '';
+  const col = COL[t.group];
+  body.append(h('span', { class: 'pre-label' }, `${t.verses.length} verses`));
+  const title = h('h2', { id: 'dr-title', style: `color:${col}` }, t.label);
+  body.append(title, h('p', {}, t.desc));
+  const ol = h('ol', { class: 'verses' });
+  t.verses.forEach(v => {
+    const li = h('li');
+    li.append(h('span', { class: 'ref', style: `color:${col}` }, v.ref), document.createTextNode(v.text));
+    ol.append(li);
+  });
+  body.append(ol, h('p', { class: 'note' }, 'Every quotation is the full verse exactly as stored in KJV_verses.text. The verse set is a query result; which theme each verse belongs to is an editorial reading of it in context. See Queries & method.'));
+  openDrawer(from);
+}
+
+function openQueries(from) {
+  body.textContent = '';
+  body.append(h('span', { class: 'pre-label' }, 'Source: data/KJV.db'), h('h2', { id: 'dr-title' }, 'Queries & method'),
+    h('p', {}, 'Each query runs against data/KJV.db in this repository. The links open it in Datasette Lite, loaded straight from the main branch on GitHub.'));
+  D.queries.forEach(q => {
+    const pre = h('pre'); pre.append(h('code', {}, q.sql));
+    const a = h('a', { href: q.link, target: '_blank', rel: 'noopener' }, 'Run this query in Datasette Lite');
+    const link = h('p'); link.append(a);
+    body.append(h('h3', {}, q.title), pre, link, h('p', { class: 'note' }, q.note));
+  });
+  openDrawer(from);
+}
+
+document.getElementById('open-queries').addEventListener('click', e => openQueries(e.currentTarget));
+document.getElementById('close').addEventListener('click', closeDrawer);
+document.getElementById('backdrop').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) closeDrawer(); });
+
+window.onload = () => { draw(); animate(); };
+addEventListener('resize', () => { if (draw()) animate(); });
+</script>
+</body>
+</html>
